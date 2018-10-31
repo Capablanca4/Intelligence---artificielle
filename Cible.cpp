@@ -2,15 +2,17 @@
 
 
 namespace ecran{
-Cible::Cible(Point& centre):Case{centre},Touched{false} {}
+Cible::~Cible() {}
 
-Cible::Cible(int x,int y):Case{x,y},Touched{false} {}
+Cible::Cible(Point& centre,int cote):Case{centre,cote},Touched{false} {}
+
+Cible::Cible(int x,int y,int cote):Case{x,y,cote},Touched{false} {}
 
 const bool Cible::isTouched(){
     return Touched;
     }
 
 void Cible::draw(Viewer& fenetre){
-    line((Point)(*this).x(),(Point)(*this).y()-(Case)(*this).cote(),(Point)(*this).x(),(Point)(*this).y()+(Case)(*this).cote())
+    line(this->x(),this->y()-this->cote()/2,this->x(),this->y()+this->cote()/2);
 }
 }

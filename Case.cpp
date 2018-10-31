@@ -4,9 +4,9 @@ namespace ecran{
 
 Case::~Case(){}
 
-Case::Case(Point& centre):Point{centre}{}
+Case::Case(Point& centre,int cote):Point{centre},d_cote{cote}{}
 
-Case::Case(int x,int y):Point{x,y}{}
+Case::Case(int x,int y,int cote):Point{x,y},d_cote{cote}{}
 
 const Point Case::centre() {
     return Point{x(),y()};}

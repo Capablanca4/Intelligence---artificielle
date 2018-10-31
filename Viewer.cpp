@@ -1,5 +1,5 @@
 #include "Viewer.h"
-#include "graphics.h"
+
 
 namespace ecran{
 
