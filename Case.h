@@ -2,15 +2,20 @@
 #define CASE_H
 #include "Point.h"
 
-namespace geom{
-class Case
+namespace ecran{
+class Case: public Point
 {
     public:
+        virtual ~Case();
         Case(Point& centre);
-        Point centre();
-        changerCentre(Point& centre);
+        Case(int x,int y);
+        const Point centre();
+        void changerCentre(Point& centre);
+        const int cote();
+        void changerCote(const int cote);
+        void virtual draw()=0;
     private:
-        Point d_centre;
+        int d_cote; /** largeur du carre definissant la case*/
 
 };
 }

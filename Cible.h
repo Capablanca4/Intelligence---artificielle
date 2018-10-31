@@ -1,16 +1,18 @@
 #ifndef CIBLE_H
 #define CIBLE_H
-#include "Point.h"
+#include "Case.h"
+#include "Viewer.h"
 
 namespace ecran{
-class Cible
+class Cible : public Case
 {
     public:
-        Cible();
-
-    protected:
-
+        Cible(Point& centre);
+        Cible(int x,int y);
+        const bool isTouched();
+        void draw(Viewer& fenetre);
     private:
+        bool Touched;
 };
 }
 #endif // CIBLE_H
