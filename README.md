@@ -8,10 +8,13 @@ ceci est la branche contenant la version 2.0 du projet
 
 j'ai choisi de changer l'UML selon le modèle suivant :
 
-            Point
-              |
-              V
-            Case
-              |
-              V
-   Toutes les autres classes hérité
+                              Point
+                                |
+                                V
+                               Case
+                                |
+                                V
+   BlocLaser    CaseVide    Cible    MiroirGaucheVersHaut    MiroirGaucheVersBas    Mur
+                              |
+                              V
+               CibleHorizontale    CibleVerticale
