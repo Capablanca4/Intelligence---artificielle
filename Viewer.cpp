@@ -23,4 +23,7 @@ void Viewer::clear(){
     cleardevice();
     }
 
+/*void Viewer::drawCible(const Cible& cib){
+    cib.draw(*this);
+}*/
 }

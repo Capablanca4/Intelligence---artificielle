@@ -1,13 +1,15 @@
 #ifndef MUR_H
 #define MUR_H
+#include "Case.h"
 
-
-class Mur
+namespace ecran{
+class Mur:public Case
 {
     public:
-        Mur();
-
-    private:
+        virtual ~Mur();
+        Mur(Point& centre,int cote);
+        Mur(int x,int y,int cote);
+        void draw(Viewer& fenetre);
 };
-
+}
 #endif // MUR_H

@@ -12,7 +12,4 @@ const bool Cible::isTouched(){
     return Touched;
     }
 
-void Cible::draw(Viewer& fenetre){
-    line(this->x(),this->y()-this->cote()/2,this->x(),this->y()+this->cote()/2);
-}
 }

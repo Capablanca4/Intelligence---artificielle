@@ -2,15 +2,14 @@
 #define CIBLE_H
 #include "Case.h"
 
-namespace ecran{
+namespace ecran {
 class Cible : public Case
 {
     public:
-        virtual ~Cible();
+        ~Cible();
         Cible(Point& centre,int cote);
         Cible(int x,int y,int cote);
         const bool isTouched();
-        void draw(Viewer& fenetre);
     private:
         bool Touched;
 };

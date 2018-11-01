@@ -4,6 +4,9 @@
 #include "Viewer.h"
 
 namespace ecran{
+
+typedef enum TDirection{Droite,Gauche,Haut,Bas};
+
 class Case: public Point
 {
     public:
@@ -11,10 +14,10 @@ class Case: public Point
         Case(Point& centre,int cote);
         Case(int x,int y,int cote);
         const Point centre();
-        void changerCentre(Point& centre);
+        void changerCentre(const Point& centre);
         const int cote();
         void changerCote(const int cote);
-        void virtual draw(Viewer& fenetre)=0;
+        virtual void draw(Viewer& fenetre)=0;
     private:
         int d_cote; /** largeur du carre definissant la case*/
 
