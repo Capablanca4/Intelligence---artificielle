@@ -1,4 +1,4 @@
-#include "Mur.h"
+#include "../include/Mur.h"
 #include <iostream>
 
 namespace ecran{

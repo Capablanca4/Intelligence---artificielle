@@ -1,4 +1,4 @@
-#include "Viewer.h"
+#include "../include/Viewer.h"
 
 
 namespace ecran{
@@ -6,6 +6,7 @@ namespace ecran{
 Viewer::Viewer(int largeur,int hauteur):d_hauteur{hauteur},d_largeur{largeur}{}
 
 void Viewer::openWindow() {
+    //initgraph()
     initwindow(d_hauteur,d_largeur);
     d_open=true;
     }

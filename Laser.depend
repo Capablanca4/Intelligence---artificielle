@@ -1,0 +1,101 @@
+# depslib dependency file v1.0
+1541417494 source:f:\cours miage 2018-2019\laser\main.cpp
+	<iostream>
+	"include/Viewer.h"
+	"include/CibleHorirontale.h"
+	"include/CibleVerticale.h"
+	"include/Mur.h"
+	"include/BlocLaser.h"
+	"include/MiroirGaucheVersHaut.h"
+	"include/MiroirGaucheVersBas.h"
+	"include/CaseVide.h"
+
+1541417530 f:\cours miage 2018-2019\laser\include\viewer.h
+	"graphics.h"
+
+1538031334 f:\cours miage 2018-2019\laser\include\graphics.h
+
+1541416560 f:\cours miage 2018-2019\laser\include\ciblehorirontale.h
+	"Cible.h"
+
+1541416560 f:\cours miage 2018-2019\laser\include\cible.h
+	"Case.h"
+
+1541416560 f:\cours miage 2018-2019\laser\include\case.h
+	"Point.h"
+	"Viewer.h"
+
+1541416560 f:\cours miage 2018-2019\laser\include\point.h
+
+1541416560 f:\cours miage 2018-2019\laser\include\cibleverticale.h
+	"Cible.h"
+
+1541416560 f:\cours miage 2018-2019\laser\include\mur.h
+	"Case.h"
+
+1541416560 f:\cours miage 2018-2019\laser\include\bloclaser.h
+	"Case.h"
+	"Laser.h"
+
+1541416560 f:\cours miage 2018-2019\laser\include\laser.h
+	"Case.h"
+
+1541416560 f:\cours miage 2018-2019\laser\include\miroirgauchevershaut.h
+	"Case.h"
+	"Laser.h"
+
+1541416560 f:\cours miage 2018-2019\laser\include\miroirgaucheversbas.h
+	"Laser.h"
+
+1541416560 f:\cours miage 2018-2019\laser\include\casevide.h
+	"Case.h"
+
+1541417362 source:f:\cours miage 2018-2019\laser\src\bloclaser.cpp
+	"../include/BlocLaser.h"
+
+1541417504 source:f:\cours miage 2018-2019\laser\src\case.cpp
+	"../include/Case.h"
+
+1541417510 source:f:\cours miage 2018-2019\laser\src\casevide.cpp
+	"../include/CaseVide.h"
+
+1541417796 source:f:\cours miage 2018-2019\laser\src\cible.cpp
+	"../include/Cible.h"
+
+1541417806 source:f:\cours miage 2018-2019\laser\src\ciblehorirontale.cpp
+	"../include/CibleHorirontale.h"
+
+1541417832 source:f:\cours miage 2018-2019\laser\src\cibleverticale.cpp
+	"../include/CibleVerticale.h"
+
+1541417836 source:f:\cours miage 2018-2019\laser\src\echiquier.cpp
+	"../include/Echiquier.h"
+
+1541416560 f:\cours miage 2018-2019\laser\include\echiquier.h
+	<vector>
+	"BlocLaser.h"
+	"Laser.h"
+	"CaseVide.h"
+	"MiroirGaucheVersBas.h"
+	"MiroirGaucheVersHaut.h"
+	"CibleHorirontale.h"
+	"CibleVerticale.h"
+	"Mur.h"
+
+1541417842 source:f:\cours miage 2018-2019\laser\src\laser.cpp
+	"../include/Laser.h"
+	<iostream>
+
+1541417846 source:f:\cours miage 2018-2019\laser\src\miroirgaucheversbas.cpp
+	"../include/MiroirGaucheVersBas.h"
+
+1541417848 source:f:\cours miage 2018-2019\laser\src\miroirgauchevershaut.cpp
+	"../include/MiroirGaucheVersHaut.h"
+
+1541417852 source:f:\cours miage 2018-2019\laser\src\mur.cpp
+	"../include/Mur.h"
+	<iostream>
+
+1541417856 source:f:\cours miage 2018-2019\laser\src\point.cpp
+	"../include/Point.h"
+

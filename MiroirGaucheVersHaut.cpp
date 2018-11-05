@@ -1,4 +1,4 @@
-#include "MiroirGaucheVersHaut.h"
+#include "../include/MiroirGaucheVersHaut.h"
 
 namespace ecran{
 

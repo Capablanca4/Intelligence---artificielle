@@ -1,4 +1,4 @@
-#include "Laser.h"
+#include "../include/Laser.h"
 #include <iostream>
 
 namespace ecran{

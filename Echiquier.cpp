@@ -1,4 +1,4 @@
-#include "Echiquier.h"
+#include "../include/Echiquier.h"
 
 namespace ecran{
 

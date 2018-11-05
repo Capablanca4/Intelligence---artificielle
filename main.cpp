@@ -1,12 +1,12 @@
 #include <iostream>
-#include "Viewer.h"
-#include "CibleHorirontale.h"
-#include "CibleVerticale.h"
-#include "Mur.h"
-#include "BlocLaser.h"
-#include "MiroirGaucheVersHaut.h"
-#include "MiroirGaucheVersBas.h"
-#include "CaseVide.h"
+#include "include/Viewer.h"
+#include "include/CibleHorirontale.h"
+#include "include/CibleVerticale.h"
+#include "include/Mur.h"
+#include "include/BlocLaser.h"
+#include "include/MiroirGaucheVersHaut.h"
+#include "include/MiroirGaucheVersBas.h"
+#include "include/CaseVide.h"
 
 int main()
 {

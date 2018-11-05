@@ -1,4 +1,4 @@
-#include "Case.h"
+#include "../include/Case.h"
 
 namespace ecran{
 
