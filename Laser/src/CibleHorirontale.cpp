@@ -1,4 +1,4 @@
-#include "../include/CibleHorirontale.h"
+#include "CibleHorirontale.h"
 
 namespace ecran{
 

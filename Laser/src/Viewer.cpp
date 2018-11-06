@@ -1,4 +1,4 @@
-#include "../include/Viewer.h"
+#include "Viewer.h"
 
 
 namespace ecran{

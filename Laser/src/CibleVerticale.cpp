@@ -1,4 +1,4 @@
-#include "../include/CibleVerticale.h"
+#include "CibleVerticale.h"
 
 namespace ecran{
 

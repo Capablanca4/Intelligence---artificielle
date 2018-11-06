@@ -1,4 +1,4 @@
-#include "../include/BlocLaser.h"
+#include "BlocLaser.h"
 
 namespace ecran{
 
