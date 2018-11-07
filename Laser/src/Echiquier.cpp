@@ -11,11 +11,15 @@ void Echiquier::init(int nbligne,int nbcolonne) {
         std::vector<Case*>* line;
         line->reserve(nbligne);
         for(int i=0;i<nbligne;i++){
-            line[i]= new CaseVide{i*d_taille,j*d_taille,d_taille}; /** <- erreur par ici */
+            line->push_back(new CaseVide{i*d_taille,j*d_taille,d_taille}); /** <- erreur par ici */
         }
         tableau[j]=line;
     }
-    d_plateau=tableau;
+    d_plateau{tableau};
+}
+
+Case* Echiquier::emplacementCase(const Point& emplacement) {
+    return emplacementCase(emplacement.x(),emplacement.y());
 }
 
 Echiquier::~Echiquier() {}

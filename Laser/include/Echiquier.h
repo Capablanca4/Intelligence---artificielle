@@ -17,7 +17,8 @@ class Echiquier
     public:
         Echiquier(int nbligne,int nbcolonne,int tailleCase);
         void init(int nbligne,int nbcolonne);
-        Case& readCase(int x,int y);
+        Case* emplacementCase(const int x,const int y);
+        Case* emplacementCase(const Point& emplacement);
         void setCase(int x,int y,Case& val);
         virtual ~Echiquier();
         void draw(Viewer fenetre);
