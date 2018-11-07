@@ -15,14 +15,15 @@ namespace ecran{
 class Echiquier
 {
     public:
-        Echiquier(int taille);
-        void init();
+        Echiquier(int nbligne,int nbcolonne,int tailleCase);
+        void init(int nbligne,int nbcolonne);
         Case& readCase(int x,int y);
         void setCase(int x,int y,Case& val);
         virtual ~Echiquier();
         void draw(Viewer fenetre);
     private:
         std::vector<std::vector<Case*>> d_plateau;
+        int d_taille;
 };
 }
 #endif // ECHIQUIER_H
