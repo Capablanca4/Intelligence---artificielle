@@ -1,8 +1,8 @@
 #ifndef VIEWER_H
 #define VIEWER_H
-extern "C" {
-#include <graphics.h>
-}
+
+#include "graphics.h"
+
 namespace ecran{
 class Viewer
 {

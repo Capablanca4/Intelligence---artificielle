@@ -15,10 +15,6 @@
 					<Add option="-g" />
 					<Add directory="include" />
 				</Compiler>
-				<Linker>
-					<Add library="SDL_bgi" />
-					<Add library="SDL2" />
-				</Linker>
 			</Target>
 			<Target title="Release">
 				<Option output="bin/Release/Laser" prefix_auto="1" extension_auto="1" />
@@ -50,6 +46,7 @@
 		<Unit filename="include/Mur.h" />
 		<Unit filename="include/Point.h" />
 		<Unit filename="include/Viewer.h" />
+		<Unit filename="include/graphics.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/BlocLaser.cpp" />
 		<Unit filename="src/Case.cpp" />
@@ -64,6 +61,7 @@
 		<Unit filename="src/Mur.cpp" />
 		<Unit filename="src/Point.cpp" />
 		<Unit filename="src/Viewer.cpp" />
+		<Unit filename="src/winbgi.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
