@@ -10,6 +10,7 @@ class CibleHorizontale : public Cible
         CibleHorizontale(const int x,const int y,const int cote);
         virtual ~CibleHorizontale();
         void draw(Viewer& fenetre);
+        void touch(Laser& las);
 };
 }
 #endif // CIBLEHORIRONTALE_H

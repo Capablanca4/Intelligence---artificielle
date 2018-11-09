@@ -1,4 +1,5 @@
 #include "CibleVerticale.h"
+#include <iostream>
 
 namespace ecran{
 
@@ -13,4 +14,22 @@ void CibleVerticale::draw(Viewer& fenetre){
     line(this->x()-this->cote()/2,this->y()-this->cote()/2,this->x()+this->cote()/2,this->y()-this->cote()/2);
     line(this->x()-this->cote()/2,this->y()+this->cote()/2,this->x()+this->cote()/2,this->y()+this->cote()/2);
 }
+
+void CibleVerticale::touch(Laser& las){
+    switch (las.direction()){
+        case Gauche :
+            std::cout << "you win !" <<std::endl ;
+            break;
+        case Droite :
+            std::cout << "you win !" <<std::endl ;
+            break;
+        case Haut :
+            std::cout << "you lose !" <<std::endl ;
+            break;
+        case Bas :
+            std::cout << "you lose !" <<std::endl ;
+            break;
+    }
+}
+
 }

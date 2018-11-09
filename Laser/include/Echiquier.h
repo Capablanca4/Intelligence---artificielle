@@ -21,10 +21,12 @@ class Echiquier
         Case* emplacementCase(const Point& emplacement);
         void setCase(int x,int y,Case& val);
         virtual ~Echiquier();
-        void draw(Viewer fenetre);
+        void draw(Viewer fenetre) const;
+        void move();
     private:
-        std::vector<std::vector<Case*>*> d_plateau;
+        std::vector<std::vector<Case*> > d_plateau;
         int d_taille;
+        Point d_emplacementLaser;
 };
 }
 #endif // ECHIQUIER_H

@@ -10,6 +10,7 @@ class CibleVerticale : public Cible
         CibleVerticale(const int x,const int y,const int cote);
         virtual ~CibleVerticale();
         void draw(Viewer& fenetre);
+        void touch(Laser& las);
 };
 }
 #endif // CIBLEVERTICALE_H
