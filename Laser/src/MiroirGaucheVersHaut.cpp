@@ -24,8 +24,7 @@ Laser MiroirGaucheVersHaut::touch(Laser& las){
             break;
         case Bas:
             return Laser{this->x()+this->cote(),this->y(),this->cote(),Droite};
-            break;}
-
-
-}
+            break;
+        }
+    }
 }

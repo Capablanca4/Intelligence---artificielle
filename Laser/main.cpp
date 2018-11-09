@@ -7,12 +7,13 @@
 #include "MiroirGaucheVersHaut.h"
 #include "MiroirGaucheVersBas.h"
 #include "CaseVide.h"
+#include "Echiquier.h"
 
 int main()
 {
     ecran::Viewer fenetre{500,700};
     fenetre.openWindow();
-    ecran::CibleHorizontale cible1{250,250,20};
+    /*ecran::CibleHorizontale cible1{250,250,20};
     //ecran::Laser las1{270,270,20};
     ecran::MiroirGaucheVersHaut mir1{270,270,20};
     ecran::MiroirGaucheVersBas mir2{290,270,20};
@@ -29,7 +30,9 @@ int main()
     cible1.draw(fenetre);
     mur1.draw(fenetre);
     cas1.draw(fenetre);
-    las1.draw(fenetre);
+    las1.draw(fenetre);*/
+    ecran::Echiquier plateau{20,20,20};
+    plateau.draw(fenetre);
     fenetre.waitUntilButton();
     fenetre.closeWindow();
     return 0;

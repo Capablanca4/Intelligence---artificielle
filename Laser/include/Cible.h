@@ -1,6 +1,7 @@
 #ifndef CIBLE_H
 #define CIBLE_H
 #include "Case.h"
+#include "Laser.h"
 
 namespace ecran {
 class Cible : public Case
@@ -9,9 +10,8 @@ class Cible : public Case
         ~Cible();
         Cible(Point& centre,int cote);
         Cible(int x,int y,int cote);
-        const bool isTouched();
+        virtual void Touch(Laser& las) = 0;
     private:
-        bool Touched;
 };
 }
 #endif // CIBLE_H

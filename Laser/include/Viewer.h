@@ -1,5 +1,6 @@
 #ifndef VIEWER_H
 #define VIEWER_H
+
 #include "graphics.h"
 
 namespace ecran{

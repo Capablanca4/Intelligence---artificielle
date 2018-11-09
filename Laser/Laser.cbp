@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<CodeBlocks_project_file>
+	<FileVersion major="1" minor="6" />
+	<Project>
+		<Option title="Laser" />
+		<Option pch_mode="2" />
+		<Option compiler="gcc" />
+		<Build>
+			<Target title="Debug">
+				<Option output="bin/Debug/Laser" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Debug/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-g" />
+					<Add directory="include" />
+				</Compiler>
+			</Target>
+			<Target title="Release">
+				<Option output="bin/Release/Laser" prefix_auto="1" extension_auto="1" />
+				<Option object_output="obj/Release/" />
+				<Option type="1" />
+				<Option compiler="gcc" />
+				<Compiler>
+					<Add option="-O2" />
+				</Compiler>
+				<Linker>
+					<Add option="-s" />
+				</Linker>
+			</Target>
+		</Build>
+		<Compiler>
+			<Add option="-Wall" />
+			<Add option="-fexceptions" />
+		</Compiler>
+		<Unit filename="include/BlocLaser.h" />
+		<Unit filename="include/Case.h" />
+		<Unit filename="include/CaseVide.h" />
+		<Unit filename="include/Cible.h" />
+		<Unit filename="include/CibleHorirontale.h" />
+		<Unit filename="include/CibleVerticale.h" />
+		<Unit filename="include/Echiquier.h" />
+		<Unit filename="include/Laser.h" />
+		<Unit filename="include/MiroirGaucheVersBas.h" />
+		<Unit filename="include/MiroirGaucheVersHaut.h" />
+		<Unit filename="include/Mur.h" />
+		<Unit filename="include/Point.h" />
+		<Unit filename="include/Viewer.h" />
+		<Unit filename="include/graphics.h" />
+		<Unit filename="main.cpp" />
+		<Unit filename="src/BlocLaser.cpp" />
+		<Unit filename="src/Case.cpp" />
+		<Unit filename="src/CaseVide.cpp" />
+		<Unit filename="src/Cible.cpp" />
+		<Unit filename="src/CibleHorirontale.cpp" />
+		<Unit filename="src/CibleVerticale.cpp" />
+		<Unit filename="src/Echiquier.cpp" />
+		<Unit filename="src/Laser.cpp" />
+		<Unit filename="src/MiroirGaucheVersBas.cpp" />
+		<Unit filename="src/MiroirGaucheVersHaut.cpp" />
+		<Unit filename="src/Mur.cpp" />
+		<Unit filename="src/Point.cpp" />
+		<Unit filename="src/Viewer.cpp" />
+		<Unit filename="src/winbgi.cpp" />
+		<Extensions>
+			<code_completion />
+			<envvars />
+			<debugger />
+			<lib_finder disable_auto="1" />
+		</Extensions>
+	</Project>
+</CodeBlocks_project_file>

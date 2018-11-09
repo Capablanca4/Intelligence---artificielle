@@ -1,4 +1,4 @@
-#include "Point.h"
+#include "../include/Point.h"
 
 namespace ecran{
 

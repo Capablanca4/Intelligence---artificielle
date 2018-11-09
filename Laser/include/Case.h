@@ -5,7 +5,7 @@
 
 namespace ecran{
 
-typedef enum TDirection{Droite,Gauche,Haut,Bas};
+enum TDirection{Droite,Gauche,Haut,Bas};
 
 class Case: public Point
 {
