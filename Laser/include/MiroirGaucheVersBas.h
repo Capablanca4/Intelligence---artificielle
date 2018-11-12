@@ -11,7 +11,7 @@ class MiroirGaucheVersBas :public Case
         MiroirGaucheVersBas(int x,int y,int cote);
         virtual ~MiroirGaucheVersBas();
         void draw(Viewer& fenetre);
-        Laser touch(Laser& las);
+        bool touch(Echiquier& plateau) const;
 };
 }
 

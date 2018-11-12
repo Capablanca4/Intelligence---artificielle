@@ -1,4 +1,5 @@
 #include "Echiquier.h"
+#include <iostream>
 
 namespace ecran{
 
@@ -22,6 +23,22 @@ void Echiquier::init(int nbligne,int nbcolonne) {
         }
         d_plateau.push_back(line);
     }
+}
+
+std::vector<std::vector<Case*> > Echiquier::plateau(){
+    return d_plateau;
+}
+
+const coordLaser Echiquier::coordLas(){
+    return d_emplacementLaser;
+}
+
+const int nbligne(){
+    return d_nbligne;
+}
+
+const int nbcolonne(){
+    return d_nbcolonne;
 }
 
 Case* Echiquier::emplacementCase(const Point& emplacement) {
@@ -60,18 +77,31 @@ void Echiquier::move(){
         Laser* las = (Laser*) emplacementCase(d_emplacementLaser);
         switch (las->direction()){
             case Droite :
-                if(d_emplacementLaser.x<d_nbcolonne){
-                    d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]
-                    las->move();
-                    break;
+                if(d_emplacementLaser.y+1>=d_nbcolonne){
+                    std::cout <<"this developper suck : you lose" << std::endl;
+                    in_move = false;}
+                else {
+                    if (d_plateau[d_emplacementLaser.x][d_emplacementLaser.y+1]->touch())
+                    delete d_plateau[d_emplacementLaser.x][d_emplacementLaser.y+1];
+                    d_plateau[d_emplacementLaser.x][d_emplacementLaser.y+1]=
+
+                    }
+                break;
+            case Gauche :
+                if(d_emplacementLaser.y-1<0){
+                    std::cout <<"this developper suck : you lose" << std::endl;
+                    in_move = false;}
+                else {
+                    if (d_plateau[d_emplacementLaser.x][d_emplacementLaser.y+1]->touch())
                 }
-                else{
-                    std::cout << "you lose !" <<std::endl ;
-                    break;
-                }
+            }
 
         }
     }
+}
+
+void setCoordLaser(coordLaser coord){
+    d_emplacementLaser=coord;
 }
 
 Echiquier::~Echiquier() {}

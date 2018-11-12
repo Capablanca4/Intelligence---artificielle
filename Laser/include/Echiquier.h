@@ -20,16 +20,21 @@ class Echiquier
     public:
         Echiquier(int nbligne,int nbcolonne,int tailleCase);
         void init(int nbligne,int nbcolonne);
+        virtual ~Echiquier();
         Case* emplacementCase(const int x,const int y);
         Case* emplacementCase(const coordLaser& coor);
         Case* emplacementCase(const Point& emplacement);
         void setCase(int x,int y,Case& val);
-        virtual ~Echiquier();
+        const coordLaser coordLas();
+        std::vector<std::vector<Case*> > plateau();
+        const int nbligne();
+        const int nbcolonne();
         int pointVersCoord(int x);
         int coordVersPoint(int coor);
         void draw(Viewer fenetre) const;
         void move();
         void start(Viewer fenetre);
+        void setCoordLaser(coordLaser coord);
     private:
         bool in_move;
         std::vector<std::vector<Case*> > d_plateau;

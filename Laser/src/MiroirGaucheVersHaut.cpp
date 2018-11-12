@@ -11,19 +11,36 @@ MiroirGaucheVersHaut::~MiroirGaucheVersHaut(){}
 void MiroirGaucheVersHaut::draw(Viewer& fenetre){
     line(this->x()-this->cote()/2,this->y()-this->cote()/2,this->x()+this->cote()/2,this->y()+this->cote()/2);
 }
-Laser MiroirGaucheVersHaut::touch(Laser& las){
-    switch (las.direction()){
-        case Gauche :
-            return Laser{this->x(),this->y()+this->cote(),this->cote(),Haut};
-            break;
+bool MiroirGaucheVersHaut::touch(Echiquier& plateau) const{
+    Laser* las =(Laser*)plateau.plateau()[plateau.coordLas().x][plateau.coordLas().y];
+    switch (las->direction()){
         case Droite :
-            return Laser{this->x(),this->y()-this->cote(),this->cote(),Bas};
+            if(plateau.pointVersCoord(this->x())-1<0){return false ;}
+            else  {
+                las->setDirection(Bas);
+                return plateau.plateau()[plateau.pointVersCoord(this->x())-1][plateau.pointVersCoord(this->y)];
+            }
+            break;
+        case Gauche :
+            if(plateau.pointVersCoord(this->x())+1>=plateau.nbcolonne()){return false;}
+            else {
+                las->setDirection(Haut);
+                return plateau.plateau()[plateau.pointVersCoord(this->x())+1][plateau.pointVersCoord(this->y)];
+            }
             break;
         case Haut:
-            return Laser{this->x()-this->cote(),this->y(),this->cote(),Gauche};
+            if(plateau.pointVersCoord(this->y())-1<0){return false;}
+            else {
+                las->setDirection(Gauche);
+                return plateau.plateau()[plateau.pointVersCoord(this->x())][plateau.pointVersCoord(this->y)-1];
+                }
             break;
         case Bas:
-            return Laser{this->x()+this->cote(),this->y(),this->cote(),Droite};
+            if(plateau.pointVersCoord(this->y())+1>=plateau.nbligne()){return false;}
+            else {
+                las->setDirection(Droite);
+                return plateau.plateau()[plateau.pointVersCoord(this->x())][plateau.pointVersCoord(this->y)+1];
+                }
             break;
         }
     }

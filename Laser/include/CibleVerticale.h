@@ -10,7 +10,7 @@ class CibleVerticale : public Cible
         CibleVerticale(const int x,const int y,const int cote);
         virtual ~CibleVerticale();
         void draw(Viewer& fenetre);
-        void touch(Laser& las);
+        bool touch(Echiquier& plateau) const;
 };
 }
 #endif // CIBLEVERTICALE_H
