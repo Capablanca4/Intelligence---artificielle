@@ -590,8 +590,9 @@
 
 1542041098 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\graphics.h
 
-1542046258 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\ciblehorirontale.h
+1542109482 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\ciblehorirontale.h
 	"Cible.h"
+	"Echiquier.h"
 
 1542046258 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\cible.h
 	"Case.h"
@@ -607,8 +608,9 @@
 1542046258 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\laser.h
 	"Case.h"
 
-1542046258 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\cibleverticale.h
+1542109482 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\cibleverticale.h
 	"Cible.h"
+	"Echiquier.h"
 
 1542046258 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\mur.h
 	"Case.h"
@@ -617,12 +619,14 @@
 	"Case.h"
 	"Laser.h"
 
-1542046258 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\miroirgauchevershaut.h
+1542109482 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\miroirgauchevershaut.h
 	"Case.h"
 	"Laser.h"
+	"Echiquier.h"
 
-1542046258 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\miroirgaucheversbas.h
+1542109482 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\miroirgaucheversbas.h
 	"Laser.h"
+	"Echiquier.h"
 
 1542046258 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\casevide.h
 	"Case.h"
@@ -638,11 +642,14 @@
 	"CibleVerticale.h"
 	"Mur.h"
 
-1542041099 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\miroirgaucheversbas.cpp
+1542108431 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\miroirgaucheversbas.cpp
 	"MiroirGaucheVersBas.h"
+	"Echiquier.h"
+	<iostream>
 
-1542041099 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\miroirgauchevershaut.cpp
+1542108380 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\miroirgauchevershaut.cpp
 	"MiroirGaucheVersHaut.h"
+	<iostream>
 
 1542046258 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\mur.cpp
 	"../include/Mur.h"
@@ -673,11 +680,11 @@
 1542043351 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\cible.cpp
 	"Cible.h"
 
-1542041099 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\ciblehorirontale.cpp
+1542049509 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\ciblehorirontale.cpp
 	"CibleHorirontale.h"
 	<iostream>
 
-1542041099 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\cibleverticale.cpp
+1542049509 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\cibleverticale.cpp
 	"CibleVerticale.h"
 	<iostream>
 

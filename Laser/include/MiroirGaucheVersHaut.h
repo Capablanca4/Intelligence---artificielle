@@ -2,6 +2,7 @@
 #define MIROIRGAUCHEVERSHAUT_H
 #include "Case.h"
 #include "Laser.h"
+#include "Echiquier.h"
 
 namespace ecran{
 

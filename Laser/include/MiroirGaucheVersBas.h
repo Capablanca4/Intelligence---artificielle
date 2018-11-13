@@ -1,6 +1,7 @@
 #ifndef MIROIRGAUCHEVERSBAS_H
 #define MIROIRGAUCHEVERSBAS_H
 #include "Laser.h"
+#include "Echiquier.h"
 
 namespace ecran{
 

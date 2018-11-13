@@ -23,7 +23,7 @@ bool MiroirGaucheVersBas::touch(Echiquier& plateau) const{
                 return false ;}
             else  {
                 las->setDirection(Bas);
-                return plateau.plateau()[plateau.pointVersCoord(this->x())-1][plateau.pointVersCoord(this->y)];
+                return plateau.plateau()[plateau.pointVersCoord(this->x())-1][plateau.pointVersCoord(this->y())];
             }
             break;
         case Droite :
@@ -32,7 +32,7 @@ bool MiroirGaucheVersBas::touch(Echiquier& plateau) const{
                 return false;}
             else {
                 las->setDirection(Haut);
-                return plateau.plateau()[plateau.pointVersCoord(this->x())+1][plateau.pointVersCoord(this->y)];
+                return plateau.plateau()[plateau.pointVersCoord(this->x())+1][plateau.pointVersCoord(this->y())];
             }
             break;
         case Haut:
@@ -41,7 +41,7 @@ bool MiroirGaucheVersBas::touch(Echiquier& plateau) const{
                 return false;}
             else {
                 las->setDirection(Droite);
-                return plateau.plateau()[plateau.pointVersCoord(this->x())][plateau.pointVersCoord(this->y)+1];
+                return plateau.plateau()[plateau.pointVersCoord(this->x())][plateau.pointVersCoord(this->y())+1];
                 }
             break;
         case Bas:
@@ -50,7 +50,7 @@ bool MiroirGaucheVersBas::touch(Echiquier& plateau) const{
                 return false;}
             else {
                 las->setDirection(Gauche);
-                return plateau.plateau()[plateau.pointVersCoord(this->x())][plateau.pointVersCoord(this->y)-1];
+                return plateau.plateau()[plateau.pointVersCoord(this->x())][plateau.pointVersCoord(this->y())-1];
                 }
             break;
     }

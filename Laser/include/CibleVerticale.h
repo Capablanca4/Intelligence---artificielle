@@ -1,6 +1,7 @@
 #ifndef CIBLEVERTICALE_H
 #define CIBLEVERTICALE_H
 #include "Cible.h"
+#include "Echiquier.h"
 
 namespace ecran{
 class CibleVerticale : public Cible

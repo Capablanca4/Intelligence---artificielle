@@ -33,11 +33,11 @@ const coordLaser Echiquier::coordLas(){
     return d_emplacementLaser;
 }
 
-const int nbligne(){
+const int Echiquier::nbligne(){
     return d_nbligne;
 }
 
-const int nbcolonne(){
+const int Echiquier::nbcolonne(){
     return d_nbcolonne;
 }
 
@@ -81,8 +81,10 @@ void Echiquier::move(){
                     std::cout <<"this developper suck : you lose" << std::endl;
                     in_move = false;}
                 else {
-                    if (d_plateau[d_emplacementLaser.x][d_emplacementLaser.y+1]->touch()){
-                        swap(d_plateau[d_emplacementLaser.x][d_emplacementLaser.y+1],d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]); /** faux dans le cas d'un miroir !! */
+                    if (d_plateau[d_emplacementLaser.x][d_emplacementLaser.y+1]->touch(*this)){
+                        Case* tamp=d_plateau[d_emplacementLaser.x][d_emplacementLaser.y+1];
+                        d_plateau[d_emplacementLaser.x][d_emplacementLaser.y+1]=d_plateau[d_emplacementLaser.x][d_emplacementLaser.y];
+                        d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]=tamp; /** faux dans le cas d'un miroir !! */
                         d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]->changerCentre(Point{coordVersPoint(d_emplacementLaser.x),coordVersPoint(d_emplacementLaser.y)});
                         d_plateau[d_emplacementLaser.x][d_emplacementLaser.y+1]->changerCentre(Point{coordVersPoint(d_emplacementLaser.x),coordVersPoint(d_emplacementLaser.y+1)});
                         }
@@ -97,8 +99,10 @@ void Echiquier::move(){
                     std::cout <<"this developper suck : you lose" << std::endl;
                     in_move = false;}
                 else {
-                    if (d_plateau[d_emplacementLaser.x][d_emplacementLaser.y-1]->touch()){
-                        swap(d_plateau[d_emplacementLaser.x][d_emplacementLaser.y-1],d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]); /** faux dans le cas d'un miroir !! */
+                    if (d_plateau[d_emplacementLaser.x][d_emplacementLaser.y-1]->touch(*this)){
+                        Case* tamp=d_plateau[d_emplacementLaser.x][d_emplacementLaser.y-1];
+                        d_plateau[d_emplacementLaser.x][d_emplacementLaser.y-1]=d_plateau[d_emplacementLaser.x][d_emplacementLaser.y];
+                        d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]=tamp; /** faux dans le cas d'un miroir !! */
                         d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]->changerCentre(Point{coordVersPoint(d_emplacementLaser.x),coordVersPoint(d_emplacementLaser.y)});
                         d_plateau[d_emplacementLaser.x][d_emplacementLaser.y-1]->changerCentre(Point{coordVersPoint(d_emplacementLaser.x),coordVersPoint(d_emplacementLaser.y-1)});
                         }
@@ -113,8 +117,10 @@ void Echiquier::move(){
                         std::cout <<"this developper suck : you lose" << std::endl;
                         in_move = false;}
                     else {
-                        if (d_plateau[d_emplacementLaser.x+1][d_emplacementLaser.y]->touch()){
-                            swap(d_plateau[d_emplacementLaser.x+1][d_emplacementLaser.y],d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]); /** faux dans le cas d'un miroir !! */
+                        if (d_plateau[d_emplacementLaser.x+1][d_emplacementLaser.y]->touch(*this)){
+                            Case* tamp=d_plateau[d_emplacementLaser.x+1][d_emplacementLaser.y];
+                            d_plateau[d_emplacementLaser.x+1][d_emplacementLaser.y]=d_plateau[d_emplacementLaser.x][d_emplacementLaser.y];
+                            d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]=tamp; /** faux dans le cas d'un miroir !! */
                             d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]->changerCentre(Point{coordVersPoint(d_emplacementLaser.x),coordVersPoint(d_emplacementLaser.y)});
                             d_plateau[d_emplacementLaser.x+1][d_emplacementLaser.y]->changerCentre(Point{coordVersPoint(d_emplacementLaser.x+1),coordVersPoint(d_emplacementLaser.y)});
                             }
@@ -128,8 +134,10 @@ void Echiquier::move(){
                     std::cout <<"this developper suck : you lose" << std::endl;
                     in_move = false;}
                 else {
-                    if (d_plateau[d_emplacementLaser.x-1][d_emplacementLaser.y]->touch()){
-                        swap(d_plateau[d_emplacementLaser.x-1][d_emplacementLaser.y],d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]); /** faux dans le cas d'un miroir !! */
+                    if (d_plateau[d_emplacementLaser.x-1][d_emplacementLaser.y]->touch(*this)){
+                        Case* tamp=d_plateau[d_emplacementLaser.x-1][d_emplacementLaser.y];
+                        d_plateau[d_emplacementLaser.x-1][d_emplacementLaser.y]=d_plateau[d_emplacementLaser.x][d_emplacementLaser.y];
+                        d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]=tamp; /** faux dans le cas d'un miroir !! */
                         d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]->changerCentre(Point{coordVersPoint(d_emplacementLaser.x),coordVersPoint(d_emplacementLaser.y)});
                         d_plateau[d_emplacementLaser.x-1][d_emplacementLaser.y]->changerCentre(Point{coordVersPoint(d_emplacementLaser.x-1),coordVersPoint(d_emplacementLaser.y)});
                         }
@@ -143,7 +151,7 @@ void Echiquier::move(){
         }
 }
 
-void setCoordLaser(coordLaser coord){
+void Echiquier::setCoordLaser(coordLaser coord){
     d_emplacementLaser=coord;
 }
 
