@@ -11,6 +11,7 @@ class CaseVide : public Case
         CaseVide(int x,int y,int cote);
         virtual ~CaseVide();
         void draw(Viewer& fenetre);
+        bool touch(Echiquier& plateau) const ;
 };
 }
 #endif // CASEVIDE_H

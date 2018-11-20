@@ -12,21 +12,25 @@ BlocLaser::~BlocLaser() {}
 void BlocLaser::setDirection(TDirection direction){
     d_direction=direction;}
 
-Laser BlocLaser::shoot(){
+Laser* BlocLaser::shoot(){
     switch (d_direction) {
         case Gauche :
-            return Laser{this->x()-this->cote(),this->y(),this->cote(),Gauche};
+            return new Laser{this->x()-this->cote(),this->y(),this->cote(),Gauche};
             break;
         case Droite :
-            return Laser{this->x()+this->cote(),this->y(),this->cote(),Droite};
+            return new Laser{this->x()+this->cote(),this->y(),this->cote(),Droite};
             break;
         case Haut :
-            return Laser{this->x(),this->y()+this->cote(),this->cote(),Haut};
+            return new Laser{this->x(),this->y()+this->cote(),this->cote(),Haut};
             break;
         case Bas :
-            return Laser{this->x(),this->y()-this->cote(),this->cote(),Bas};
+            return new Laser{this->x(),this->y()-this->cote(),this->cote(),Bas};
             break;
     }
+}
+
+bool BlocLaser::touch(Echiquier& plateau) const {
+    return false;
 }
 
 void BlocLaser::draw(Viewer& fenetre){

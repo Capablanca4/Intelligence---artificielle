@@ -2,8 +2,11 @@
 #define CASE_H
 #include "Point.h"
 #include "Viewer.h"
+#include <vector>
 
 namespace ecran{
+
+class Echiquier;
 
 enum TDirection{Droite,Gauche,Haut,Bas};
 
@@ -18,6 +21,7 @@ class Case: public Point
         const int cote();
         void changerCote(const int cote);
         virtual void draw(Viewer& fenetre)=0;
+        virtual bool touch(Echiquier& plateau) const =0;
     private:
         int d_cote; /** largeur du carre definissant la case*/
 

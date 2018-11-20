@@ -11,4 +11,8 @@ CaseVide::~CaseVide() {}
 void CaseVide::draw(Viewer& fenetre){
     rectangle( this->x()-this->cote()/2,this->y()+this->cote()/2,this->x()+this->cote()/2,this->y()-this->cote()/2 );}
 
+bool CaseVide::touch(Echiquier& plateau) const {
+    return true;
+}
+
 }

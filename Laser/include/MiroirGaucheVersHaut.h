@@ -2,6 +2,7 @@
 #define MIROIRGAUCHEVERSHAUT_H
 #include "Case.h"
 #include "Laser.h"
+#include "Echiquier.h"
 
 namespace ecran{
 
@@ -12,7 +13,7 @@ class MiroirGaucheVersHaut:public Case
         MiroirGaucheVersHaut(int x,int y,int cote);
         virtual ~MiroirGaucheVersHaut();
         void draw(Viewer& fenetre);
-        Laser touch(Laser& las);
+        bool touch(Echiquier& plateau) const;
 };
 }
 #endif // MIROIRGAUCHEVERSHAUT_H

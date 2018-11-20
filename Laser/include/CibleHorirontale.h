@@ -1,6 +1,7 @@
 #ifndef CIBLEHORIRONTALE_H
 #define CIBLEHORIRONTALE_H
 #include "Cible.h"
+#include "Echiquier.h"
 
 namespace ecran{
 class CibleHorizontale : public Cible
@@ -10,7 +11,7 @@ class CibleHorizontale : public Cible
         CibleHorizontale(const int x,const int y,const int cote);
         virtual ~CibleHorizontale();
         void draw(Viewer& fenetre);
-        void touch(Laser& las);
+        bool touch(Echiquier& plateau) const;
 };
 }
 #endif // CIBLEHORIRONTALE_H

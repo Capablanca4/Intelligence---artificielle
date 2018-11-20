@@ -12,4 +12,8 @@ void Mur::draw(Viewer& fenetre){
     bar( this->x()-this->cote()/2,this->y()+this->cote()/2,this->x()+this->cote()/2,this->y()-this->cote()/2 );
 }
 
+bool Mur::touch(Echiquier& plateau) const {
+return false ;
+}
+
 }
