@@ -573,7 +573,7 @@
 	<math.h>
 	"graphics.h"
 
-1542041097 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\main.cpp
+1542725249 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\main.cpp
 	<iostream>
 	"Viewer.h"
 	"CibleHorirontale.h"
@@ -631,7 +631,7 @@
 1542046258 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\casevide.h
 	"Case.h"
 
-1542047495 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\echiquier.h
+1542199057 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\echiquier.h
 	<vector>
 	"BlocLaser.h"
 	"Laser.h"
@@ -674,7 +674,7 @@
 1542041099 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\case.cpp
 	"Case.h"
 
-1542046258 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\casevide.cpp
+1542725148 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\casevide.cpp
 	"CaseVide.h"
 
 1542043351 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\cible.cpp
@@ -691,4 +691,9 @@
 1542046258 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\laser.cpp
 	"Laser.h"
 	<iostream>
+
+1542200246 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\echiquier.cpp
+	"Echiquier.h"
+	<iostream>
+	<utility>
 

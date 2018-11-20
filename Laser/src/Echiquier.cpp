@@ -1,5 +1,6 @@
 #include "Echiquier.h"
 #include <iostream>
+#include <utility>
 
 namespace ecran{
 
@@ -19,7 +20,7 @@ void Echiquier::init(int nbligne,int nbcolonne) {
         std::vector<Case*> line;
         line.reserve(nbligne);
         for(int i=0;i<nbligne;i++){
-            line.push_back(new CaseVide{coordVersPoint(i),coordVersPoint(j),d_taille});
+            line.push_back(new CaseVide{coordVersPoint(j),coordVersPoint(i),d_taille});
         }
         d_plateau.push_back(line);
     }
@@ -61,6 +62,10 @@ void Echiquier::draw(Viewer fenetre) const{
     }
 }
 
+void Echiquier::setCase(Case* val){
+    d_plateau[pointVersCoord(val->x())][pointVersCoord(val->y())]=val;
+}
+
 void Echiquier::start(Viewer fenetre){
     if (!in_move){
         BlocLaser* LeBlocLaser = (BlocLaser*) d_plateau[d_emplacementLaser.x][d_emplacementLaser.y];
@@ -75,16 +80,16 @@ void Echiquier::start(Viewer fenetre){
 void Echiquier::move(){
     if (in_move){
         Laser* las = (Laser*) emplacementCase(d_emplacementLaser);
+        std::cout << las->direction();
         switch (las->direction()){
             case Droite :
+                std::cout << "ok1";
                 if(d_emplacementLaser.y+1>=d_nbcolonne){
                     std::cout <<"this developper suck : you lose" << std::endl;
                     in_move = false;}
                 else {
                     if (d_plateau[d_emplacementLaser.x][d_emplacementLaser.y+1]->touch(*this)){
-                        Case* tamp=d_plateau[d_emplacementLaser.x][d_emplacementLaser.y+1];
-                        d_plateau[d_emplacementLaser.x][d_emplacementLaser.y+1]=d_plateau[d_emplacementLaser.x][d_emplacementLaser.y];
-                        d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]=tamp; /** faux dans le cas d'un miroir !! */
+                        std::swap(d_plateau[d_emplacementLaser.x][d_emplacementLaser.y+1],d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]);/** faux dans le cas d'un miroir !! */
                         d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]->changerCentre(Point{coordVersPoint(d_emplacementLaser.x),coordVersPoint(d_emplacementLaser.y)});
                         d_plateau[d_emplacementLaser.x][d_emplacementLaser.y+1]->changerCentre(Point{coordVersPoint(d_emplacementLaser.x),coordVersPoint(d_emplacementLaser.y+1)});
                         }
@@ -95,6 +100,7 @@ void Echiquier::move(){
                     }
                 break;
             case Gauche :
+                std::cout << "ok2";
                 if(d_emplacementLaser.y-1<0){
                     std::cout <<"this developper suck : you lose" << std::endl;
                     in_move = false;}
@@ -113,6 +119,7 @@ void Echiquier::move(){
                     }
                     break;
                 case Haut:
+                    std::cout << "ok3";
                     if(d_emplacementLaser.x+1>=d_nbcolonne){
                         std::cout <<"this developper suck : you lose" << std::endl;
                         in_move = false;}
@@ -130,6 +137,7 @@ void Echiquier::move(){
                             }
                         }
                     case Bas:
+                        std::cout << "ok4";
                         if(d_emplacementLaser.x-1<0){
                     std::cout <<"this developper suck : you lose" << std::endl;
                     in_move = false;}
@@ -153,6 +161,7 @@ void Echiquier::move(){
 
 void Echiquier::setCoordLaser(coordLaser coord){
     d_emplacementLaser=coord;
+    in_move = true;
 }
 
 Echiquier::~Echiquier() {}

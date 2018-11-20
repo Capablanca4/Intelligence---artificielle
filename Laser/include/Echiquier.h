@@ -24,7 +24,7 @@ class Echiquier
         Case* emplacementCase(const int x,const int y);
         Case* emplacementCase(const coordLaser& coor);
         Case* emplacementCase(const Point& emplacement);
-        void setCase(int x,int y,Case& val);
+        void setCase(Case* val);
         const coordLaser coordLas();
         std::vector<std::vector<Case*> > plateau();
         const int nbligne();
