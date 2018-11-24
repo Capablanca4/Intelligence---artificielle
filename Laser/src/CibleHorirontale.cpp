@@ -15,23 +15,21 @@ void CibleHorizontale::draw(Viewer& fenetre){
     line(this->x()+this->cote()/2,this->y()-this->cote()/2,this->x()+this->cote()/2,this->y()+this->cote()/2);
 }
 
-bool CibleHorizontale::touch(Echiquier& plateau) const{
-    Laser* las =(Laser*)plateau.plateau()[plateau.coordLas().x][plateau.coordLas().y];
-    switch (las->direction()){
+void CibleHorizontale::touch(Laser& las){
+    switch (las.direction()){
         case Gauche :
-            return false;
+            std::cout << "you lose !" <<std::endl ;
             break;
         case Droite :
-            return false;
+            std::cout << "you lose !" <<std::endl ;
             break;
         case Haut :
-            return true;
+            std::cout << "you win !" <<std::endl ;
             break;
         case Bas :
-            return true;
+            std::cout << "you win !" <<std::endl ;
             break;
     }
-    return false;
 }
 
 }

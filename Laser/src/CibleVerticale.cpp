@@ -15,9 +15,8 @@ void CibleVerticale::draw(Viewer& fenetre){
     line(this->x()-this->cote()/2,this->y()+this->cote()/2,this->x()+this->cote()/2,this->y()+this->cote()/2);
 }
 
-bool CibleVerticale::touch(Echiquier& plateau) const{
-    Laser* las =(Laser*)plateau.plateau()[plateau.coordLas().x][plateau.coordLas().y];
-    switch (las->direction()){
+void CibleVerticale::touch(Laser& las){
+    switch (las.direction()){
         case Gauche :
             std::cout << "you win !" <<std::endl ;
             break;
@@ -31,7 +30,6 @@ bool CibleVerticale::touch(Echiquier& plateau) const{
             std::cout << "you lose !" <<std::endl ;
             break;
     }
-    return false;
 }
 
 }

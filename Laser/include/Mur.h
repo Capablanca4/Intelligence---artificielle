@@ -10,7 +10,6 @@ class Mur:public Case
         Mur(Point& centre,int cote);
         Mur(int x,int y,int cote);
         void draw(Viewer& fenetre);
-        bool touch(Echiquier& plateau) const;
 };
 }
 #endif // MUR_H

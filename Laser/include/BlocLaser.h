@@ -12,9 +12,8 @@ class BlocLaser : public Case
         BlocLaser(int x,int y,int cote);
         virtual ~BlocLaser();
         void setDirection(TDirection direction);
-        Laser* shoot();
+        Laser shoot();
         void draw(Viewer& fenetre);
-        bool touch(Echiquier& plateau)const;
     private:
         TDirection d_direction;
 };
