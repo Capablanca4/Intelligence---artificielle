@@ -17,12 +17,10 @@ int main()
     ecran::Viewer fenetre{500,700};
     fenetre.openWindow();
     ecran::Echiquier plateau{nbligne,nbcolonne,cote};
-    ecran::Laser las{10,10,20,ecran::Droite};
-    ecran::BlocLaser bloc{30,10,20};
-    plateau.setCoordLaser({1,1});
-    plateau.move();
+    ecran::Laser las{10,10,20,ecran::Haut};
+    plateau.setCoordLaser({0,0});
     plateau.setCase(&las);
-    plateau.setCase(&bloc);
+    for(int i =0; i< 19;i++) plateau.move();
     plateau.draw(fenetre);
     fenetre.waitUntilButton();
     fenetre.closeWindow();
