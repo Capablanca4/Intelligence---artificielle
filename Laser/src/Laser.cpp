@@ -1,5 +1,6 @@
 #include "Laser.h"
 #include <iostream>
+#include "Echiquier.h"
 
 namespace ecran{
 
@@ -21,5 +22,10 @@ void Laser::draw(Viewer& fenetre){
 
 bool Laser::touch(Echiquier& plateau) const {
 return false;}
+
+coordLaser Laser::posNextMoveLaser(Echiquier& plateau) const{
+    coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
+    return ret;
+}
 
 }

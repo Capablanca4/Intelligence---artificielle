@@ -1,5 +1,6 @@
 #include "../include/Mur.h"
 #include <iostream>
+#include "Echiquier.h"
 
 namespace ecran{
 Mur::~Mur() {}
@@ -14,6 +15,11 @@ void Mur::draw(Viewer& fenetre){
 
 bool Mur::touch(Echiquier& plateau) const {
 return false ;
+}
+
+coordLaser Mur::posNextMoveLaser(Echiquier& plateau) const{
+    coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
+    return ret;
 }
 
 }

@@ -13,8 +13,9 @@ class BlocLaser : public Case
         virtual ~BlocLaser();
         void setDirection(TDirection direction);
         Laser* shoot();
-        void draw(Viewer& fenetre);
-        bool touch(Echiquier& plateau)const;
+        virtual void draw(Viewer& fenetre) override;
+        virtual bool touch(Echiquier& plateau)const override;
+        virtual coordLaser posNextMoveLaser(Echiquier& plateau) const override;
     private:
         TDirection d_direction;
 };

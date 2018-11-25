@@ -1,5 +1,6 @@
 #include "CibleHorirontale.h"
 #include <iostream>
+#include "Echiquier.h"
 
 namespace ecran{
 
@@ -19,19 +20,24 @@ bool CibleHorizontale::touch(Echiquier& plateau) const{
     Laser* las =(Laser*)plateau.plateau()[plateau.coordLas().x][plateau.coordLas().y];
     switch (las->direction()){
         case Gauche :
-            return false;
+            std::cout << "you lose !" <<std::endl ;
             break;
         case Droite :
-            return false;
+            std::cout << "you lose !" <<std::endl ;
             break;
         case Haut :
-            return true;
+            std::cout << "you win !" <<std::endl ;
             break;
         case Bas :
-            return true;
+            std::cout << "you win !" <<std::endl ;
             break;
     }
     return false;
 }
 
+coordLaser CibleHorizontale::posNextMoveLaser(Echiquier& plateau) const{
+    coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
+    return ret;
+
+}
 }

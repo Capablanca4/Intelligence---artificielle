@@ -12,8 +12,9 @@ class Laser:public Case
         virtual ~Laser();
         void setDirection(TDirection direction);
         TDirection direction();
-        void draw(Viewer& fenetre);
-        bool touch(Echiquier& plateau) const ;
+        virtual void draw(Viewer& fenetre) override;
+        virtual bool touch(Echiquier& plateau) const override;
+        virtual coordLaser posNextMoveLaser(Echiquier& plateau) const override;
     private:
         TDirection d_direction;
 };

@@ -1,5 +1,6 @@
 #include "CibleVerticale.h"
 #include <iostream>
+#include "Echiquier.h"
 
 namespace ecran{
 
@@ -34,4 +35,9 @@ bool CibleVerticale::touch(Echiquier& plateau) const{
     return false;
 }
 
+coordLaser CibleVerticale::posNextMoveLaser(Echiquier& plateau) const{
+    coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
+    return ret;
+
+}
 }

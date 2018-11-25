@@ -82,16 +82,16 @@ void Echiquier::move(){
         Laser* las = (Laser*) emplacementCase(d_emplacementLaser);
         switch (las->direction()){
             case Droite :
-                std::cout << "ok1";
                 if(d_emplacementLaser.x+1>=d_nbcolonne){
                     std::cout <<"this developper suck : you lose" << std::endl;
                     in_move = false;}
                 else {
-                    if (d_plateau[d_emplacementLaser.x+1][d_emplacementLaser.y]->touch(*this)){
-                        std::swap(d_plateau[d_emplacementLaser.x+1][d_emplacementLaser.y],d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]);/** faux dans le cas d'un miroir !! */
+                    coordLaser nextCoord = d_plateau[d_emplacementLaser.x+1][d_emplacementLaser.y]->posNextMoveLaser(*this);
+                    if (d_plateau[nextCoord.x][nextCoord.y]->touch(*this)){
+                        std::swap(d_plateau[nextCoord.x][nextCoord.y],d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]);
                         d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]->changerCentre(Point{coordVersPoint(d_emplacementLaser.x),coordVersPoint(d_emplacementLaser.y)});
-                        d_plateau[d_emplacementLaser.x+1][d_emplacementLaser.y]->changerCentre(Point{coordVersPoint(d_emplacementLaser.x+1),coordVersPoint(d_emplacementLaser.y)});
-                        d_emplacementLaser.x+=1;
+                        d_plateau[nextCoord.x][nextCoord.y]->changerCentre(Point{coordVersPoint(nextCoord.x),coordVersPoint(nextCoord.y)});
+                        d_emplacementLaser=nextCoord;
                         }
                     else {
                         std::cout << "this game is over" << std::endl;
@@ -100,17 +100,16 @@ void Echiquier::move(){
                     }
                 break;
             case Gauche :
-                std::cout << "ok2";
                 if(d_emplacementLaser.x-1<0){
                     std::cout <<"this developper suck : you lose" << std::endl;
                     in_move = false;}
                 else {
-                    if (d_plateau[d_emplacementLaser.x-1][d_emplacementLaser.y]->touch(*this)){
-                        std::swap(d_plateau[d_emplacementLaser.x-1][d_emplacementLaser.y],d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]); /** faux dans le cas d'un miroir !! */
+                    coordLaser nextCoord = d_plateau[d_emplacementLaser.x-1][d_emplacementLaser.y]->posNextMoveLaser(*this);
+                    if (d_plateau[nextCoord.x][nextCoord.y]->touch(*this)){
+                        std::swap(d_plateau[nextCoord.x][nextCoord.y],d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]);
                         d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]->changerCentre(Point{coordVersPoint(d_emplacementLaser.x),coordVersPoint(d_emplacementLaser.y)});
-                        d_plateau[d_emplacementLaser.x-1][d_emplacementLaser.y]->changerCentre(Point{coordVersPoint(d_emplacementLaser.x-1),coordVersPoint(d_emplacementLaser.y)});
-                        d_emplacementLaser.x-=1;
-                        }
+                        d_plateau[nextCoord.x][nextCoord.y]->changerCentre(Point{coordVersPoint(nextCoord.x),coordVersPoint(nextCoord.y)});
+                        d_emplacementLaser=nextCoord;}
                     else {
                         std::cout << "this game is over" << std::endl;
                         in_move = false;
@@ -118,41 +117,41 @@ void Echiquier::move(){
                     }
                     break;
                 case Haut:
-                    std::cout << "ok3";
                     if(d_emplacementLaser.y+1>=d_nbcolonne){
                         std::cout <<"this developper suck : you lose" << std::endl;
                         in_move = false;}
                     else {
-                        if (d_plateau[d_emplacementLaser.x][d_emplacementLaser.y+1]->touch(*this)){
-                            std::swap(d_plateau[d_emplacementLaser.x][d_emplacementLaser.y+1],d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]); /** faux dans le cas d'un miroir !! */
+                        coordLaser nextCoord = d_plateau[d_emplacementLaser.x][d_emplacementLaser.y+1]->posNextMoveLaser(*this);
+                        if (d_plateau[nextCoord.x][nextCoord.y]->touch(*this)){
+                            std::swap(d_plateau[nextCoord.x][nextCoord.y],d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]);
                             d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]->changerCentre(Point{coordVersPoint(d_emplacementLaser.x),coordVersPoint(d_emplacementLaser.y)});
-                            d_plateau[d_emplacementLaser.x][d_emplacementLaser.y+1]->changerCentre(Point{coordVersPoint(d_emplacementLaser.x),coordVersPoint(d_emplacementLaser.y+1)});
-                            d_emplacementLaser.y+=1;
+                            d_plateau[nextCoord.x][nextCoord.y]->changerCentre(Point{coordVersPoint(nextCoord.x),coordVersPoint(nextCoord.y)});
+                            d_emplacementLaser=nextCoord;
                             }
                         else {
                             std::cout << "this game is over" << std::endl;
                             in_move = false;
                             }
+                        }
                         break;
-                        }
                     case Bas:
-                        std::cout << "ok4";
                         if(d_emplacementLaser.y-1<0){
-                    std::cout <<"this developper suck : you lose" << std::endl;
-                    in_move = false;}
-                else {
-                    if (d_plateau[d_emplacementLaser.x][d_emplacementLaser.y-1]->touch(*this)){
-                        std::swap(d_plateau[d_emplacementLaser.x-1][d_emplacementLaser.y],d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]); /** faux dans le cas d'un miroir !! */
-                        d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]->changerCentre(Point{coordVersPoint(d_emplacementLaser.x),coordVersPoint(d_emplacementLaser.y)});
-                        d_plateau[d_emplacementLaser.x][d_emplacementLaser.y-1]->changerCentre(Point{coordVersPoint(d_emplacementLaser.x),coordVersPoint(d_emplacementLaser.y-1)});
-                        d_emplacementLaser.y-=1;
-                        }
-                    else {
-                        std::cout << "this game is over" << std::endl;
-                        in_move = false;
-                        }
-                    break;
-                    }
+                            std::cout <<"this developper suck : you lose" << std::endl;
+                            in_move = false;}
+                        else {
+                            coordLaser nextCoord = d_plateau[d_emplacementLaser.x][d_emplacementLaser.y-1]->posNextMoveLaser(*this);
+                            if (d_plateau[nextCoord.x][nextCoord.y]->touch(*this)){
+                                std::swap(d_plateau[nextCoord.x][nextCoord.y],d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]);
+                                d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]->changerCentre(Point{coordVersPoint(d_emplacementLaser.x),coordVersPoint(d_emplacementLaser.y)});
+                                d_plateau[nextCoord.x][nextCoord.y]->changerCentre(Point{coordVersPoint(nextCoord.x),coordVersPoint(nextCoord.y)});
+                                d_emplacementLaser=nextCoord;
+                                }
+                            else {
+                                std::cout << "this game is over" << std::endl;
+                                in_move = false;
+                                }
+                            }
+                        break;
                 }
 
         }

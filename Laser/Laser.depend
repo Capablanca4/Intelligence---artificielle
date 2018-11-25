@@ -697,7 +697,7 @@
 	<iostream>
 	<utility>
 
-1543095168 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\main.cpp
+1543164972 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\main.cpp
 	<iostream>
 	"Viewer.h"
 	"CibleHorirontale.h"
@@ -714,25 +714,25 @@
 
 1543092333 c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\include\graphics.h
 
-1543092333 c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\include\ciblehorirontale.h
+1543159021 c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\include\ciblehorirontale.h
 	"Cible.h"
 	"Echiquier.h"
 
-1543092333 c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\include\cible.h
+1543157226 c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\include\cible.h
 	"Case.h"
 	"Laser.h"
 
-1543092333 c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\include\case.h
+1543160487 c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\include\case.h
 	"Point.h"
 	"Viewer.h"
 	<vector>
 
 1543092333 c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\include\point.h
 
-1543092333 c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\include\laser.h
+1543158935 c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\include\laser.h
 	"Case.h"
 
-1543092333 c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\include\echiquier.h
+1543157529 c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\include\echiquier.h
 	<vector>
 	"BlocLaser.h"
 	"Laser.h"
@@ -743,27 +743,27 @@
 	"CibleVerticale.h"
 	"Mur.h"
 
-1543092333 c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\include\bloclaser.h
+1543158789 c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\include\bloclaser.h
 	"Case.h"
 	"Laser.h"
 
-1543092333 c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\include\casevide.h
+1543159069 c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\include\casevide.h
 	"Case.h"
 
-1543092333 c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\include\miroirgaucheversbas.h
-	"Laser.h"
-	"Echiquier.h"
-
-1543092333 c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\include\miroirgauchevershaut.h
-	"Case.h"
+1543160184 c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\include\miroirgaucheversbas.h
 	"Laser.h"
 	"Echiquier.h"
 
-1543092333 c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\include\cibleverticale.h
+1543161146 c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\include\miroirgauchevershaut.h
+	"Case.h"
+	"Laser.h"
+	"Echiquier.h"
+
+1543159069 c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\include\cibleverticale.h
 	"Cible.h"
 	"Echiquier.h"
 
-1543092333 c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\include\mur.h
+1543159133 c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\include\mur.h
 	"Case.h"
 
 1543092334 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\src\point.cpp
@@ -779,45 +779,51 @@
 	<math.h>
 	"graphics.h"
 
-1543092334 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\src\bloclaser.cpp
+1543160543 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\src\bloclaser.cpp
 	"BlocLaser.h"
+	"Echiquier.h"
 
-1543092334 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\src\case.cpp
+1543158789 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\src\case.cpp
 	"Case.h"
 
-1543092334 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\src\casevide.cpp
+1543160580 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\src\casevide.cpp
 	"CaseVide.h"
+	"Echiquier.h"
 
 1543092334 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\src\cible.cpp
 	"Cible.h"
 
-1543092334 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\src\ciblehorirontale.cpp
+1543160630 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\src\ciblehorirontale.cpp
 	"CibleHorirontale.h"
 	<iostream>
+	"Echiquier.h"
 
-1543092334 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\src\cibleverticale.cpp
+1543160660 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\src\cibleverticale.cpp
 	"CibleVerticale.h"
 	<iostream>
+	"Echiquier.h"
 
-1543095303 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\src\echiquier.cpp
+1543161768 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\src\echiquier.cpp
 	"Echiquier.h"
 	<iostream>
 	<utility>
 
-1543092334 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\src\laser.cpp
+1543160675 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\src\laser.cpp
 	"Laser.h"
 	<iostream>
+	"Echiquier.h"
 
-1543092334 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\src\miroirgaucheversbas.cpp
+1543164954 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\src\miroirgaucheversbas.cpp
 	"MiroirGaucheVersBas.h"
 	"Echiquier.h"
 	<iostream>
 
-1543092334 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\src\miroirgauchevershaut.cpp
+1543165041 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\src\miroirgauchevershaut.cpp
 	"MiroirGaucheVersHaut.h"
 	<iostream>
 
-1543092334 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\src\mur.cpp
+1543161061 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable\intelligence---artificielle-unstable\laser\src\mur.cpp
 	"../include/Mur.h"
 	<iostream>
+	"Echiquier.h"
 

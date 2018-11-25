@@ -12,9 +12,6 @@
 
 namespace ecran{
 
-struct coordLaser {
-    int x,y; };
-
 class Echiquier
 {
     public:

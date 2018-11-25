@@ -10,8 +10,9 @@ class CibleHorizontale : public Cible
         CibleHorizontale(const Cible& cib);
         CibleHorizontale(const int x,const int y,const int cote);
         virtual ~CibleHorizontale();
-        void draw(Viewer& fenetre);
-        bool touch(Echiquier& plateau) const;
+        virtual void draw(Viewer& fenetre) override;
+        virtual bool touch(Echiquier& plateau) const override;
+        virtual coordLaser posNextMoveLaser(Echiquier& plateau) const override;
 };
 }
 #endif // CIBLEHORIRONTALE_H

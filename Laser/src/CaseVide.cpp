@@ -1,4 +1,5 @@
 #include "CaseVide.h"
+#include "Echiquier.h"
 
 namespace ecran{
 
@@ -13,6 +14,11 @@ void CaseVide::draw(Viewer& fenetre){
 
 bool CaseVide::touch(Echiquier& plateau) const {
     return true;
+}
+
+coordLaser CaseVide::posNextMoveLaser(Echiquier& plateau) const{
+    coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
+    return ret;
 }
 
 }

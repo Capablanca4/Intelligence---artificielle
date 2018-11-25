@@ -11,8 +11,9 @@ class MiroirGaucheVersBas :public Case
         MiroirGaucheVersBas(Point& centre,int cote);
         MiroirGaucheVersBas(int x,int y,int cote);
         virtual ~MiroirGaucheVersBas();
-        void draw(Viewer& fenetre);
-        bool touch(Echiquier& plateau) const;
+        virtual void draw(Viewer& fenetre) override;
+        virtual bool touch(Echiquier& plateau) const override;
+        virtual coordLaser posNextMoveLaser(Echiquier& plateau) const override;
 };
 }
 
