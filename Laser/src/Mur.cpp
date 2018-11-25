@@ -1,5 +1,6 @@
 #include "../include/Mur.h"
 #include <iostream>
+#include "Echiquier.h"
 
 namespace ecran{
 Mur::~Mur() {}
@@ -10,6 +11,15 @@ Mur::Mur(int x,int y,int cote):Case{x,y,cote} {}
 
 void Mur::draw(Viewer& fenetre){
     bar( this->x()-this->cote()/2,this->y()+this->cote()/2,this->x()+this->cote()/2,this->y()-this->cote()/2 );
+}
+
+bool Mur::touch(Echiquier& plateau) const {
+return false ;
+}
+
+coordLaser Mur::posNextMoveLaser(Echiquier& plateau) const{
+    coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
+    return ret;
 }
 
 }
