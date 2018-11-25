@@ -17,28 +17,16 @@ class Echiquier
     public:
         Echiquier(int nbligne,int nbcolonne,int tailleCase);
         void init(int nbligne,int nbcolonne);
-        virtual ~Echiquier();
         Case* emplacementCase(const int x,const int y);
-        Case* emplacementCase(const coordLaser& coor);
         Case* emplacementCase(const Point& emplacement);
-        void setCase(Case* val);
-        const coordLaser coordLas();
-        std::vector<std::vector<Case*> > plateau();
-        const int nbligne();
-        const int nbcolonne();
-        int pointVersCoord(int x);
-        int coordVersPoint(int coor);
+        void setCase(int x,int y,Case& val);
+        virtual ~Echiquier();
         void draw(Viewer fenetre) const;
         void move();
-        void start(Viewer fenetre);
-        void setCoordLaser(coordLaser coord);
     private:
-        bool in_move;
         std::vector<std::vector<Case*> > d_plateau;
         int d_taille;
-        int d_nbligne;
-        int d_nbcolonne;
-        coordLaser d_emplacementLaser; /** emplacement du laser sur le dessin */
+        Point d_emplacementLaser;
 };
 }
 #endif // ECHIQUIER_H

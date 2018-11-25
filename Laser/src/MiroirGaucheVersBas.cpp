@@ -1,6 +1,4 @@
 #include "MiroirGaucheVersBas.h"
-#include "Echiquier.h"
-#include <iostream>
 
 namespace ecran {
 
@@ -14,48 +12,19 @@ void MiroirGaucheVersBas::draw(Viewer& fenetre){
     line(this->x()-this->cote()/2,this->y()+this->cote()/2,this->x()+this->cote()/2,this->y()-this->cote()/2);
 }
 
-bool MiroirGaucheVersBas::touch(Echiquier& plateau) const{
-    return false;
-}
-
-coordLaser MiroirGaucheVersBas::posNextMoveLaser(Echiquier& plateau) const{
-    Laser* las =(Laser*)plateau.plateau()[plateau.coordLas().x][plateau.coordLas().y];
-    switch (las->direction()){
+Laser MiroirGaucheVersBas::touch(Laser& las){
+    switch (las.direction()){
         case Gauche :
-            if(plateau.pointVersCoord(this->y())-1<0){
-                coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
-                return ret;}
-            else  {
-                Case* maCase =plateau.plateau()[plateau.pointVersCoord(this->x())][plateau.pointVersCoord(this->y())-1];
-                las->setDirection(Bas);
-                return maCase->posNextMoveLaser(plateau);}
+            return Laser{this->x(),this->y()-this->cote(),this->cote(),Bas};
             break;
         case Droite :
-            if(plateau.pointVersCoord(this->y())+1>=plateau.nbligne()){
-                coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
-                return ret;}
-            else  {
-                Case* maCase =plateau.plateau()[plateau.pointVersCoord(this->x())][plateau.pointVersCoord(this->y())+1];
-                las->setDirection(Haut);
-                return maCase->posNextMoveLaser(plateau);}
+            return Laser{this->x(),this->y()+this->cote(),this->cote(),Haut};
             break;
-        case Haut :
-            if(plateau.pointVersCoord(this->x())-1<0){
-                coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
-                return ret;}
-            else  {
-                Case* maCase =plateau.plateau()[plateau.pointVersCoord(this->x())-1][plateau.pointVersCoord(this->y())];
-                las->setDirection(Gauche);
-                return maCase->posNextMoveLaser(plateau);}
+        case Haut:
+            return Laser{this->x()+this->cote(),this->y(),this->cote(),Droite};
             break;
-        case Bas :
-            if(plateau.pointVersCoord(this->x())+1>=plateau.nbcolonne()){
-                coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
-                return ret;}
-            else  {
-                Case* maCase =plateau.plateau()[plateau.pointVersCoord(this->x())+1][plateau.pointVersCoord(this->y())];
-                las->setDirection(Droite);
-                return maCase->posNextMoveLaser(plateau);}
+        case Bas:
+            return Laser{this->x()-this->cote(),this->y(),this->cote(),Gauche};
             break;
     }
 }

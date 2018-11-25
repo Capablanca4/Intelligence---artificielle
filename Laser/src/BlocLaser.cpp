@@ -1,5 +1,4 @@
 #include "BlocLaser.h"
-#include "Echiquier.h"
 
 namespace ecran{
 
@@ -13,27 +12,21 @@ BlocLaser::~BlocLaser() {}
 void BlocLaser::setDirection(TDirection direction){
     d_direction=direction;}
 
-Laser* BlocLaser::shoot(){
-    Laser* retLaser ;
+Laser BlocLaser::shoot(){
     switch (d_direction) {
         case Gauche :
-            retLaser = new Laser{this->x()-this->cote(),this->y(),this->cote(),Gauche};
+            return Laser{this->x()-this->cote(),this->y(),this->cote(),Gauche};
             break;
         case Droite :
-            retLaser = new Laser{this->x()+this->cote(),this->y(),this->cote(),Droite};
+            return Laser{this->x()+this->cote(),this->y(),this->cote(),Droite};
             break;
         case Haut :
-            retLaser = new Laser{this->x(),this->y()+this->cote(),this->cote(),Haut};
+            return Laser{this->x(),this->y()+this->cote(),this->cote(),Haut};
             break;
         case Bas :
-            retLaser = new Laser{this->x(),this->y()-this->cote(),this->cote(),Bas};
+            return Laser{this->x(),this->y()-this->cote(),this->cote(),Bas};
             break;
     }
-    return retLaser;
-}
-
-bool BlocLaser::touch(Echiquier& plateau) const {
-    return false;
 }
 
 void BlocLaser::draw(Viewer& fenetre){
@@ -55,11 +48,5 @@ void BlocLaser::draw(Viewer& fenetre){
             break;
         }
 }
-
-coordLaser BlocLaser::posNextMoveLaser(Echiquier& plateau) const{
-    coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
-    return ret;
-}
-
 
 }

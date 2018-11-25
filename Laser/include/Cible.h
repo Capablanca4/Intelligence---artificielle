@@ -10,6 +10,8 @@ class Cible : public Case
         ~Cible();
         Cible(Point& centre,int cote);
         Cible(int x,int y,int cote);
+        virtual void Touch(Laser& las) = 0;
+    private:
 };
 }
 #endif // CIBLE_H

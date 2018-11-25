@@ -11,18 +11,27 @@
 
 int main()
 {
-    const int nbligne=20;
-    const int nbcolonne=20;
-    const int cote=20;
     ecran::Viewer fenetre{500,700};
     fenetre.openWindow();
-    ecran::Echiquier plateau{nbligne,nbcolonne,cote};
-    ecran::Laser las{10,390,20,ecran::Droite};
-    ecran::MiroirGaucheVersBas mur{170,390,20};
-    plateau.setCoordLaser({0,19});
-    plateau.setCase(&las);
-    plateau.setCase(&mur);
-    for(int i =0; i< 20;i++) plateau.move();
+    /*ecran::CibleHorizontale cible1{250,250,20};
+    //ecran::Laser las1{270,270,20};
+    ecran::MiroirGaucheVersHaut mir1{270,270,20};
+    ecran::MiroirGaucheVersBas mir2{290,270,20};
+    ecran::Mur mur1{290,290,20}; // error ?
+    ecran::BlocLaser Bloc(310,310,20);
+    ecran::CaseVide cas1{330,330,20};
+    Bloc.setDirection(ecran::Gauche);
+    ecran::Laser las1{Bloc.shoot()};
+    las1.move();
+    las1.move();
+    mir1.draw(fenetre);
+    mir2.draw(fenetre);
+    Bloc.draw(fenetre);
+    cible1.draw(fenetre);
+    mur1.draw(fenetre);
+    cas1.draw(fenetre);
+    las1.draw(fenetre);*/
+    ecran::Echiquier plateau{20,20,20};
     plateau.draw(fenetre);
     fenetre.waitUntilButton();
     fenetre.closeWindow();
