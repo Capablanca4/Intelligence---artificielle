@@ -10,7 +10,7 @@ MiroirGaucheVersHaut::MiroirGaucheVersHaut(int x,int y,int cote):Case{x,y,cote}{
 MiroirGaucheVersHaut::~MiroirGaucheVersHaut(){}
 
 void MiroirGaucheVersHaut::draw(Viewer& fenetre){
-    line(this->x()-this->cote()/2,this->y()-this->cote()/2,this->x()+this->cote()/2,this->y()+this->cote()/2);
+    line(fenetre.pixelX(this->x()-this->cote()/2),fenetre.pixelY(this->y()-this->cote()/2),fenetre.pixelX(this->x()+this->cote()/2),fenetre.pixelY(this->y()+this->cote()/2));
 }
 bool MiroirGaucheVersHaut::touch(Echiquier& plateau) const{
     return false ;

@@ -11,9 +11,9 @@ CibleHorizontale::CibleHorizontale(const int x,const int y,const int cote):Cible
 CibleHorizontale::~CibleHorizontale(){}
 
 void CibleHorizontale::draw(Viewer& fenetre){
-    line(this->x()-this->cote()/2,this->y(),this->x()+this->cote()/2,this->y());
-    line(this->x()-this->cote()/2,this->y()-this->cote()/2,this->x()-this->cote()/2,this->y()+this->cote()/2);
-    line(this->x()+this->cote()/2,this->y()-this->cote()/2,this->x()+this->cote()/2,this->y()+this->cote()/2);
+    line(fenetre.pixelX(this->x()-this->cote()/2),fenetre.pixelY(this->y()),fenetre.pixelX(this->x()+this->cote()/2),fenetre.pixelY(this->y()));
+    line(fenetre.pixelX(this->x()-this->cote()/2),fenetre.pixelY(this->y()-this->cote()/2),fenetre.pixelX(this->x()-this->cote()/2),fenetre.pixelY(this->y()+this->cote()/2));
+    line(fenetre.pixelX(this->x()+this->cote()/2),fenetre.pixelY(this->y()-this->cote()/2),fenetre.pixelX(this->x()+this->cote()/2),fenetre.pixelY(this->y()+this->cote()/2));
 }
 
 bool CibleHorizontale::touch(Echiquier& plateau) const{

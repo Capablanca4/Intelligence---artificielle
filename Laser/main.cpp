@@ -14,7 +14,7 @@ int main()
     const int nbligne=20;
     const int nbcolonne=20;
     const int cote=20;
-    ecran::Viewer fenetre{500,700};
+    ecran::Viewer fenetre{nbligne*cote+2*20,nbligne*cote+2*20};
     fenetre.openWindow();
     ecran::Echiquier plateau{nbligne,nbcolonne,cote};
     ecran::Laser las{10,390,20,ecran::Droite};
