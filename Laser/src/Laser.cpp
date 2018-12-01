@@ -4,9 +4,13 @@
 
 namespace ecran{
 
-Laser::Laser(Point& centre,int cote,const TDirection& direction):Case{centre,cote},d_direction{direction} {}
+Laser::Laser(Point& centre,int cote,const TDirection& direction):
+        Case{centre,cote},
+        d_direction{direction} {}
 
-Laser::Laser(int x,int y ,int cote,const TDirection& direction):Case{x,y,cote},d_direction{direction} {}
+Laser::Laser(int x,int y ,int cote,const TDirection& direction):
+        Case{x,y,cote},
+        d_direction{direction} {}
 
 Laser::~Laser(){}
 
@@ -17,8 +21,16 @@ void Laser::setDirection(TDirection direction){
     d_direction=direction;}
 
 void Laser::draw(Viewer& fenetre){
-    if (d_direction == Droite|| d_direction == Gauche) line(fenetre.pixelX(this->x()-this->cote()/2),fenetre.pixelY(this->y()),fenetre.pixelX(this->x()+this->cote()/2),fenetre.pixelY(this->y()));
-    else line(fenetre.pixelX(this->x()),fenetre.pixelY(this->y()-this->cote()/2),fenetre.pixelX(this->x()),fenetre.pixelY(this->y()+this->cote()/2));}
+    if (d_direction == Droite|| d_direction == Gauche)
+        line(fenetre.pixelX(this->x()-this->cote()/2),
+             fenetre.pixelY(this->y()),
+             fenetre.pixelX(this->x()+this->cote()/2),
+             fenetre.pixelY(this->y()));
+
+    else line(fenetre.pixelX(this->x()),
+              fenetre.pixelY(this->y()-this->cote()/2),
+              fenetre.pixelX(this->x()),
+              fenetre.pixelY(this->y()+this->cote()/2));}
 
 bool Laser::touch(Echiquier& plateau) const {
 return false;}

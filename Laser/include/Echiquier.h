@@ -28,9 +28,10 @@ class Echiquier
         const int nbcolonne();
         int pointVersCoord(int x);
         int coordVersPoint(int coor);
-        void draw(Viewer fenetre) const;
+        void draw(Viewer& fenetre) const;
         void move();
-        void start(Viewer fenetre);
+        void play(Viewer& fenetre);
+        void start(Viewer& fenetre);
         void setCoordLaser(coordLaser coord);
     private:
         bool in_move;

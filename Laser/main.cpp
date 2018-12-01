@@ -14,7 +14,7 @@ int main()
     const int nbligne=20;
     const int nbcolonne=20;
     const int cote=20;
-    ecran::Viewer fenetre{nbligne*cote+2*20,nbligne*cote+2*20};
+    ecran::Viewer fenetre{nbligne*cote,nbcolonne*cote};
     fenetre.openWindow();
     ecran::Echiquier plateau{nbligne,nbcolonne,cote};
     ecran::Laser las{10,390,20,ecran::Droite};
@@ -22,9 +22,7 @@ int main()
     plateau.setCoordLaser({0,19});
     plateau.setCase(&las);
     plateau.setCase(&mur);
-    for(int i =0; i< 20;i++) plateau.move();
-    plateau.draw(fenetre);
-    fenetre.waitUntilButton();
+    plateau.play(fenetre);
     fenetre.closeWindow();
     return 0;
 }

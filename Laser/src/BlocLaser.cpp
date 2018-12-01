@@ -37,21 +37,42 @@ bool BlocLaser::touch(Echiquier& plateau) const {
 }
 
 void BlocLaser::draw(Viewer& fenetre){
-    rectangle( this->x()-this->cote()/2,this->y()+this->cote()/2,this->x()+this->cote()/2,this->y()-this->cote()/2 );
-    line(this->x()-this->cote()/2,this->y()+this->cote()/2,this->x()+this->cote()/2,this->y()-this->cote()/2);
-    line(this->x()-this->cote()/2,this->y()-this->cote()/2,this->x()+this->cote()/2,this->y()+this->cote()/2);
+    rectangle(fenetre.pixelX(this->x()-this->cote()/2),
+              fenetre.pixelY(this->y()+this->cote()/2),
+              fenetre.pixelX(this->x()+this->cote()/2),
+              fenetre.pixelY(this->y()-this->cote()/2 ));
+    line(fenetre.pixelX(this->x()-this->cote()/2),
+         fenetre.pixelY(this->y()+this->cote()/2),
+         fenetre.pixelX(this->x()+this->cote()/2),
+         fenetre.pixelY(this->y()-this->cote()/2));
+    line(fenetre.pixelX(this->x()-this->cote()/2),
+         fenetre.pixelY(this->y()-this->cote()/2),
+         fenetre.pixelX(this->x()+this->cote()/2),
+         fenetre.pixelY(this->y()+this->cote()/2));
     switch (d_direction){
         case Gauche :
-            line(this->x()-this->cote()/2,this->y(),this->x()-this->cote()*9/10,this->y());
+            line(fenetre.pixelX(this->x()-this->cote()/2),
+                 fenetre.pixelY(this->y()),
+                 fenetre.pixelX(this->x()-this->cote()*9/10),
+                 fenetre.pixelY(this->y()));
             break;
         case Droite :
-            line(this->x()+this->cote()/2,this->y(),this->x()+this->cote()*9/10,this->y());
+            line(fenetre.pixelX(this->x()+this->cote()/2),
+                 fenetre.pixelY(this->y()),
+                 fenetre.pixelX(this->x()+this->cote()*9/10),
+                 fenetre.pixelY(this->y()));
             break;
         case Haut :
-            line(this->x(),this->y()+this->cote()/2,this->x(),this->y()+this->cote()*9/10);
+            line(fenetre.pixelX(this->x()),
+                 fenetre.pixelY(this->y()+this->cote()/2),
+                 fenetre.pixelX(this->x()),
+                 fenetre.pixelY(this->y()+this->cote()*9/10));
             break;
         case Bas :
-            line(this->x(),this->y()-this->cote()/2,this->x(),this->y()-this->cote()*9/10);
+            line(fenetre.pixelX(this->x()),
+                 fenetre.pixelY(this->y()-this->cote()/2),
+                 fenetre.pixelX(this->x()),
+                 fenetre.pixelY(this->y()-this->cote()*9/10));
             break;
         }
 }

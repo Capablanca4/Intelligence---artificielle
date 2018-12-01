@@ -11,9 +11,21 @@ CibleHorizontale::CibleHorizontale(const int x,const int y,const int cote):Cible
 CibleHorizontale::~CibleHorizontale(){}
 
 void CibleHorizontale::draw(Viewer& fenetre){
-    line(fenetre.pixelX(this->x()-this->cote()/2),fenetre.pixelY(this->y()),fenetre.pixelX(this->x()+this->cote()/2),fenetre.pixelY(this->y()));
-    line(fenetre.pixelX(this->x()-this->cote()/2),fenetre.pixelY(this->y()-this->cote()/2),fenetre.pixelX(this->x()-this->cote()/2),fenetre.pixelY(this->y()+this->cote()/2));
-    line(fenetre.pixelX(this->x()+this->cote()/2),fenetre.pixelY(this->y()-this->cote()/2),fenetre.pixelX(this->x()+this->cote()/2),fenetre.pixelY(this->y()+this->cote()/2));
+
+    line(fenetre.pixelX(this->x()-this->cote()/2),
+         fenetre.pixelY(this->y()),
+         fenetre.pixelX(this->x()+this->cote()/2),
+         fenetre.pixelY(this->y()));
+
+    line(fenetre.pixelX(this->x()-this->cote()/2),
+         fenetre.pixelY(this->y()-this->cote()/2),
+         fenetre.pixelX(this->x()-this->cote()/2),
+         fenetre.pixelY(this->y()+this->cote()/2));
+
+    line(fenetre.pixelX(this->x()+this->cote()/2),
+         fenetre.pixelY(this->y()-this->cote()/2),
+         fenetre.pixelX(this->x()+this->cote()/2),
+         fenetre.pixelY(this->y()+this->cote()/2));
 }
 
 bool CibleHorizontale::touch(Echiquier& plateau) const{
@@ -36,7 +48,9 @@ bool CibleHorizontale::touch(Echiquier& plateau) const{
 }
 
 coordLaser CibleHorizontale::posNextMoveLaser(Echiquier& plateau) const{
-    coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
+
+    coordLaser ret{plateau.pointVersCoord(this->x()),
+                   plateau.pointVersCoord(this->y())};
     return ret;
 
 }

@@ -10,14 +10,18 @@ CaseVide::CaseVide(int x,int y,int cote):Case{x,y,cote} {}
 CaseVide::~CaseVide() {}
 
 void CaseVide::draw(Viewer& fenetre){
-    rectangle(fenetre.pixelX(this->x()-this->cote()/2),fenetre.pixelY(this->y()+this->cote()/2),fenetre.pixelX(this->x()+this->cote()/2),fenetre.pixelY(this->y()-this->cote()/2 ));}
+    rectangle(fenetre.pixelX(this->x()-this->cote()/2),
+              fenetre.pixelY(this->y()+this->cote()/2),
+              fenetre.pixelX(this->x()+this->cote()/2),
+              fenetre.pixelY(this->y()-this->cote()/2 ));}
 
 bool CaseVide::touch(Echiquier& plateau) const {
     return true;
 }
 
 coordLaser CaseVide::posNextMoveLaser(Echiquier& plateau) const{
-    coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
+    coordLaser ret{plateau.pointVersCoord(this->x()),
+                   plateau.pointVersCoord(this->y())};
     return ret;
 }
 
