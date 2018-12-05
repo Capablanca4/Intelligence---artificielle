@@ -18,3 +18,6 @@ j'ai choisi de changer l'UML selon le modèle suivant :
                               |
                               V
                CibleHorizontale    CibleVerticale
+               
+                
+Site important pour le coté graphique : http://perso.iut-nimes.fr/wdesrat/faq06.html
