@@ -10,7 +10,6 @@ Viewer::Viewer(int largeur,int hauteur):
     CoordonneesX{0,largeur,decalageX,largeur-decalageX}{}
 
 void Viewer::openWindow() {
-    std::cout << d_hauteur<< " ,"<< d_largeur << std::endl;
     opengraphsize(d_hauteur+10,d_largeur+13); /** il faut rajouter des constantes car WinBGi rogne le bord des fenêtres */
     d_open=true;
     }

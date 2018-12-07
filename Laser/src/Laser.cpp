@@ -30,14 +30,7 @@ void Laser::draw(Viewer& fenetre){
     else line(fenetre.pixelX(this->x()),
               fenetre.pixelY(this->y()-this->cote()/2),
               fenetre.pixelX(this->x()),
-              fenetre.pixelY(this->y()+this->cote()/2));}
-
-bool Laser::touch(Echiquier& plateau) const {
-return false;}
-
-coordLaser Laser::posNextMoveLaser(Echiquier& plateau) const{
-    coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
-    return ret;
+              fenetre.pixelY(this->y()+this->cote()/2));
 }
 
 }

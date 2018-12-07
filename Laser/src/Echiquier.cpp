@@ -5,12 +5,11 @@
 namespace ecran{
 
 Echiquier::Echiquier(int nbligne,int nbcolonne,int tailleCase):
-        d_taille{tailleCase},
-        d_emplacementLaser{},
         in_move{false},
+        d_taille{tailleCase},
         d_nbligne{nbligne},
-        d_nbcolonne{nbcolonne}
-
+        d_nbcolonne{nbcolonne},
+        d_emplacementLaser{}
         {init(nbligne,nbcolonne);}
 
 int Echiquier::pointVersCoord(int x){
@@ -62,8 +61,8 @@ Case* Echiquier::emplacementCase(const int x,const int y){
 }
 
 void Echiquier::draw(Viewer& fenetre) const{
-    for(int i=0;i<d_plateau.size();++i){
-        for(int j=0;j<d_plateau[i].size();j++){
+    for(unsigned int i=0;i<d_plateau.size();++i){
+        for(unsigned int j=0;j<d_plateau[i].size();j++){
             d_plateau[i][j]->draw(fenetre);
         }
     }

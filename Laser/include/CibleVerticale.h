@@ -12,7 +12,6 @@ class CibleVerticale : public Cible
         virtual ~CibleVerticale();
         virtual void draw(Viewer& fenetre) override;
         virtual bool touch(Echiquier& plateau) const override;
-        virtual coordLaser posNextMoveLaser(Echiquier& plateau) const override;
 };
 }
 #endif // CIBLEVERTICALE_H

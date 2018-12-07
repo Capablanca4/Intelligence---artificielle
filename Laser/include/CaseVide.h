@@ -12,7 +12,6 @@ class CaseVide : public Case
         virtual ~CaseVide();
         virtual void draw(Viewer& fenetre) override;
         virtual bool touch(Echiquier& plateau) const override;
-        virtual coordLaser posNextMoveLaser(Echiquier& plateau) const override;
 };
 }
 #endif // CASEVIDE_H

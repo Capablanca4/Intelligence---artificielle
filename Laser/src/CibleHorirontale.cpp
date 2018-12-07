@@ -47,11 +47,4 @@ bool CibleHorizontale::touch(Echiquier& plateau) const{
     return false;
 }
 
-coordLaser CibleHorizontale::posNextMoveLaser(Echiquier& plateau) const{
-
-    coordLaser ret{plateau.pointVersCoord(this->x()),
-                   plateau.pointVersCoord(this->y())};
-    return ret;
-
-}
 }

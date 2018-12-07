@@ -19,14 +19,4 @@ void Mur::draw(Viewer& fenetre){
         fenetre.pixelY(this->y()-this->cote()/2));
 }
 
-bool Mur::touch(Echiquier& plateau) const {
-    return false ;
-}
-
-coordLaser Mur::posNextMoveLaser(Echiquier& plateau) const{
-    coordLaser ret{plateau.pointVersCoord(this->x()),
-    plateau.pointVersCoord(this->y())};
-    return ret;
-}
-
 }
