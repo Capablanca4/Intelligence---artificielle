@@ -21,3 +21,5 @@ j'ai choisi de changer l'UML selon le modèle suivant :
 
 
 Site important pour le coté graphique : http://perso.iut-nimes.fr/wdesrat/faq06.html
+
+Site important pour les gestions de la souris : https://www.cs.colorado.edu/~main/bgi/doc/getmouseclick.html
