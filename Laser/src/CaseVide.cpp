@@ -19,10 +19,4 @@ bool CaseVide::touch(Echiquier& plateau) const {
     return true;
 }
 
-coordLaser CaseVide::posNextMoveLaser(Echiquier& plateau) const{
-    coordLaser ret{plateau.pointVersCoord(this->x()),
-                   plateau.pointVersCoord(this->y())};
-    return ret;
-}
-
 }

@@ -20,10 +20,6 @@ void MiroirGaucheVersBas::draw(Viewer& fenetre){
          fenetre.pixelY(this->y()-this->cote()/2));
 }
 
-bool MiroirGaucheVersBas::touch(Echiquier& plateau) const{
-    return false;
-}
-
 coordLaser MiroirGaucheVersBas::posNextMoveLaser(Echiquier& plateau) const{
     Laser* las =(Laser*)plateau.plateau()[plateau.coordLas().x][plateau.coordLas().y];
     switch (las->direction()){

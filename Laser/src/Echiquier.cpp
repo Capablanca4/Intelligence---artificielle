@@ -27,7 +27,7 @@ void Echiquier::init(int nbligne,int nbcolonne) {
         std::vector<Case*> line;
         line.reserve(nbligne);
         for(int i=0;i<nbligne;i++){
-            line.push_back(new CaseVide{coordVersPoint(j),coordVersPoint(i),d_taille});
+            line.push_back(new Mur{coordVersPoint(j),coordVersPoint(i),d_taille});
         }
         d_plateau.push_back(line);
     }
