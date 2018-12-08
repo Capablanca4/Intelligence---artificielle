@@ -32,4 +32,6 @@ coordLaser Case::posNextMoveLaser(Echiquier& plateau) const{
     return ret;
 }
 
+void Case::transformation(Echiquier& plateau){}
+
 }

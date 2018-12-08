@@ -5,11 +5,12 @@
 namespace ecran{
 
 Echiquier::Echiquier(int nbligne,int nbcolonne,int tailleCase):
-        in_move{false},
         d_taille{tailleCase},
+        d_emplacementLaser{},
+        in_move{false},
         d_nbligne{nbligne},
-        d_nbcolonne{nbcolonne},
-        d_emplacementLaser{}
+        d_nbcolonne{nbcolonne}
+
         {init(nbligne,nbcolonne);}
 
 int Echiquier::pointVersCoord(int x){
@@ -36,16 +37,21 @@ std::vector<std::vector<Case*> > Echiquier::plateau(){
     return d_plateau;
 }
 
-const coordLaser Echiquier::coordLas(){
+
+const coordLaser Echiquier::coordLas() const{
     return d_emplacementLaser;
 }
 
-const int Echiquier::nbligne(){
+const int Echiquier::nbligne() const{
     return d_nbligne;
 }
 
-const int Echiquier::nbcolonne(){
+const int Echiquier::nbcolonne() const{
     return d_nbcolonne;
+}
+
+const int Echiquier::taille() const{
+    return d_taille;
 }
 
 Case* Echiquier::emplacementCase(const Point& emplacement) {

@@ -18,12 +18,15 @@ class Viewer
         Point pixel(Point& P);
         double pixelX(double x);
         double pixelY(double y);
+        void waitUntilMouseCkicked(int& x,int& y);
+        double reversePixelX(double x);
+        double reversePixelY(double y);
     private:
         int d_hauteur;
         int d_largeur;
         bool d_open;
-        const int decalageX=50;
-        const int decalageY=50;
+        const int decalageX=20;
+        const int decalageY=20;
         viewPort CoordonneesY/*{0, 1000, 980, 20}*/;
         viewPort CoordonneesX/*{0, 1000, 20, 980}*/;
 

@@ -14,6 +14,7 @@ class MiroirGaucheVersHaut:public Case
         virtual ~MiroirGaucheVersHaut();
         virtual void draw(Viewer& fenetre) override;
         virtual coordLaser posNextMoveLaser(Echiquier& plateau) const override;
+        void transformation(Echiquier& plateau) override;
 };
 }
 #endif // MIROIRGAUCHEVERSHAUT_H
