@@ -66,4 +66,9 @@ coordLaser MiroirGaucheVersBas::posNextMoveLaser(Echiquier& plateau) const{
     }
 }
 
+void MiroirGaucheVersBas::transformation(Echiquier& plateau){
+    MiroirGaucheVersHaut* mir = new MiroirGaucheVersHaut{this->x(),this->y(),this->cote()};
+    plateau.setCase(mir);
+}
+
 }

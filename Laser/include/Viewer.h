@@ -18,6 +18,9 @@ class Viewer
         Point pixel(Point& P);
         double pixelX(double x);
         double pixelY(double y);
+        void waitUntilMouseCkicked(int& x,int& y);
+        double reversePixelX(double x);
+        double reversePixelY(double y);
     private:
         int d_hauteur;
         int d_largeur;

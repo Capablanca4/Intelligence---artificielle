@@ -27,7 +27,7 @@ void Echiquier::init(int nbligne,int nbcolonne) {
         std::vector<Case*> line;
         line.reserve(nbligne);
         for(int i=0;i<nbligne;i++){
-            line.push_back(new Mur{coordVersPoint(j),coordVersPoint(i),d_taille});
+            line.push_back(new CaseVide{coordVersPoint(j),coordVersPoint(i),d_taille});
         }
         d_plateau.push_back(line);
     }
@@ -37,16 +37,21 @@ std::vector<std::vector<Case*> > Echiquier::plateau(){
     return d_plateau;
 }
 
-const coordLaser Echiquier::coordLas(){
+
+const coordLaser Echiquier::coordLas() const{
     return d_emplacementLaser;
 }
 
-const int Echiquier::nbligne(){
+const int Echiquier::nbligne() const{
     return d_nbligne;
 }
 
-const int Echiquier::nbcolonne(){
+const int Echiquier::nbcolonne() const{
     return d_nbcolonne;
+}
+
+const int Echiquier::taille() const{
+    return d_taille;
 }
 
 Case* Echiquier::emplacementCase(const Point& emplacement) {
@@ -62,8 +67,8 @@ Case* Echiquier::emplacementCase(const int x,const int y){
 }
 
 void Echiquier::draw(Viewer& fenetre) const{
-    for(int i=0;i<d_plateau.size();++i){
-        for(int j=0;j<d_plateau[i].size();j++){
+    for(unsigned int i=0;i<d_plateau.size();++i){
+        for(unsigned int j=0;j<d_plateau[i].size();j++){
             d_plateau[i][j]->draw(fenetre);
         }
     }

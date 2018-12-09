@@ -24,8 +24,9 @@ void Laser::draw(Viewer& fenetre){
 
     const int epaisseur = cote()/10;
     const int longueur = cote()/1.1;
+    const int petitRectangle=50;
 
-    if (d_direction == Droite|| d_direction == Gauche)
+    if (d_direction == Droite|| d_direction == Gauche){
      setcolor (BROWN);
 
         bar(
@@ -39,7 +40,8 @@ void Laser::draw(Viewer& fenetre){
              fenetre.pixelY(this->y()),
              fenetre.pixelX(this->x()+this->cote()/2),
              fenetre.pixelY(this->y()));
-
+        setcolor (WHITE);
+}
     else line(fenetre.pixelX(this->x()),
               fenetre.pixelY(this->y()-this->cote()/2),
               fenetre.pixelX(this->x()),

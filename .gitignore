@@ -10,4 +10,5 @@
 bin/
 obj/
 
+*.o
 # End of https://www.gitignore.io/api/codeblocks

@@ -26,6 +26,7 @@ class Case: public Point
         virtual void draw(Viewer& fenetre)=0;
         virtual bool touch(Echiquier& plateau) const ;
         virtual coordLaser posNextMoveLaser(Echiquier& plateau) const;
+        virtual void transformation(Echiquier& plateau);
     private:
         int d_cote; /** largeur du carre definissant la case*/
 
