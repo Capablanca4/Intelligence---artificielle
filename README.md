@@ -21,8 +21,11 @@ j'ai choisi de changer l'UML selon le modèle suivant :
                
     Echiquier ( utilise Case )
     
+    Game ( contient l' Echiquier et le Viewer)
+    
     Viewer(utilisé par Case et Echiquier)
     ViewerPort(utilié par Viewer)
+    
 
 
 Site important pour le coté graphique : http://perso.iut-nimes.fr/wdesrat/faq06.html
