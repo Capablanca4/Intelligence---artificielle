@@ -1,6 +1,7 @@
 #ifndef MIROIRGAUCHEVERSBAS_H
 #define MIROIRGAUCHEVERSBAS_H
 #include "Laser.h"
+#include "Echiquier.h"
 
 namespace ecran{
 
@@ -10,8 +11,9 @@ class MiroirGaucheVersBas :public Case
         MiroirGaucheVersBas(Point& centre,int cote);
         MiroirGaucheVersBas(int x,int y,int cote);
         virtual ~MiroirGaucheVersBas();
-        void draw(Viewer& fenetre);
-        Laser touch(Laser& las);
+        virtual void draw(Viewer& fenetre) override;
+        virtual coordLaser posNextMoveLaser(Echiquier& plateau) const override;
+        void transformation(Echiquier& plateau) override;
 };
 }
 

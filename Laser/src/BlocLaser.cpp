@@ -1,4 +1,5 @@
 #include "BlocLaser.h"
+#include "Echiquier.h"
 
 namespace ecran{
 
@@ -12,41 +13,74 @@ BlocLaser::~BlocLaser() {}
 void BlocLaser::setDirection(TDirection direction){
     d_direction=direction;}
 
-Laser BlocLaser::shoot(){
+Laser* BlocLaser::shoot(){
+    Laser* retLaser ;
     switch (d_direction) {
         case Gauche :
-            return Laser{this->x()-this->cote(),this->y(),this->cote(),Gauche};
+            retLaser = new Laser{this->x()-this->cote(),this->y(),this->cote(),Gauche};
             break;
         case Droite :
-            return Laser{this->x()+this->cote(),this->y(),this->cote(),Droite};
+            retLaser = new Laser{this->x()+this->cote(),this->y(),this->cote(),Droite};
             break;
         case Haut :
-            return Laser{this->x(),this->y()+this->cote(),this->cote(),Haut};
+            retLaser = new Laser{this->x(),this->y()+this->cote(),this->cote(),Haut};
             break;
         case Bas :
-            return Laser{this->x(),this->y()-this->cote(),this->cote(),Bas};
+            retLaser = new Laser{this->x(),this->y()-this->cote(),this->cote(),Bas};
             break;
     }
+    return retLaser;
+}
+
+bool BlocLaser::touch(Echiquier& plateau) const {
+    return false;
 }
 
 void BlocLaser::draw(Viewer& fenetre){
-    rectangle( this->x()-this->cote()/2,this->y()+this->cote()/2,this->x()+this->cote()/2,this->y()-this->cote()/2 );
-    line(this->x()-this->cote()/2,this->y()+this->cote()/2,this->x()+this->cote()/2,this->y()-this->cote()/2);
-    line(this->x()-this->cote()/2,this->y()-this->cote()/2,this->x()+this->cote()/2,this->y()+this->cote()/2);
+    rectangle(fenetre.pixelX(this->x()-this->cote()/2),
+              fenetre.pixelY(this->y()+this->cote()/2),
+              fenetre.pixelX(this->x()+this->cote()/2),
+              fenetre.pixelY(this->y()-this->cote()/2 ));
+    line(fenetre.pixelX(this->x()-this->cote()/2),
+         fenetre.pixelY(this->y()+this->cote()/2),
+         fenetre.pixelX(this->x()+this->cote()/2),
+         fenetre.pixelY(this->y()-this->cote()/2));
+    line(fenetre.pixelX(this->x()-this->cote()/2),
+         fenetre.pixelY(this->y()-this->cote()/2),
+         fenetre.pixelX(this->x()+this->cote()/2),
+         fenetre.pixelY(this->y()+this->cote()/2));
     switch (d_direction){
         case Gauche :
-            line(this->x()-this->cote()/2,this->y(),this->x()-this->cote()*9/10,this->y());
+            line(fenetre.pixelX(this->x()-this->cote()/2),
+                 fenetre.pixelY(this->y()),
+                 fenetre.pixelX(this->x()-this->cote()*9/10),
+                 fenetre.pixelY(this->y()));
             break;
         case Droite :
-            line(this->x()+this->cote()/2,this->y(),this->x()+this->cote()*9/10,this->y());
+            line(fenetre.pixelX(this->x()+this->cote()/2),
+                 fenetre.pixelY(this->y()),
+                 fenetre.pixelX(this->x()+this->cote()*9/10),
+                 fenetre.pixelY(this->y()));
             break;
         case Haut :
-            line(this->x(),this->y()+this->cote()/2,this->x(),this->y()+this->cote()*9/10);
+            line(fenetre.pixelX(this->x()),
+                 fenetre.pixelY(this->y()+this->cote()/2),
+                 fenetre.pixelX(this->x()),
+                 fenetre.pixelY(this->y()+this->cote()*9/10));
             break;
         case Bas :
-            line(this->x(),this->y()-this->cote()/2,this->x(),this->y()-this->cote()*9/10);
+            line(fenetre.pixelX(this->x()),
+                 fenetre.pixelY(this->y()-this->cote()/2),
+                 fenetre.pixelX(this->x()),
+                 fenetre.pixelY(this->y()-this->cote()*9/10));
             break;
         }
 }
+
+coordLaser BlocLaser::posNextMoveLaser(Echiquier& plateau) const{
+    coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
+    return ret;
+}
+
 
 }

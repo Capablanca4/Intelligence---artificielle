@@ -1,40 +1,32 @@
 #include <iostream>
 #include "Viewer.h"
-#include "CibleHorirontale.h"
-#include "CibleVerticale.h"
-#include "Mur.h"
-#include "BlocLaser.h"
-#include "MiroirGaucheVersHaut.h"
-#include "MiroirGaucheVersBas.h"
-#include "CaseVide.h"
 #include "Echiquier.h"
+#include "Game.h"
 
 int main()
 {
-    ecran::Viewer fenetre{500,700};
+    const int nbligne=20;
+    const int nbcolonne=20;
+    const int cote=40;
+    ecran::Game jeu{nbligne,nbcolonne,cote};
+    jeu.openGame();
+    jeu.test();
+    jeu.draw();
+    jeu.waitUntilMouseCkicked();
+    /*ecran::Viewer fenetre{nbligne*cote,nbcolonne*cote/*+200};
     fenetre.openWindow();
-    /*ecran::CibleHorizontale cible1{250,250,20};
-    //ecran::Laser las1{270,270,20};
-    ecran::MiroirGaucheVersHaut mir1{270,270,20};
-    ecran::MiroirGaucheVersBas mir2{290,270,20};
-    ecran::Mur mur1{290,290,20}; // error ?
-    ecran::BlocLaser Bloc(310,310,20);
-    ecran::CaseVide cas1{330,330,20};
-    Bloc.setDirection(ecran::Gauche);
-    ecran::Laser las1{Bloc.shoot()};
-    las1.move();
-    las1.move();
-    mir1.draw(fenetre);
-    mir2.draw(fenetre);
-    Bloc.draw(fenetre);
-    cible1.draw(fenetre);
-    mur1.draw(fenetre);
-    cas1.draw(fenetre);
-    las1.draw(fenetre);*/
-    ecran::Echiquier plateau{20,20,20};
+    ecran::Echiquier plateau{nbligne,nbcolonne,cote};
+    ecran::Laser las{plateau.coordVersPoint(0),plateau.coordVersPoint(19),cote,ecran::Droite};
+    ecran::MiroirGaucheVersBas mur{plateau.coordVersPoint(8),plateau.coordVersPoint(19),cote};
+    ecran::CibleHorizontale cible{plateau.coordVersPoint(8),plateau.coordVersPoint(0),cote};
+    plateau.setCoordLaser({0,19});
+    plateau.setCase(&las);
+    plateau.setCase(&mur);
+    plateau.setCase(&cible);
+    //plateau.play(fenetre);
     plateau.draw(fenetre);
     fenetre.waitUntilButton();
-    fenetre.closeWindow();
+    fenetre.closeWindow();*/
     return 0;
 }
 

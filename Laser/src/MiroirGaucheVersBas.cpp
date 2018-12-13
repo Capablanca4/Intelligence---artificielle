@@ -1,32 +1,74 @@
 #include "MiroirGaucheVersBas.h"
+#include "Echiquier.h"
+#include <iostream>
 
 namespace ecran {
 
-MiroirGaucheVersBas::MiroirGaucheVersBas(Point& centre,int cote):Case{centre,cote}{}
+MiroirGaucheVersBas::MiroirGaucheVersBas(Point& centre,int cote):
+        Case{centre,cote}{}
 
-MiroirGaucheVersBas::MiroirGaucheVersBas(int x,int y,int cote):Case{x,y,cote}{}
+MiroirGaucheVersBas::MiroirGaucheVersBas(int x,int y,int cote):
+        Case{x,y,cote}{}
 
 MiroirGaucheVersBas::~MiroirGaucheVersBas() {}
 
 void MiroirGaucheVersBas::draw(Viewer& fenetre){
-    line(this->x()-this->cote()/2,this->y()+this->cote()/2,this->x()+this->cote()/2,this->y()-this->cote()/2);
+
+    line(fenetre.pixelX(this->x()-this->cote()/2),
+         fenetre.pixelY(this->y()+this->cote()/2),
+         fenetre.pixelX(this->x()+this->cote()/2),
+         fenetre.pixelY(this->y()-this->cote()/2));
 }
 
-Laser MiroirGaucheVersBas::touch(Laser& las){
-    switch (las.direction()){
+coordLaser MiroirGaucheVersBas::posNextMoveLaser(Echiquier& plateau) const{
+    Laser* las =(Laser*)plateau.plateau()[plateau.coordLas().x][plateau.coordLas().y];
+    switch (las->direction()){
+
         case Gauche :
-            return Laser{this->x(),this->y()-this->cote(),this->cote(),Bas};
-            break;
+            if(plateau.pointVersCoord(this->y())+1>=plateau.nbligne()){
+                coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
+                return ret;}
+            else  {
+                Case* maCase =plateau.plateau()[plateau.pointVersCoord(this->x())][plateau.pointVersCoord(this->y())+1];
+                las->setDirection(Haut);
+                return maCase->posNextMoveLaser(plateau);}
+           break;
+
         case Droite :
-            return Laser{this->x(),this->y()+this->cote(),this->cote(),Haut};
+             if(plateau.pointVersCoord(this->y())-1<0){
+                coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
+                return ret;}
+            else  {
+                Case* maCase =plateau.plateau()[plateau.pointVersCoord(this->x())][plateau.pointVersCoord(this->y())-1];
+                las->setDirection(Bas);
+                return maCase->posNextMoveLaser(plateau);}
             break;
-        case Haut:
-            return Laser{this->x()+this->cote(),this->y(),this->cote(),Droite};
+
+        case Haut :
+            if(plateau.pointVersCoord(this->x())+1>=plateau.nbcolonne()){
+                coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
+                return ret;}
+            else  {
+                Case* maCase =plateau.plateau()[plateau.pointVersCoord(this->x())+1][plateau.pointVersCoord(this->y())];
+                las->setDirection(Gauche);
+                return maCase->posNextMoveLaser(plateau);}
             break;
-        case Bas:
-            return Laser{this->x()-this->cote(),this->y(),this->cote(),Gauche};
+
+        case Bas :
+            if(plateau.pointVersCoord(this->x())-1<0){
+                coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
+                return ret;}
+            else  {
+                Case* maCase =plateau.plateau()[plateau.pointVersCoord(this->x())-1][plateau.pointVersCoord(this->y())];
+                las->setDirection(Droite);
+                return maCase->posNextMoveLaser(plateau);}
             break;
     }
+}
+
+void MiroirGaucheVersBas::transformation(Echiquier& plateau){
+    MiroirGaucheVersHaut* mir = new MiroirGaucheVersHaut{this->x(),this->y(),this->cote()};
+    plateau.setCase(mir);
 }
 
 }

@@ -12,12 +12,9 @@ class Laser:public Case
         virtual ~Laser();
         void setDirection(TDirection direction);
         TDirection direction();
-        void move();
-        void draw(Viewer& fenetre);
-        const bool enMouvement();
+        virtual void draw(Viewer& fenetre) override;
     private:
         TDirection d_direction;
-        bool d_inMove;
 };
 }
 #endif // LASER_H

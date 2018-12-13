@@ -1,4 +1,5 @@
 #include "Case.h"
+#include "Echiquier.h"
 
 namespace ecran{
 
@@ -20,5 +21,17 @@ const int Case::cote(){
 
 void Case::changerCote(const int cote){
     d_cote=cote;}
+
+bool Case::touch(Echiquier& plateau) const {
+    return false ;
+}
+
+coordLaser Case::posNextMoveLaser(Echiquier& plateau) const{
+    coordLaser ret{plateau.pointVersCoord(this->x()),
+                   plateau.pointVersCoord(this->y())};
+    return ret;
+}
+
+void Case::transformation(Echiquier& plateau){}
 
 }

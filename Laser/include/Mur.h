@@ -9,7 +9,7 @@ class Mur:public Case
         virtual ~Mur();
         Mur(Point& centre,int cote);
         Mur(int x,int y,int cote);
-        void draw(Viewer& fenetre);
+        virtual void draw(Viewer& fenetre) override;
 };
 }
 #endif // MUR_H
