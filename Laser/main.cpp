@@ -8,7 +8,9 @@ int main()
     const int nbligne=20;
     const int nbcolonne=20;
     const int cote=40;
-    ecran::Game jeu{nbligne,nbcolonne,cote};
+    const int nbLaser=1;
+    const int maxIter=200;
+    ecran::Game jeu{nbligne,nbcolonne,cote,nbLaser,maxIter};
     jeu.openGame();
     jeu.test();
     jeu.draw();

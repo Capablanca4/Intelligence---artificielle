@@ -4,9 +4,9 @@
 
 namespace ecran{
 
-CibleHorizontale::CibleHorizontale(const Cible& cib):Cible{cib}{}
+CibleHorizontale::CibleHorizontale(Point& centre,int cote):Case{centre,cote}{}
 
-CibleHorizontale::CibleHorizontale(const int x,const int y,const int cote):Cible{x,y,cote} {}
+CibleHorizontale::CibleHorizontale(const int x,const int y,const int cote):Case{x,y,cote} {}
 
 CibleHorizontale::~CibleHorizontale(){}
 
@@ -28,7 +28,7 @@ void CibleHorizontale::draw(Viewer& fenetre){
          fenetre.pixelY(this->y()+this->cote()/2));
 }
 
-bool CibleHorizontale::touch(Echiquier& plateau) const{
+bool CibleHorizontale::touch(Echiquier& plateau,GameStatut& StatutJeu,int n){
     Laser* las =(Laser*)plateau.plateau()[plateau.coordLas().x][plateau.coordLas().y];
     switch (las->direction()){
         case Gauche :
@@ -39,9 +39,11 @@ bool CibleHorizontale::touch(Echiquier& plateau) const{
             break;
         case Haut :
             std::cout << "you win !" <<std::endl ;
+            StatutJeu.setTouchTrue(n);
             break;
         case Bas :
             std::cout << "you win !" <<std::endl ;
+            StatutJeu.setTouchTrue(n);
             break;
     }
     return false;

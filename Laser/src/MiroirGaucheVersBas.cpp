@@ -45,21 +45,21 @@ coordLaser MiroirGaucheVersBas::posNextMoveLaser(Echiquier& plateau) const{
             break;
 
         case Haut :
-            if(plateau.pointVersCoord(this->x())+1>=plateau.nbcolonne()){
-                coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
-                return ret;}
-            else  {
-                Case* maCase =plateau.plateau()[plateau.pointVersCoord(this->x())+1][plateau.pointVersCoord(this->y())];
-                las->setDirection(Gauche);
-                return maCase->posNextMoveLaser(plateau);}
-            break;
-
-        case Bas :
             if(plateau.pointVersCoord(this->x())-1<0){
                 coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
                 return ret;}
             else  {
                 Case* maCase =plateau.plateau()[plateau.pointVersCoord(this->x())-1][plateau.pointVersCoord(this->y())];
+                las->setDirection(Gauche);
+                return maCase->posNextMoveLaser(plateau);}
+            break;
+
+        case Bas :
+            if(plateau.pointVersCoord(this->x())+1>=plateau.nbcolonne()){
+                coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
+                return ret;}
+            else  {
+                Case* maCase =plateau.plateau()[plateau.pointVersCoord(this->x())+1][plateau.pointVersCoord(this->y())];
                 las->setDirection(Droite);
                 return maCase->posNextMoveLaser(plateau);}
             break;

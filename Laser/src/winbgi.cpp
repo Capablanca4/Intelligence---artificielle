@@ -1,2031 +1,901 @@
-#include <windows.h>
-#include <stddef.h>
-#include <stdio.h>
-#include <math.h>
-
-#include "graphics.h"
-
-#define MAX_PAGES 16
-
-static HDC hdc[4];
-
-static HPEN hPen;
-static HRGN hRgn;
-static HFONT hFont;
-static NPLOGPALETTE pPalette;
-static PAINTSTRUCT ps;
-static HWND hWnd;
-static HBRUSH hBrush[USER_FILL+1];
-static HBRUSH hBackgroundBrush;
-
-static HPALETTE hPalette;
-static HBITMAP hBitmap[MAX_PAGES];
-static HBITMAP hPutimageBitmap;
-
-static int timeout_expired;
-
-#define PEN_CACHE_SIZE   8
-#define FONT_CACHE_SIZE  8
-#define BG               16
-#define TIMER_ID         1
-
+// File: winbgi.cpp
+// Written by:
+//      Grant Macklem (Grant.Macklem@colorado.edu)
+//      Gregory Schmelter (Gregory.Schmelter@colorado.edu)
+//      Alan Schmidt (Alan.Schmidt@colorado.edu)
+//      Ivan Stashak (Ivan.Stashak@colorado.edu)
+// CSCI 4830/7818: API Programming
+// University of Colorado at Boulder, Spring 2003
+// http://www.cs.colorado.edu/~main/bgi
 //
-// When XOR or NOT write modes are used for drawing high BG bit is cleared, so
-// drawing colors should be adjusted to preserve this bit
+
+#include <windows.h>            // Provides the Win32 API
+#include <windowsx.h>           // Provides message cracker macros (p. 96)
+#include <stdio.h>              // Provides sprintf
+#include <iostream>             // This is for debug only
+#include <vector>               // MGM: Added for BGI__WindowTable
+#include "winbgim.h"             // External API routines
+#include "winbgitypes.h"        // Internal structures and routines
+
+// The window message-handling function (in WindowThread.cpp)
+LRESULT CALLBACK WndProc( HWND, UINT, WPARAM, LPARAM );
+
+
+// This function is called whenever a process attaches itself to the DLL.
+// Thus, it registers itself in the process' address space.
 //
-#define ADJUSTED_MODE(mode) ((mode) == XOR_PUT || (mode) == NOT_PUT)
-
-int bgiemu_handle_redraw = TRUE;
-int bgiemu_default_mode = VGAHI; //VGAMAX;
-
-static int screen_width;
-static int screen_height;
-static int window_width;
-static int window_height;
-
-static int line_style_cnv[] = {
-    PS_SOLID, PS_DOT, PS_DASHDOT, PS_DASH,
-    PS_DASHDOTDOT /* if user style lines are not supported */
-};
-static int write_mode_cnv[] =
-  {R2_COPYPEN, R2_XORPEN, R2_MERGEPEN, R2_MASKPEN, R2_NOTCOPYPEN};
-static int bitblt_mode_cnv[] =
-  {SRCCOPY, SRCINVERT, SRCPAINT, SRCAND, NOTSRCCOPY};
-
-static int font_weight[] =
+BOOL registerWindowClass( )
 {
-    FW_BOLD,    // DefaultFont
-    FW_NORMAL,  // TriplexFont
-    FW_NORMAL,  // SmallFont
-    FW_NORMAL,  // SansSerifFont
-    FW_NORMAL,  // GothicFont
-    FW_NORMAL,  // ScriptFont
-    FW_NORMAL,  // SimplexFont
-    FW_NORMAL,  // TriplexScriptFont
-    FW_NORMAL,  // ComplexFont
-    FW_NORMAL,  // EuropeanFont
-    FW_BOLD     // BoldFont
-};
+    WNDCLASSEX wcex;                        // The main window class that we create
 
-static int font_family[] =
+    // Set up the properties of the Windows BGI window class and register it
+    wcex.cbSize = sizeof( WNDCLASSEX );     // Size of the strucutre
+    wcex.style  = CS_SAVEBITS | CS_DBLCLKS; // Use default class styles
+    wcex.lpfnWndProc = WndProc;             // The message handling function
+    wcex.cbClsExtra = 0;                    // No extra memory allocation
+    wcex.cbWndExtra = 0;
+    wcex.hInstance = BGI__hInstance;        // HANDLE for this program
+    wcex.hIcon = 0;                         // Use default icon
+    wcex.hIconSm = 0;                       // Default small icon
+    wcex.hCursor = LoadCursor( NULL, IDC_ARROW );       // Set mouse cursor
+    wcex.hbrBackground = GetStockBrush( BLACK_BRUSH );  // Background color
+    wcex.lpszMenuName = 0;                  // Menu identification
+    wcex.lpszClassName = _T( "BGILibrary" );// a c-string name for the window
+
+    if ( RegisterClassEx( &wcex ) == 0 )
+    {
+        showerrorbox( );
+        return FALSE;
+    }
+    return TRUE;
+}
+
+
+// This function unregisters the window class so that it can be registered
+// again if using LoadLibrary and FreeLibrary
+void unregisterWindowClass( )
 {
-    FIXED_PITCH|FF_DONTCARE,     // DefaultFont
-    VARIABLE_PITCH|FF_ROMAN,     // TriplexFont
-    VARIABLE_PITCH|FF_MODERN,    // SmallFont
-    VARIABLE_PITCH|FF_DONTCARE,  // SansSerifFont
-    VARIABLE_PITCH|FF_SWISS,     // GothicFont
-    VARIABLE_PITCH|FF_SCRIPT,    // ScriptFont
-    VARIABLE_PITCH|FF_DONTCARE,  // SimplexFont
-    VARIABLE_PITCH|FF_SCRIPT,    // TriplexScriptFont
-    VARIABLE_PITCH|FF_DONTCARE,  // ComplexFont
-    VARIABLE_PITCH|FF_DONTCARE,  // EuropeanFont
-    VARIABLE_PITCH|FF_DONTCARE   // BoldFont
-  };
+    UnregisterClass( "BGILibrary", BGI__hInstance );
+}
 
-static const char* font_name[] =
+
+// This is the entry point for the DLL
+// MGM: I changed it to a regular function rather than a DLL entry
+// point (since I deleted the DLL).  As such, it is now called
+// by initwindow.
+bool DllMain_MGM( 
+                          HINSTANCE hinstDll,   // Handle to DLL module
+                          DWORD Reason,         // Reason for calling function
+                          LPVOID Reserved       // reserved
+                          )
 {
-    "Console",          // DefaultFont
-    "Times New Roman",  // TriplexFont
-    "Small Fonts",      // SmallFont
-    "MS Sans Serif",    // SansSerifFont
-    "Arial",            // GothicFont
-    "Script",           // ScriptFont
-    "Times New Roman",  // SimplexFont
-    "Script",           // TriplexScriptFont
-    "Courier New",      // ComplexFont
-    "Times New Roman",  // EuropeanFont
-    "Courier New Bold", // BoldFont
-};
+    // MGM: Add a static variable so that this work is done but once.
+    static bool called = false;
+    if (called) return true;
+    called = true;
 
-static int text_halign_cnv[] = {TA_LEFT, TA_CENTER, TA_RIGHT};
-static int text_valign_cnv[] = {TA_BOTTOM, TA_BASELINE, TA_TOP};
+    switch ( Reason )
+    {
+    case DLL_PROCESS_ATTACH:
+        BGI__hInstance = hinstDll;                   // Set the global hInstance variable
+        return registerWindowClass( );          // Register the window class for this process
+        break;
+    case DLL_PROCESS_DETACH:
+        unregisterWindowClass( );
+        break;
+    }
+    return TRUE;        // Ignore other initialization cases
+}
 
-static palettetype current_palette;
 
-static struct { int width; int height; } font_metrics[][11] = {
-{{0,0},{8,8},{16,16},{24,24},{32,32},{40,40},{48,48},{56,56},{64,64},{72,72},{80,80}}, // DefaultFont
-{{0,0},{13,18},{14,20},{16,23},{22,31},{29,41},{36,51},{44,62},{55,77},{66,93},{88,124}}, // TriplexFont
-{{0,0},{3,5},{4,6},{4,6},{6,9},{8,12},{10,15},{12,18},{15,22},{18,27},{24,36}}, // SmallFont
-{{0,0},{11,19},{12,21},{14,24},{19,32},{25,42},{31,53},{38,64},{47,80},{57,96},{76,128}}, // SansSerifFont
-{{0,0},{13,19},{14,21},{16,24},{22,32},{29,42},{36,53},{44,64},{55,80},{66,96},{88,128}}, // GothicFont
-// I am not sure about metrics of following fonts
-{{0,0},{11,19},{12,21},{14,24},{19,32},{25,42},{31,53},{38,64},{47,80},{57,96},{76,128}}, // ScriptFont
-{{0,0},{11,19},{12,21},{14,24},{19,32},{25,42},{31,53},{38,64},{47,80},{57,96},{76,128}}, // SimplexFont
-{{0,0},{13,18},{14,20},{16,23},{22,31},{29,41},{36,51},{44,62},{55,77},{66,93},{88,124}}, // TriplexScriptFont
-{{0,0},{11,19},{12,21},{14,24},{19,32},{25,42},{31,53},{38,64},{47,80},{57,96},{76,128}}, // ComplexFont
-{{0,0},{11,19},{12,21},{14,24},{19,32},{25,42},{31,53},{38,64},{47,80},{57,96},{76,128}}, // EuropeanFont
-{{0,0},{11,19},{12,21},{14,24},{19,32},{25,42},{31,53},{38,64},{47,80},{57,96},{76,128}} // BoldFont
-};
 
-struct BGIimage {
-    short width;
-    short height;
-    int   reserved; // let bits be aligned to DWORD boundary
-    char  bits[1];
-};
+void showerrorbox( const char* msg )
+{
+    LPVOID lpMsgBuf;
 
-struct BGIbitmapinfo {
-    BITMAPINFOHEADER hdr;
-    short            color_table[16];
-};
+    if ( msg == NULL )
+    {
+        // This code is taken from the MSDN help for FormatMessage
+        FormatMessage(
+            FORMAT_MESSAGE_ALLOCATE_BUFFER |
+            FORMAT_MESSAGE_FROM_SYSTEM |
+            FORMAT_MESSAGE_IGNORE_INSERTS,          // Formatting options
+            NULL,                                   // Location of message definiton
+            GetLastError( ),                        // Message ID
+            MAKELANGID( LANG_NEUTRAL, SUBLANG_DEFAULT ), // Default language
+            (LPTSTR) &lpMsgBuf,                     // Pointer to buffer
+            0,                                      // Minimum size of buffer
+            NULL );
 
-static BGIbitmapinfo bminfo = {
-    {sizeof(BITMAPINFOHEADER), 0, 0, 1, 4, BI_RGB}
-};
+        MessageBox( NULL, (LPCTSTR)lpMsgBuf, "Error", MB_OK | MB_ICONERROR );
 
-//static int* image_bits;
+        // Free the buffer
+        LocalFree( lpMsgBuf );
+    }
+    else
+        MessageBox( NULL, msg, "Error", MB_OK | MB_ICONERROR );
+}
 
-static int normal_font_size[] = { 1, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4};
 
-static linesettingstype line_settings;
-static fillsettingstype fill_settings;
+/*****************************************************************************
+*
+*   The actual API calls are implemented below
+*   MGM: Rearranged order of functions by trial-and-error until internal
+*   error in g++ 3.2.3 disappeared.
+*****************************************************************************/
 
-static int color;
-static int bkcolor;
-static int text_color;
 
-static int aspect_ratio_x, aspect_ratio_y;
+void graphdefaults( )
+{
+    WindowData *pWndData = BGI__GetWindowDataPtr( );
+    HPEN hPen;      // The default drawing pen
+    HBRUSH hBrush;  // The default filling brush
+    int bgi_color;                      // A bgi color number
+    COLORREF actual_color;              // The color that's actually put on the screen
+    HDC hDC;
 
-static textsettingstype text_settings;
+    // TODO: Do this for each DC
 
-static viewporttype view_settings;
+    // Set viewport to the entire screen and move current position to (0,0)
+    setviewport( 0, 0, pWndData->width, pWndData->height, 0 );
+    pWndData->mouse.x = 0;
+    pWndData->mouse.y = 0;
 
-static int font_mul_x, font_div_x, font_mul_y, font_div_y;
+    // Turn on autorefreshing
+    pWndData->refreshing = true;
+    
+    // MGM: Grant suggested the following colors, but I have changed
+    // them so that they will be consistent on any 16-color VGA
+    // display.  It's also important to use 255-255-255 for white
+    // to match some stock tools such as the stock WHITE brush
+    /*
+    BGI__Colors[0] = RGB( 0, 0, 0 );         // Black
+    BGI__Colors[1] = RGB( 0, 0, 168);        // Blue
+    BGI__Colors[2] = RGB( 0, 168, 0 );       // Green
+    BGI__Colors[3] = RGB( 0, 168, 168 );     // Cyan
+    BGI__Colors[4] = RGB( 168, 0, 0 );       // Red
+    BGI__Colors[5] = RGB( 168, 0, 168 );     // Magenta
+    BGI__Colors[6] = RGB( 168, 84, 0 );      // Brown
+    BGI__Colors[7] = RGB( 168, 168, 168 );   // Light Gray
+    BGI__Colors[8] = RGB( 84, 84, 84 );      // Dark Gray
+    BGI__Colors[9] = RGB( 84, 84, 252 );     // Light Blue
+    BGI__Colors[10] = RGB( 84, 252, 84 );    // Light Green
+    BGI__Colors[11] = RGB( 84, 252, 252 );   // Light Cyan
+    BGI__Colors[12] = RGB( 252, 84, 84 );    // Light Red
+    BGI__Colors[13] = RGB( 252, 84, 252 );   // Light Magenta
+    BGI__Colors[14] = RGB( 252, 252, 84 );   // Yellow
+    BGI__Colors[15] = RGB( 252, 252, 252 );  // White
+    for (bgi_color = 0; bgi_color <= WHITE; bgi_color++)
+    {
+	putpixel(0, 0, bgi_color);
+	actual_color = GetPixel(hDC, 0, 0);
+	BGI__Colors[bgi_color] = actual_color;
+    }
+    */
 
-static enum { ALIGN_NOT_SET, UPDATE_CP, NOT_UPDATE_CP } text_align_mode;
+    BGI__Colors[0] = RGB( 0, 0, 0 );         // Black
+    BGI__Colors[1] = RGB( 0, 0, 128);        // Blue
+    BGI__Colors[2] = RGB( 0, 128, 0 );       // Green
+    BGI__Colors[3] = RGB( 0, 128, 128 );     // Cyan
+    BGI__Colors[4] = RGB( 128, 0, 0 );       // Red
+    BGI__Colors[5] = RGB( 128, 0, 128 );     // Magenta
+    BGI__Colors[6] = RGB( 128, 128, 0 );     // Brown
+    BGI__Colors[7] = RGB( 192, 192, 192 );   // Light Gray
+    BGI__Colors[8] = RGB( 128, 128, 128 );   // Dark Gray
+    BGI__Colors[9] = RGB( 128, 128, 255 );   // Light Blue
+    BGI__Colors[10] = RGB( 128, 255, 128 );  // Light Green
+    BGI__Colors[11] = RGB( 128, 255, 255 );  // Light Cyan
+    BGI__Colors[12] = RGB( 255, 128, 128 );  // Light Red
+    BGI__Colors[13] = RGB( 255, 128, 255 );  // Light Magenta
+    BGI__Colors[14] = RGB( 255, 255, 0 );  // Yellow
+    BGI__Colors[15] = RGB( 255, 255, 255 );  // White
 
-#define BORDER_WIDTH  8
-#define BORDER_HEIGHT 27
+    // Set background color to default (black)
+    setbkcolor( BLACK );
 
-static int write_mode;
+    // Set drawing color to default (white)
+    pWndData->drawColor = WHITE;
+    // Set fill style and pattern to default (white solid)
+    pWndData->fillInfo.pattern = SOLID_FILL;
+    pWndData->fillInfo.color = WHITE;
 
-static int visual_page;
-static int active_page;
+    hDC = BGI__GetWinbgiDC( );
+    // Reset the pen and brushes for each DC
+    for ( int i = 0; i < MAX_PAGES; i++ )
+    {
+	// Using Stock stuff is more efficient.
+        // Create the default pen for drawing in the window.
+        hPen = GetStockPen( WHITE_PEN );
+        // Select this pen into the DC and delete the old pen.
+        DeletePen( SelectPen( pWndData->hDC[i], hPen ) );
 
-static arccoordstype ac;
+        // Create the default brush for painting in the window.
+        hBrush = GetStockBrush( WHITE_BRUSH );
+        // Select this brush into the DC and delete the old brush.
+        DeleteBrush( SelectBrush( pWndData->hDC[i], hBrush ) );
 
-class char_queue {
-private :
-  int d_maxsize;
-  int d_put,d_get;
-  char *d_buf;
-public :
-  char_queue(int size=256) : d_maxsize(size), d_put(0), d_get(0)
-  {  d_buf=new char[d_maxsize]; }
-  ~char_queue()
-  {  delete[] d_buf; }
+	// Set the default text color for each page
+	SetTextColor(pWndData->hDC[i], converttorgb(WHITE));
+    }
+    ReleaseMutex(pWndData->hDCMutex);
 
-  bool is_empty() const { return d_put==d_get; }
-  void put(char c)
-  {
-	d_buf[d_put]=c;
-	if (d_put==d_maxsize)  //no more place
-      d_get=(d_get+1)%d_maxsize;
-    d_put=(d_put+1)%d_maxsize;
-  }
-  char get()
-  {
-    char c=d_buf[d_get];
-	d_get=(d_get+1)%d_maxsize;
+    // Set text font and justification to default
+    pWndData->textInfo.horiz = LEFT_TEXT;
+    pWndData->textInfo.vert = TOP_TEXT;
+    pWndData->textInfo.font = DEFAULT_FONT;
+    pWndData->textInfo.direction = HORIZ_DIR;
+    pWndData->textInfo.charsize = 1;
+
+    // set this something that it can never be to force set_align to be called
+    pWndData->alignment = 2;
+
+    pWndData->t_scale[0] = 1; // multx
+    pWndData->t_scale[1] = 1; // divx
+    pWndData->t_scale[2] = 1; // multy
+    pWndData->t_scale[3] = 1; // divy
+
+    // Set the error code to Ok: There is no error
+    pWndData->error_code = grOk;
+
+    // Line style as well?
+    pWndData->lineInfo.linestyle = SOLID_LINE;
+    pWndData->lineInfo.thickness = NORM_WIDTH;
+
+    // Set the default active and visual page
+    if ( pWndData->DoubleBuffer )
+    {
+        pWndData->ActivePage = 1;
+        pWndData->VisualPage = 0;
+    }
+    else
+    {
+        pWndData->ActivePage = 0;
+        pWndData->VisualPage = 0;
+    }
+
+    // Set the aspect ratios.  Unless Windows is doing something funky,
+    // these should not need to be changed by the user to produce geometrically
+    // correct shapes (circles, squares, etc).
+    pWndData->x_aspect_ratio = 10000;
+    pWndData->y_aspect_ratio = 10000;
+}
+
+using namespace std;
+// The initwindow function is typicaly the first function called by the
+// application.  It will create a separate thread for each window created.
+// This thread is responsible for creating the window and processing all the
+// messages.  It returns a positive integer value which the user can then
+// use whenever he needs to reference the window.
+// RETURN VALUE: If the window is successfully created, a nonnegative integer
+//                  uniquely identifing the window.
+//               On failure, -1.
+//
+int initwindow
+( int width, int height, const char* title, int left, int top, bool dbflag , bool closeflag)
+{
+    HANDLE hThread;                     // Handle to the message pump thread
+    int index;                          // Index of current window in the table
+    HANDLE objects[2];                  // Handle to objects (thread and event) to ensure proper creation
+    int code;                           // Return code of thread wait function
+
+    // MGM: Call the DllMain, which used to be the DLL entry point.
+    if (!DllMain_MGM(
+        NULL,
+        DLL_PROCESS_ATTACH,
+        NULL))
+        return -1;
+
+    WindowData* pWndData = new WindowData;
+    // Check if new failed
+    if ( pWndData == NULL )
+        return -1;
+
+    // Todo: check to make sure the events are created successfully
+    pWndData->key_waiting = CreateEvent( NULL, FALSE, FALSE, NULL );
+    pWndData->WindowCreated = CreateEvent( NULL, FALSE, FALSE, NULL );
+    pWndData->width = width;
+    pWndData->height = height;
+    pWndData->initleft = left;
+    pWndData->inittop = top;
+    pWndData->title = title; // Converts to a string object
+    
+    hThread = CreateThread( NULL,                   // Security Attributes (use default)
+                            0,                      // Stack size (use default)
+                            BGI__ThreadInitWindow,  // Start routine
+                            (LPVOID)pWndData,       // Thread specific parameter
+                            0,                      // Creation flags (run immediately)
+                            &pWndData->threadID );  // Thread ID
+
+    // Check if the message pump thread was created
+    if ( hThread == NULL )
+    {
+        showerrorbox( );
+        delete pWndData;
+        return -1;
+    }
+
+    // Create an array of events to wait for
+    objects[0] = hThread;
+    objects[1] = pWndData->WindowCreated;
+    // We'll either wait to be signaled that the window was created
+    // successfully or the thread will terminate and we'll have some problem.
+    code = WaitForMultipleObjects( 2,           // Number of objects to wait on
+                                   objects,     // Array of objects
+                                   FALSE,       // Whether all objects must be signaled
+                                   INFINITE );  // How long to wait before timing out
+
+    switch( code )
+    {
+    case WAIT_OBJECT_0:
+        // Thread terminated without creating the window
+        delete pWndData;
+        return -1;
+        break;
+    case WAIT_OBJECT_0 + 1:
+        // Successfully running
+        break;
+    }
+
+    // Set index to the next available position
+    index = BGI__WindowCount;
+    // Increment the count
+    ++BGI__WindowCount;
+    // Store the window in the next position of the vector
+    BGI__WindowTable.push_back(pWndData->hWnd);
+    // Set the current window to the newly created window
+    BGI__CurrentWindow = index;
+
+    // Set double-buffering and close behavior
+    pWndData->DoubleBuffer = dbflag;
+    pWndData->CloseBehavior = closeflag;
+
+    // Set the bitmap info struct to NULL
+    pWndData->pbmpInfo = NULL; 
+
+    // Set up the defaults for the window
+    graphdefaults( );
+
+    // MGM: Draw diagonal line since otherwise BitBlt into window doesn't work.
+    setcolor(BLACK);
+    line( 0, 0, width-1, height-1 );
+    // MGM: The black rectangle is because on my laptop, the background
+    // is not automatically reset to black when the window opens.
+    setfillstyle(SOLID_FILL, BLACK);
+    bar( 0, 0, width-1, height-1 );
+    // MGM: Reset the color and fillstyle to the default for a new window.
+    setcolor(WHITE);
+    setfillstyle(SOLID_FILL, WHITE);
+
+    // Everything went well!  Return the window index to the user.
+    return index;
+}
+
+
+void closegraph(int wid)
+{
+    if (wid == CURRENT_WINDOW)
+	closegraph(BGI__CurrentWindow);
+    else if (wid == ALL_WINDOWS)
+    {
+	for ( int i = 0; i < BGI__WindowCount; i++ )
+	    closegraph(i);
+    }
+    else if (wid >= 0 && wid <= BGI__WindowCount && BGI__WindowTable[wid] != NULL)
+    {
+        // DestroyWindow cannot delete a window created by another thread.
+        // Thus, use SendMessage to close the requested window.
+	// Destroying the window causes cls_OnDestroy to be called,
+	// releasing any dynamic memory that's being used by the window.
+	// The WindowData structure is released at the end of BGI__ThreadInitWindow,
+	// which is reached when the message loop of BGI__ThreadInitWindow get WM_QUIT.
+        SendMessage( BGI__WindowTable[wid], WM_DESTROY, 0, 0 );
+
+	// Remove the HWND from the BGI__WindowTable vector:
+	BGI__WindowTable[wid] = NULL;
+
+	// Reset the global BGI__CurrentWindow if needed:
+	if (BGI__CurrentWindow == wid)
+	    BGI__CurrentWindow = NO_CURRENT_WINDOW;
+    }
+}
+
+
+// This fuction detects the graphics driver and returns the highest resolution
+// mode possible.  For WinBGI, this is always VGA/VGAHI
+//
+void detectgraph( int *graphdriver, int *graphmode )
+{
+    *graphdriver = VGA;
+    *graphmode = VGAHI;
+}
+
+
+// This function returns the aspect ratio of the current window.  Unless there
+// is something weird going on with Windows resolutions, these quantities
+// will be equal and correctly proportioned geometric shapes will result.
+//
+void getaspectratio( int *xasp, int *yasp )
+{
+    WindowData *pWndData = BGI__GetWindowDataPtr( );
+    *xasp = pWndData->x_aspect_ratio;
+    *yasp = pWndData->y_aspect_ratio;
+}
+
+
+// This function will return the next character waiting to be read in the
+// window's keyboard buffer
+//
+int getch( )
+{
+    char c;
+    WindowData *pWndData = BGI__GetWindowDataPtr( );
+
+    // TODO: Start critical section
+    // check queue empty
+    // end critical section
+
+    if ( pWndData->kbd_queue.empty( ) )
+        WaitForSingleObject( pWndData->key_waiting, INFINITE );
+    else
+    // Make sure the event is not signaled.  It will remain signaled until a
+    // thread is woken up by it.  This could cause problems if the queue was
+    // not empty and we got characters from it, never having to wait.  If the
+	// queue then becomes empty, the WaitForSingleObjectX will immediately
+    // return since it's still signaled.  If no key was pressed, this would
+    // obviously be an error.
+        ResetEvent( pWndData->key_waiting );
+
+    // TODO: Start critical section
+    // access queue
+    // end critical section
+
+    c = pWndData->kbd_queue.front( );             // Obtain the next element in the queue
+    pWndData->kbd_queue.pop( );                   // Remove the element from the queue
+
     return c;
-  }
-};
-
-static char_queue kbd_queue;
-
-//rajouté : queue pour les evenements clics de souris
-
-class eventmouse_queue {
-private :
-  int d_maxsize;
-  int d_put,d_get;
-  int *d_bufx,*d_bufy;
-public :
-  eventmouse_queue(int size=256) : d_maxsize(size), d_put(0), d_get(0)
-  {  d_bufx=new int[d_maxsize];d_bufy=new int[d_maxsize]; }
-  ~eventmouse_queue()
-  {  delete[] d_bufx;delete[] d_bufy; }
-
-  bool is_empty() const { return d_put==d_get; }
-  void put(POINTS pt)
-  {
-	d_bufx[d_put]=pt.x;d_bufy[d_put]=pt.y;
-	if (d_put==d_maxsize)  //no more place
-      d_get=(d_get+1)%d_maxsize;
-    d_put=(d_put+1)%d_maxsize;
-  }
-  void get(int& x,int& y)
-  {
-    x=d_bufx[d_get];y=d_bufy[d_get];
-	d_get=(d_get+1)%d_maxsize;
-  }
-};
-
-static eventmouse_queue mouse_queue;
-
-inline int convert_userbits(DWORD buf[32], unsigned pattern)
-{
-    int i = 0, j;
-    pattern &= 0xFFFF;
-
-    while (true) {
-	for (j = 0; pattern & 1; j++) pattern >>= 1;
-	buf[i++] = j;
-	if (pattern == 0) {
-	    buf[i++] = 16 - j;
-	    return i;
-	}
-	for (j = 0; !(pattern & 1); j++) pattern >>= 1;
-	buf[i++] = j;
-    }
 }
 
 
-class l2elem {
-  public:
-    l2elem* next;
-    l2elem* prev;
-
-    void link_after(l2elem* after) {
-	(next = after->next)->prev = this;
-	(prev = after)->next = this;
-    }
-    void unlink() {
-	prev->next = next;
-	next->prev = prev;
-    }
-    void prune() {
-	next = prev = this;
-    }
-};
-
-class l2list : public l2elem {
-  public:
-    l2list() { prune(); }
-};
-
-class pen_cache : public l2list {
-    class pen_cache_item : public l2elem {
-      public:
-    	HPEN pen;
-        int  color;
-	int  width;
-	int  style;
-	unsigned pattern;
-    };
-    pen_cache_item* free;
-    pen_cache_item  cache[PEN_CACHE_SIZE];
-
-  public:
-    pen_cache() {
-	for (int i = 0; i < PEN_CACHE_SIZE-1; i++) {
-	    cache[i].next = &cache[i+1];
-	}
-	cache[PEN_CACHE_SIZE-1].next = NULL;
-	free = cache;
-    }
-    void select(int color)
-    {
-	for (l2elem* elem = next; elem != this; elem = elem->next) {
-	    pen_cache_item* ci = (pen_cache_item*)elem;
-	    if (ci->color == color &&
-		ci->style == line_settings.linestyle &&
-		ci->width == line_settings.thickness &&
-		(line_settings.linestyle != USERBIT_LINE
-		 || line_settings.upattern == ci->pattern))
-	    {
-		ci->unlink(); // LRU discipline
-		ci->link_after(this);
-
-		if (hPen != ci->pen) {
-		    hPen = ci->pen;
-		    SelectObject(hdc[0], hPen);
-		    SelectObject(hdc[1], hPen);
-		}
-		return;
-	    }
-	}
-	hPen = NULL;
-	if (line_settings.linestyle == USERBIT_LINE) {
-	    LOGBRUSH lb;
-	    lb.lbColor = PALETTEINDEX(color);
-	    lb.lbStyle = BS_SOLID;
-	    DWORD style[32];
-	    hPen = ExtCreatePen(PS_GEOMETRIC|PS_USERSTYLE,
-				line_settings.thickness, &lb,
-				convert_userbits(style,line_settings.upattern),
-				style);
-	}
-	if (hPen == NULL) {
-	    hPen = CreatePen(line_style_cnv[line_settings.linestyle],
-			     line_settings.thickness,
-			     PALETTEINDEX(color));
-	}
-	SelectObject(hdc[0], hPen);
-	SelectObject(hdc[1], hPen);
-
-	pen_cache_item* p;
-	if (free == NULL) {
-	    p = (pen_cache_item*)prev;
-	    p->unlink();
-	    DeleteObject(p->pen);
-	} else {
-	    p = free;
-	    free = (pen_cache_item*)p->next;
-	}
-	p->pen   = hPen;
-	p->color = color;
-	p->width = line_settings.thickness;
-	p->style = line_settings.linestyle;
-	p->pattern = line_settings.upattern;
-	p->link_after(this);
-    }
-};
-
-
-static pen_cache pcache;
-
-
-
-class font_cache : public l2list {
-    class font_cache_item : public l2elem {
-      public:
-    	HFONT font;
-        int   type;
-	int   direction;
-	int   width, height;
-    };
-    font_cache_item* free;
-    font_cache_item  cache[FONT_CACHE_SIZE];
-
-  public:
-    font_cache() {
-	for (int i = 0; i < FONT_CACHE_SIZE-1; i++) {
-	    cache[i].next = &cache[i+1];
-	}
-	cache[FONT_CACHE_SIZE-1].next = NULL;
-	free = cache;
-    }
-    void select(int type, int direction, int width, int height)
-    {
-	for (l2elem* elem = next; elem != this; elem = elem->next) {
-	    font_cache_item* ci = (font_cache_item*)elem;
-	    if (ci->type == type &&
-		ci->direction == direction &&
-		ci->width == width &&
-		ci->height == height)
-	    {
-		ci->unlink();
-		ci->link_after(this);
-
-		if (hFont != ci->font) {
-		    hFont = ci->font;
-		    SelectObject(hdc[0], hFont);
-		    SelectObject(hdc[1], hFont);
-		}
-		return;
-	    }
-	}
-	hFont = CreateFont(-height,
-			   width,
-			   direction*900,
-			   (direction&1)*900,
-			   font_weight[type],
-			   FALSE,
-			   FALSE,
-			   FALSE,
-			   DEFAULT_CHARSET,
-			   OUT_DEFAULT_PRECIS,
-			   CLIP_DEFAULT_PRECIS,
-			   DEFAULT_QUALITY,
-			   font_family[type],
-			   font_name[type]);
-	SelectObject(hdc[0], hFont);
-	SelectObject(hdc[1], hFont);
-
-	font_cache_item* p;
-	if (free == NULL) {
-	    p = (font_cache_item*)prev;
-	    p->unlink();
-	    DeleteObject(p->font);
-	} else {
-	    p = free;
-	    free = (font_cache_item*)p->next;
-	}
-	p->font = hFont;
-	p->type = type;
-	p->width = width;
-	p->height = height;
-	p->direction = direction;
-	p->link_after(this);
-    }
-};
-
-
-static font_cache fcache;
-
-
-#define FLAGS         PC_NOCOLLAPSE
-#define PALETTE_SIZE  256
-
-static PALETTEENTRY BGIcolor[16] = {
-{ 0, 0, 0, FLAGS },
-{ 0, 0, 255, FLAGS },
-{ 0, 255, 0, FLAGS },
-{ 0, 255, 255, FLAGS },
-{ 255, 0, 0, FLAGS },
-{ 255, 0, 255, FLAGS },
-{ 166, 87, 31, FLAGS },
-{ 208, 173, 143, FLAGS },
-{ 100, 79, 79, FLAGS },
-{ 173, 216, 230, FLAGS },
-{ 32, 178, 170, FLAGS },
-{ 224, 255, 255, FLAGS },
-{ 240, 128, 128, FLAGS },
-{ 219, 112, 147, FLAGS },
-{ 255, 255, 0, FLAGS },
-{ 255, 255, 255, FLAGS }
-};
-
-static PALETTEENTRY BGIpalette[16];
-
-static short SolidBrushBitmap[8] =
-  {~0xFF, ~0xFF, ~0xFF, ~0xFF, ~0xFF, ~0xFF, ~0xFF, ~0xFF};
-static short LineBrushBitmap[8] =
-  {~0x00, ~0x00, ~0x00, ~0x00, ~0x00, ~0x00, ~0x00, ~0xFF};
-static short LtslashBrushBitmap[8] =
-  {~0x01, ~0x02, ~0x04, ~0x08, ~0x10, ~0x20, ~0x40, ~0x80};
-static short SlashBrushBitmap[8] =
-  {~0x81, ~0x03, ~0x06, ~0x0C, ~0x18, ~0x30, ~0x60, ~0xC0};
-static short BkslashBrushBitmap[8] =
-  {~0xC0, ~0x60, ~0x30, ~0x18, ~0x0C, ~0x06, ~0x03, ~0x81};
-static short LtbkslashBrushBitmap[8] =
-  {~0x80, ~0x40, ~0x20, ~0x10, ~0x08, ~0x04, ~0x02, ~0x01};
-static short HatchBrushBitmap[8] =
-  {~0x01, ~0x01, ~0x01, ~0x01, ~0x01, ~0x01, ~0x01, ~0xFF};
-static short XhatchBrushBitmap[8] =
-  {~0x81, ~0x42, ~0x24, ~0x18, ~0x18, ~0x24, ~0x42, ~0x81};
-static short InterleaveBrushBitmap[8] =
-  {~0x55, ~0xAA, ~0x55, ~0xAA, ~0x55, ~0xAA, ~0x55, ~0xAA};
-static short WidedotBrushBitmap[8] =
-  {~0x00, ~0x00, ~0x00, ~0x00, ~0x00, ~0x00, ~0x00, ~0x01};
-static short ClosedotBrushBitmap[8] =
-  {~0x44, ~0x00, ~0x11, ~0x00, ~0x44, ~0x00, ~0x11, ~0x00};
-
-char* grapherrormsg(int code) {
-    static char buf[256];
-    FormatMessage(FORMAT_MESSAGE_FROM_SYSTEM,
-    	          NULL, code, 0,
-    	          buf, sizeof buf, NULL);
-    return buf;
-}
-
-static int gdi_error_code;
-
-int graphresult()
-{
-    return gdi_error_code;
-}
-
-void setcolor(int c)
-{
-    c &= MAXCOLORS;
-    color = c;
-    SetTextColor(hdc[0], PALETTEINDEX(c+BG));
-    SetTextColor(hdc[1], PALETTEINDEX(c+BG));
-}
-
-int getmaxcolor()
-{
-    return WHITE;
-}
-
-int getmaxmode()
-{
-    return VGAMAX;
-}
-
-char* getmodename(int mode)
-{
-    static char mode_str[32];
-    sprintf(mode_str, "%d x %d %s", window_width, window_height,
-	    mode < 2 ? "EGA" : "VGA");
-    return mode_str;
-}
-
-int getx()
-{
-    POINT pos;
-    GetCurrentPositionEx(hdc[active_page == visual_page ? 0 : 1], &pos);
-    return pos.x;
-}
-
-int gety()
-{
-    POINT pos;
-    GetCurrentPositionEx(hdc[active_page == visual_page ? 0 : 1], &pos);
-    return pos.y;
-}
-
-int getmaxx()
-{
-    return window_width-1;
-}
-
-int getmaxy()
-{
-    return window_height-1;
-}
-
-
-int getcolor()
-{
-    return color;
-}
-
-const char* getdrivername()
+// This function returns the name of the current driver in use.  For WinBGI,
+// this is always "EGAVGA"
+//
+char *getdrivername( )
 {
     return "EGAVGA";
 }
 
-void setlinestyle(int style, unsigned int pattern, int thickness)
-{
-    line_settings.linestyle = style;
-    line_settings.thickness = thickness;
-    line_settings.upattern  = pattern;
-}
 
-void getlinesettings(linesettingstype* ls)
+// This function gets the current graphics mode.  For WinBGI, this is always
+// VGAHI
+//
+int getgraphmode( )
 {
-    *ls = line_settings;
-}
-
-void setwritemode(int mode)
-{
-    write_mode = mode;
-}
-
-void setpalette(int index, int color)
-{
-    color &= MAXCOLORS;
-    BGIpalette[index] = BGIcolor[color];
-    current_palette.colors[index] = color;
-    SetPaletteEntries(hPalette, BG+index, 1, &BGIpalette[index]);
-    RealizePalette(hdc[0]);
-    if (index == 0) {
-	bkcolor = 0;
-    }
-}
-
-void setrgbpalette(int index, int red, int green, int blue)
-{
-    BGIpalette[index].peRed = red & 0xFC;
-    BGIpalette[index].peGreen = green & 0xFC;
-    BGIpalette[index].peBlue = blue & 0xFC;
-    SetPaletteEntries(hPalette, BG+index, 1, &BGIpalette[index]);
-    RealizePalette(hdc[0]);
-    if (index == 0) {
-	bkcolor = 0;
-    }
-}
-
-void setallpalette(palettetype* pal)
-{
-    for (int i = 0; i < pal->size; i++) {
-	current_palette.colors[i] = pal->colors[i] & MAXCOLORS;
-	BGIpalette[i] = BGIcolor[pal->colors[i] & MAXCOLORS];
-    }
-    SetPaletteEntries(hPalette, BG, pal->size, BGIpalette);
-    RealizePalette(hdc[0]);
-    bkcolor = 0;
-}
-
-palettetype* getdefaultpalette()
-{
-    static palettetype default_palette = { 16,
-      { BLACK, BLUE, GREEN, CYAN, RED, MAGENTA, BROWN, LIGHTGRAY, DARKGRAY,
-        LIGHTBLUE, LIGHTGREEN, LIGHTCYAN, LIGHTRED, LIGHTMAGENTA, YELLOW, WHITE
-      }};
-    return &default_palette;
-}
-
-void getpalette(palettetype* pal)
-{
-    *pal = current_palette;
-}
-
-int getpalettesize()
-{
-    return MAXCOLORS+1;
-}
-
-void setbkcolor(int color)
-{
-    color &= MAXCOLORS;
-    BGIpalette[0] = BGIcolor[color];
-    SetPaletteEntries(hPalette, BG, 1, &BGIpalette[0]);
-    RealizePalette(hdc[0]);
-    bkcolor = color;
-}
-
-int getbkcolor()
-{
-    return bkcolor;
-}
-
-void setfillstyle(int style, int color)
-{
-    fill_settings.pattern = style;
-    fill_settings.color = color & MAXCOLORS;
-    SelectObject(hdc[0], hBrush[style]);
-    SelectObject(hdc[1], hBrush[style]);
-}
-
-void getfillsettings(fillsettingstype* fs)
-{
-    *fs = fill_settings;
-}
-
-static fillpatterntype userfillpattern =
-{-1, -1, -1, -1, -1, -1, -1, -1};
-
-void setfillpattern(char const* upattern, int color)
-{
-    static HBITMAP hFillBitmap;
-    static short bitmap_data[8];
-    for (int i = 0; i < 8; i++) {
-	bitmap_data[i] = (unsigned char)~upattern[i];
-	userfillpattern[i] = upattern[i];
-    }
-    HBITMAP h = CreateBitmap(8, 8, 1, 1, bitmap_data);
-    HBRUSH hb = CreatePatternBrush(h);
-    DeleteObject(hBrush[USER_FILL]);
-    if (hFillBitmap) {
-	DeleteObject(hFillBitmap);
-    }
-    hFillBitmap = h;
-    hBrush[USER_FILL] = hb;
-    SelectObject(hdc[0], hb);
-    SelectObject(hdc[1], hb);
-    fill_settings.color = color & MAXCOLORS;
-    fill_settings.pattern = USER_FILL;
-}
-
-void getfillpattern(fillpatterntype fp)
-{
-    memcpy(fp, userfillpattern, sizeof userfillpattern);
+    return VGAHI;
 }
 
 
-inline void select_fill_color()
+// This function returns the maximum mode the current graphics driver can
+// display.  For WinBGI, this is always VGAHI.
+//
+int getmaxmode( )
 {
-    if (text_color != fill_settings.color) {
-	text_color = fill_settings.color;
-	SetTextColor(hdc[0], PALETTEINDEX(text_color+BG));
-	SetTextColor(hdc[1], PALETTEINDEX(text_color+BG));
-    }
-}
-
-void setusercharsize(int multx, int divx, int multy, int divy)
-{
-    font_mul_x = multx;
-    font_div_x = divx;
-    font_mul_y = multy;
-    font_div_y = divy;
-    text_settings.charsize = 0;
-}
-
-void moveto(int x, int y)
-{
-    if (bgiemu_handle_redraw || visual_page != active_page) {
-	MoveToEx(hdc[1], x, y, NULL);
-    }
-    if (visual_page == active_page) {
-	MoveToEx(hdc[0], x, y, NULL);
-    }
-}
-
-void moverel(int dx, int dy)
-{
-    POINT pos;
-    GetCurrentPositionEx(hdc[1], &pos);
-    moveto(pos.x + dx, pos.y + dy);
-}
-
-static void select_font()
-{
-    if (text_settings.charsize == 0) {
-	fcache.select(text_settings.font, text_settings.direction,
-		      font_metrics[text_settings.font]
-		                  [normal_font_size[text_settings.font]].width
-		                  *font_mul_x/font_div_x,
-		      font_metrics[text_settings.font]
-		                  [normal_font_size[text_settings.font]].height
-		                  *font_mul_y/font_div_y);
-    } else {
-	fcache.select(text_settings.font, text_settings.direction,
-	    font_metrics[text_settings.font][text_settings.charsize].width,
-	    font_metrics[text_settings.font][text_settings.charsize].height);
-    }
-}
-
-static void text_output(int x, int y, const char* str)
-{
-    select_font();
-    if (text_color != color) {
-	text_color = color;
-	SetTextColor(hdc[0], PALETTEINDEX(text_color+BG));
-	SetTextColor(hdc[1], PALETTEINDEX(text_color+BG));
-    }
-    if (bgiemu_handle_redraw || visual_page != active_page) {
-        TextOut(hdc[1], x, y, str, strlen(str));
-    }
-    if (visual_page == active_page) {
-        TextOut(hdc[0], x, y, str, strlen(str));
-    }
+    return VGAHI;
 }
 
 
-void settextstyle(int font, int direction, int char_size)
+// This function returns a string describing the current graphics mode.  It has the format
+// "width*height MODE_NAME"  For WinBGI, this is the window size followed by VGAHI
+//
+char *getmodename( int mode_number )
 {
-    if (char_size > 10) {
-	char_size = 10;
-    }
-    text_settings.direction = direction;
-    text_settings.font = font;
-    text_settings.charsize = char_size;
-    text_align_mode = ALIGN_NOT_SET;
-}
+    static char mode[20];
+    WindowData *pWndData = BGI__GetWindowDataPtr( );
 
-void settextjustify(int horiz, int vert)
-{
-    text_settings.horiz = horiz;
-    text_settings.vert = vert;
-    text_align_mode = ALIGN_NOT_SET;
-}
-
-void gettextsettings(textsettingstype* ts)
-{
-    *ts = text_settings;
+    sprintf( mode, "%d*%d VGAHI", pWndData->width, pWndData->height );
+    return mode;
 }
 
 
-int textheight(const char* str)
+// This function returns the range of possible graphics modes for the given graphics driver.
+// If -1 is given for the driver, the current driver and mode is used.
+//
+void getmoderange( int graphdriver, int *lomode, int *himode )
 {
-    SIZE ss;
-    select_font();
-    GetTextExtentPoint32(hdc[0], str, strlen(str), &ss);
-    return ss.cy;
-}
+    WindowData *pWndData = BGI__GetWindowDataPtr( );
+    int graphmode;
 
-int textwidth(const char* str)
-{
-    SIZE ss;
-    select_font();
-    GetTextExtentPoint32(hdc[0], str, strlen(str), &ss);
-    return ss.cx;
-}
+    // Use current driver modes
+    if ( graphdriver == -1 )
+        detectgraph( &graphdriver, &graphmode );
 
-void outtext(const char* str)
-{
-    if (text_align_mode != UPDATE_CP) {
-	text_align_mode = UPDATE_CP;
-	int align = (text_settings.direction == HORIZ_DIR)
-	            ? (TA_UPDATECP |
-		       text_halign_cnv[text_settings.horiz] |
-		       text_valign_cnv[text_settings.vert])
-	            : (TA_UPDATECP |
-		       text_valign_cnv[text_settings.horiz] |
-		       text_halign_cnv[text_settings.vert]);
-	SetTextAlign(hdc[0], align);
-	SetTextAlign(hdc[1], align);
-    }
-    text_output(0, 0, str);
-}
-
-void outtextxy(int x, int y, const char* str)
-{
-    if (text_align_mode != NOT_UPDATE_CP) {
-	text_align_mode = NOT_UPDATE_CP;
-	int align = (text_settings.direction == HORIZ_DIR)
-	            ? (TA_NOUPDATECP |
-		       text_halign_cnv[text_settings.horiz] |
-		       text_valign_cnv[text_settings.vert])
-	            : (TA_NOUPDATECP |
-		       text_valign_cnv[text_settings.horiz] |
-		       text_halign_cnv[text_settings.vert]);
-	SetTextAlign(hdc[0], align);
-	SetTextAlign(hdc[1], align);
-    }
-    text_output(x, y, str);
-}
-
-void setviewport(int x1, int y1, int x2, int y2, int clip)
-{
-    view_settings.left = x1;
-    view_settings.top = y1;
-    view_settings.right = x2;
-    view_settings.bottom = y2;
-    view_settings.clip = clip;
-
-    if (hRgn) {
-	DeleteObject(hRgn);
-    }
-    hRgn = clip ? CreateRectRgn(x1, y1, x2, y2) : NULL;
-    SelectClipRgn(hdc[1], hRgn);
-    SetViewportOrgEx(hdc[1], x1, y1, NULL);
-
-    SelectClipRgn(hdc[0], hRgn);
-    SetViewportOrgEx(hdc[0], x1, y1, NULL);
-
-    moveto(0,0);
-}
-
-void getviewsettings(viewporttype *viewport)
-{
-     *viewport = view_settings;
-}
-
-const double pi = 3.14159265358979323846;
-
-inline void arc_coords(double angle, double rx, double ry, int& x, int& y)
-{
-    if (rx == 0 || ry == 0) {
-	x = y = 0;
-	return;
-    }
-    double s = sin(angle*pi/180.0);
-    double c = cos(angle*pi/180.0);
-    if (fabs(s) < fabs(c)) {
-	double tg = s/c;
-	double xr = sqrt((double)rx*rx*ry*ry/(ry*ry+rx*rx*tg*tg));
-	x = int((c >= 0) ? xr : -xr);
-	y = int((s >= 0) ? -xr*tg : xr*tg);
-    } else {
-	double ctg = c/s;
-	double yr = sqrt((double)rx*rx*ry*ry/(rx*rx+ry*ry*ctg*ctg));
-        x = int((c >= 0) ? yr*ctg : -yr*ctg);
-	y = int((s >= 0) ? -yr : yr);
-    }
-}
-
-void ellipse(int x, int y, int start_angle, int end_angle,
-		       int rx, int ry)
-{
-    ac.x = x;
-    ac.y = y;
-    arc_coords(start_angle, rx, ry, ac.xstart, ac.ystart);
-    arc_coords(end_angle,  rx, ry, ac.xend, ac.yend);
-    ac.xstart += x; ac.ystart += y;
-    ac.xend += x; ac.yend += y;
-
-    pcache.select(color+BG);
-    if (bgiemu_handle_redraw || visual_page != active_page) {
-        Arc(hdc[1], x-rx, y-ry, x+rx, y+ry,
-	    ac.xstart, ac.ystart, ac.xend, ac.yend);
-    }
-    if (visual_page == active_page) {
-	Arc(hdc[0], x-rx, y-ry, x+rx, y+ry,
-	    ac.xstart, ac.ystart, ac.xend, ac.yend);
-    }
-}
-
-void fillellipse(int x, int y, int rx, int ry)
-{
-    pcache.select(color+BG);
-    select_fill_color();
-    if (bgiemu_handle_redraw || visual_page != active_page) {
-	Ellipse(hdc[1], x-rx, y-ry, x+rx, y+ry);
-    }
-    if (visual_page == active_page) {
-	Ellipse(hdc[0], x-rx, y-ry, x+rx, y+ry);
-    }
-}
-
-static void allocate_new_graphic_page(int page)
-{
-    RECT scr;
-    scr.left = -view_settings.left;
-    scr.top = -view_settings.top;
-    scr.right = screen_width-view_settings.left-1;
-    scr.bottom = screen_height-view_settings.top-1;
-    hBitmap[page] = CreateCompatibleBitmap(hdc[0],screen_width,screen_height);
-    SelectObject(hdc[1], hBitmap[page]);
-    SelectClipRgn(hdc[1], NULL);
-    FillRect(hdc[1], &scr, hBackgroundBrush);
-    SelectClipRgn(hdc[1], hRgn);
-}
-
-void setactivepage(int page)
-{
-    if (hBitmap[page] == NULL) {
-	allocate_new_graphic_page(page);
-    } else {
-	SelectObject(hdc[1], hBitmap[page]);
-    }
-    if (!bgiemu_handle_redraw && active_page == visual_page) {
-	POINT pos;
-	GetCurrentPositionEx(hdc[0], &pos);
-	MoveToEx(hdc[1], pos.x, pos.y, NULL);
-    }
-    active_page = page;
-}
-
-
-void setvisualpage(int page)
-{
-    POINT pos;
-    if (hdc[page] == NULL) {
-	allocate_new_graphic_page(page);
-    }
-    if (!bgiemu_handle_redraw && active_page == visual_page) {
-	SelectObject(hdc[1], hBitmap[visual_page]);
-	SelectClipRgn(hdc[1], NULL);
-        BitBlt(hdc[1], -view_settings.left, -view_settings.top,
-	       window_width, window_height,
-	       hdc[0], -view_settings.left, -view_settings.top,
-	       SRCCOPY);
-	SelectClipRgn(hdc[1], hRgn);
-	GetCurrentPositionEx(hdc[0], &pos);
-	MoveToEx(hdc[1], pos.x, pos.y, NULL);
-    }
-    SelectClipRgn(hdc[0], NULL);
-    SelectClipRgn(hdc[1], NULL);
-    SelectObject(hdc[1], hBitmap[page]);
-    BitBlt(hdc[0], -view_settings.left,
-	   -view_settings.top, window_width, window_height,
-	   hdc[1], -view_settings.left, -view_settings.top, SRCCOPY);
-    SelectClipRgn(hdc[0], hRgn);
-    SelectClipRgn(hdc[1], hRgn);
-
-    if (page != active_page) {
-	SelectObject(hdc[1], hBitmap[active_page]);
-    }
-    if (active_page != visual_page) {
-	GetCurrentPositionEx(hdc[1], &pos);
-	MoveToEx(hdc[0], pos.x, pos.y, NULL);
-    }
-    visual_page = page;
-}
-
-
-void setaspectratio(int ax, int ay)
-{
-    aspect_ratio_x = ax;
-    aspect_ratio_y = ay;
-}
-
-void getaspectratio(int* ax, int* ay)
-{
-    *ax = aspect_ratio_x;
-    *ay = aspect_ratio_y;
-}
-
-void circle(int x, int y, int radius)
-{
-    pcache.select(color+BG);
-    int ry = (unsigned)radius*aspect_ratio_x/aspect_ratio_y;
-    int rx = radius;
-    if (bgiemu_handle_redraw || visual_page != active_page) {
-	Arc(hdc[1], x-rx, y-ry, x+rx, y+ry, x+rx, y, x+rx, y);
-    }
-    if (visual_page == active_page) {
-        Arc(hdc[0], x-rx, y-ry, x+rx, y+ry, x+rx, y, x+rx, y);
-    }
-}
-
-void arc(int x, int y, int start_angle, int end_angle, int radius)
-{
-    ac.x = x;
-    ac.y = y;
-    ac.xstart = x + int(radius*cos(start_angle*pi/180.0));
-    ac.ystart = y - int(radius*sin(start_angle*pi/180.0));
-    ac.xend = x + int(radius*cos(end_angle*pi/180.0));
-    ac.yend = y - int(radius*sin(end_angle*pi/180.0));
-
-    if (bgiemu_handle_redraw || visual_page != active_page) {
-        Arc(hdc[1], x-radius, y-radius, x+radius, y+radius,
-	ac.xstart, ac.ystart, ac.xend, ac.yend);
-    }
-    if (visual_page == active_page) {
-	Arc(hdc[0], x-radius, y-radius, x+radius, y+radius,
-	    ac.xstart, ac.ystart, ac.xend, ac.yend);
-    }
-}
-
-void getarccoords(arccoordstype *arccoords)
-{
-    *arccoords = ac;
-}
-
-void pieslice(int x, int y, int start_angle, int end_angle,
-	      int radius)
-{
-    pcache.select(color+BG);
-    select_fill_color();
-    ac.x = x;
-    ac.y = y;
-    ac.xstart = x + int(radius*cos(start_angle*pi/180.0));
-    ac.ystart = y - int(radius*sin(start_angle*pi/180.0));
-    ac.xend = x + int(radius*cos(end_angle*pi/180.0));
-    ac.yend = y - int(radius*sin(end_angle*pi/180.0));
-
-    if (bgiemu_handle_redraw || visual_page != active_page) {
-	Pie(hdc[1], x-radius, y-radius, x+radius, y+radius,
-	    ac.xstart, ac.ystart, ac.xend, ac.yend);
-    }
-    if (visual_page == active_page) {
-	Pie(hdc[0], x-radius, y-radius, x+radius, y+radius,
-    	    ac.xstart, ac.ystart, ac.xend, ac.yend);
-    }
-}
-
-
-void sector(int x, int y, int start_angle, int end_angle,
-		      int rx, int ry)
-{
-    ac.x = x;
-    ac.y = y;
-    arc_coords(start_angle, rx, ry, ac.xstart, ac.ystart);
-    arc_coords(end_angle, rx, ry, ac.xend, ac.yend);
-    ac.xstart += x; ac.ystart += y;
-    ac.xend += x; ac.yend += y;
-
-    pcache.select(color+BG);
-    if (bgiemu_handle_redraw || visual_page != active_page) {
-        Pie(hdc[1], x-rx, y-ry, x+rx, y+ry,
-	    ac.xstart, ac.ystart, ac.xend, ac.yend);
-    }
-    if (visual_page == active_page) {
-	Pie(hdc[0], x-rx, y-ry, x+rx, y+ry,
-    	    ac.xstart, ac.ystart, ac.xend, ac.yend);
-    }
-}
-
-void bar(int left, int top, int right, int bottom)
-{
-    RECT r;
-    if (left > right) {	/* Turbo C corrects for badly ordered corners */
-	r.left = right;
-	r.right = left;
-    } else {
-	r.left = left;
-	r.right = right;
-    }
-    if (bottom < top) {	/* Turbo C corrects for badly ordered corners */
-	r.top = bottom;
-	r.bottom = top;
-    } else {
-	r.top = top;
-	r.bottom = bottom;
-    }
-    select_fill_color();
-    if (bgiemu_handle_redraw || visual_page != active_page) {
-	FillRect(hdc[1], &r, hBrush[fill_settings.pattern]);
-    }
-    if (visual_page == active_page) {
-	FillRect(hdc[0], &r, hBrush[fill_settings.pattern]);
-    }
-}
-
-
-void bar3d(int left, int top, int right, int bottom, int depth, int topflag)
-{
-    int temp;
-    const double tan30 = 1.0/1.73205080756887729352;
-    if (left > right) {     /* Turbo C corrects for badly ordered corners */
-	temp = left;
-	left = right;
-	right = temp;
-    }
-    if (bottom < top) {
-	temp = bottom;
-	bottom = top;
-	top = temp;
-    }
-    bar(left+line_settings.thickness, top+line_settings.thickness,
-	right-line_settings.thickness+1, bottom-line_settings.thickness+1);
-
-    if (write_mode != COPY_PUT) {
-	SetROP2(hdc[0], write_mode_cnv[write_mode]);
-	SetROP2(hdc[1], write_mode_cnv[write_mode]);
-    }
-    pcache.select(ADJUSTED_MODE(write_mode) ? color : color + BG);
-    int dy = int(depth*tan30);
-    POINT p[11];
-    p[0].x = right, p[0].y = bottom;
-    p[1].x = right, p[1].y = top;
-    p[2].x = left,  p[2].y = top;
-    p[3].x = left,  p[3].y = bottom;
-    p[4].x = right, p[4].y = bottom;
-    p[5].x = right+depth, p[5].y = bottom-dy;
-    p[6].x = right+depth, p[6].y = top-dy;
-    p[7].x = right, p[7].y = top;
-
-    if (topflag) {
-	p[8].x = right+depth, p[8].y = top-dy;
-	p[9].x = left+depth, p[9].y = top-dy;
-	p[10].x = left, p[10].y = top;
-    }
-    if (bgiemu_handle_redraw || visual_page != active_page) {
-	Polyline(hdc[1], p, topflag ? 11 : 8);
-    }
-    if (visual_page == active_page) {
-	Polyline(hdc[0], p, topflag ? 11 : 8);
-    }
-    if (write_mode != COPY_PUT) {
-	SetROP2(hdc[0], R2_COPYPEN);
-	SetROP2(hdc[1], R2_COPYPEN);
-    }
-}
-
-void lineto(int x, int y)
-{
-    if (write_mode != COPY_PUT) {
-	SetROP2(hdc[0], write_mode_cnv[write_mode]);
-	SetROP2(hdc[1], write_mode_cnv[write_mode]);
-    }
-    pcache.select(ADJUSTED_MODE(write_mode) ? color : color + BG);
-    if (bgiemu_handle_redraw || visual_page != active_page) {
-	LineTo(hdc[1], x, y);
-    }
-    if (visual_page == active_page) {
-	LineTo(hdc[0], x, y);
-    }
-    if (write_mode != COPY_PUT) {
-	SetROP2(hdc[0], R2_COPYPEN);
-	SetROP2(hdc[1], R2_COPYPEN);
-    }
-}
-
-void linerel(int dx, int dy)
-{
-    POINT pos;
-    GetCurrentPositionEx(hdc[1], &pos);
-    lineto(pos.x + dx, pos.y + dy);
-}
-
-void drawpoly(int n_points, int* points)
-{
-    if (write_mode != COPY_PUT) {
-	SetROP2(hdc[0], write_mode_cnv[write_mode]);
-	SetROP2(hdc[1], write_mode_cnv[write_mode]);
-    }
-    pcache.select(ADJUSTED_MODE(write_mode) ? color : color + BG);
-
-    if (bgiemu_handle_redraw || visual_page != active_page) {
-	Polyline(hdc[1], (POINT*)points, n_points);
-    }
-    if (visual_page == active_page) {
-	Polyline(hdc[0], (POINT*)points, n_points);
-    }
-
-    if (write_mode != COPY_PUT) {
-	SetROP2(hdc[0], R2_COPYPEN);
-	SetROP2(hdc[1], R2_COPYPEN);
-    }
-}
-
-void line(int x0, int y0, int x1, int y1)
-{
-    POINT line[2];
-    line[0].x = x0;
-    line[0].y = y0;
-    line[1].x = x1;
-    line[1].y = y1;
-    drawpoly(2, (int*)&line);
-}
-
-void rectangle(int left, int top, int right, int bottom)
-{
-    POINT rect[5];
-    rect[0].x = left, rect[0].y = top;
-    rect[1].x = right, rect[1].y = top;
-    rect[2].x = right, rect[2].y = bottom;
-    rect[3].x = left, rect[3].y = bottom;
-    rect[4].x = left, rect[4].y = top;
-    drawpoly(5, (int*)&rect);
-}
-
-void fillpoly(int n_points, int* points)
-{
-    pcache.select(color+BG);
-    select_fill_color();
-    if (bgiemu_handle_redraw || visual_page != active_page) {
-        Polygon(hdc[1], (POINT*)points, n_points);
-    }
-    if (visual_page == active_page) {
-	Polygon(hdc[0], (POINT*)points, n_points);
-    }
-}
-
-void floodfill(int x, int y, int border)
-{
-    select_fill_color();
-    if (bgiemu_handle_redraw || visual_page != active_page) {
-	FloodFill(hdc[1], x, y, PALETTEINDEX(border+BG));
-    }
-    if (visual_page == active_page) {
-	FloodFill(hdc[0], x, y, PALETTEINDEX(border+BG));
-    }
-}
-
-
-
-static bool handle_input(bool wait = false)
-{
-    MSG lpMsg;
-    if (wait ? GetMessage(&lpMsg, NULL, 0, 0)
-	     : PeekMessage(&lpMsg, NULL, 0, 0, PM_REMOVE))
+    switch ( graphdriver )
     {
-	TranslateMessage(&lpMsg);
-	DispatchMessage(&lpMsg);
-	return true;
-    }
-    return false;
-}
-
-
-void delay(unsigned msec)
-{
-    timeout_expired = false;
-    SetTimer(hWnd, TIMER_ID, msec, NULL);
-    while (!timeout_expired) handle_input(true);
-}
-
-
-int kbhit()
-{
-    while (handle_input(false));
-    return !kbd_queue.is_empty();
-}
-
-int getch()
-{
-    while (kbd_queue.is_empty()) handle_input(true);
-//    return (unsigned char)kbd_queue.get();  ???
-	return kbd_queue.get();
-}
-
-//rajouté : attention, si on a appuye sur une touche,
-//le caractere correspondant n'est plus disponible
-//(utiliser kbhit sinon)
-
-int keypressed()
-{
-	while (handle_input(false));
-	if (kbd_queue.is_empty())
-		return false;
-	else
-	{
-		kbd_queue.get();
-		return true;
-	}
-}
-
-//rajouté
-void waituntilkeypressed()
-{
-  getch();
-}
-
-//rajouté : gestion de la souris
-
-int buttonhit()
-{
-    while (handle_input(false));
-    return !mouse_queue.is_empty();
-}
-
-void getmouse(int& x,int& y)
-{
-    while (mouse_queue.is_empty()) handle_input(true);
-//    return (unsigned char)kbd_queue.get();  ???
-	mouse_queue.get(x,y);
-}
-
-//rajouté : attention, si on a appuye sur une touche,
-//le caractere correspondant n'est plus disponible
-//(utiliser buttonhit sinon)
-
-int buttonpressed()
-{
-	while (handle_input(false));
-	if (mouse_queue.is_empty())
-		return false;
-	else
-	{
-		int x,y;
-		mouse_queue.get(x,y);
-		return true;
-	}
-}
-
-void waituntilbuttonpressed()
-{
-  int x,y;
-  getmouse(x,y);
-}
-
-void cleardevice()
-{
-    RECT scr;
-    scr.left = -view_settings.left;
-    scr.top = -view_settings.top;
-    scr.right = screen_width-view_settings.left-1;
-    scr.bottom = screen_height-view_settings.top-1;
-
-    if (bgiemu_handle_redraw || visual_page != active_page) {
-	if (hRgn != NULL) {
-	    SelectClipRgn(hdc[1], NULL);
-	}
-	FillRect(hdc[1], &scr, hBackgroundBrush);
-	if (hRgn != NULL) {
-	    SelectClipRgn(hdc[1], hRgn);
-	}
-    }
-    if (visual_page == active_page) {
-	if (hRgn != NULL) {
-	    SelectClipRgn(hdc[0], NULL);
-	}
-	FillRect(hdc[0], &scr, hBackgroundBrush);
-	if (hRgn != NULL) {
-	    SelectClipRgn(hdc[0], hRgn);
-	}
-    }
-    moveto(0,0);
-}
-
-void clearviewport()
-{
-    RECT scr;
-    scr.left = 0;
-    scr.top = 0;
-    scr.right = view_settings.right-view_settings.left;
-    scr.bottom = view_settings.bottom-view_settings.top;
-    if (bgiemu_handle_redraw || visual_page != active_page) {
-        FillRect(hdc[1], &scr, hBackgroundBrush);
-    }
-    if (visual_page == active_page) {
-	FillRect(hdc[0], &scr, hBackgroundBrush);
-    }
-    moveto(0,0);
-}
-
-void detectgraph(int *graphdriver, int *graphmode)
-{
-    *graphdriver = VGA;
-    *graphmode = bgiemu_default_mode;
-}
-
-int getgraphmode()
-{
-    return bgiemu_default_mode;
-}
-
-void setgraphmode(int) {}
-
-void putimage(int x, int y, void* image, int bitblt)
-{
-    BGIimage* bi = (BGIimage*)image;
-    static int putimage_width, putimage_height;
-
-    if (hPutimageBitmap == NULL ||
-	putimage_width < bi->width || putimage_height < bi->height)
-    {
-	if (putimage_width < bi->width) {
-	    putimage_width = (bi->width+7) & ~7;
-	}
-	if (putimage_height < bi->height) {
-	    putimage_height = bi->height;
-	}
-	HBITMAP h = CreateCompatibleBitmap(hdc[0], putimage_width,
-					   putimage_height);
-	SelectObject(hdc[2], h);
-	if (hPutimageBitmap) {
-	    DeleteObject(hPutimageBitmap);
-	}
-	hPutimageBitmap = h;
-    }
-    int mask = ADJUSTED_MODE(bitblt) ? 0 : BG;
-    for (int i = 0; i <= MAXCOLORS; i++) {
-	bminfo.color_table[i] = i + mask;
-    }
-    bminfo.hdr.biHeight = bi->height;
-    bminfo.hdr.biWidth = bi->width;
-    SetDIBits(hdc[2], hPutimageBitmap, 0, bi->height, bi->bits,
-	      (BITMAPINFO*)&bminfo, DIB_PAL_COLORS);
-    if (bgiemu_handle_redraw || visual_page != active_page) {
-	BitBlt(hdc[1], x, y, bi->width, bi->height, hdc[2], 0, 0,
-	       bitblt_mode_cnv[bitblt]);
-    }
-    if (visual_page == active_page) {
-        BitBlt(hdc[0], x, y, bi->width, bi->height, hdc[2], 0, 0,
-	       bitblt_mode_cnv[bitblt]);
-    }
-}
-
-unsigned int imagesize(int x1, int y1, int x2, int y2)
-{
-    return 8 + (((x2-x1+8) & ~7) >> 1)*(y2-y1+1);
-}
-
-void getimage(int x1, int y1, int x2, int y2, void* image)
-{
-    BGIimage* bi = (BGIimage*)image;
-    int* image_bits;
-    bi->width = x2-x1+1;
-    bi->height = y2-y1+1;
-    bminfo.hdr.biHeight = bi->height;
-    bminfo.hdr.biWidth = bi->width;
-    for (int i = 0; i <= MAXCOLORS; i++) {
-	bminfo.color_table[i] = i + BG;
-    }
-    HBITMAP hb = CreateDIBSection(hdc[3], (BITMAPINFO*)&bminfo,
-	DIB_PAL_COLORS, (void**)&image_bits, 0, 0);
-    HBITMAP hdb = (HBITMAP)SelectObject(hdc[3], hb);
-    BitBlt(hdc[3], 0, 0, bi->width, bi->height,
-	   hdc[visual_page != active_page || bgiemu_handle_redraw ? 1 : 0],
-	   x1, y1, SRCCOPY);
-    GdiFlush();
-    memcpy(bi->bits, image_bits, (((bi->width+7) & ~7) >> 1)*bi->height);
-    SelectObject(hdc[3], hdb);
-    DeleteObject(hb);
-}
-
-unsigned int getpixel(int x, int y)
-{
-    int color;
-    COLORREF rgb = GetPixel(hdc[visual_page != active_page
-			       || bgiemu_handle_redraw ? 1 : 0], x, y);
-
-    if (rgb == CLR_INVALID) {
-	return -1;
-    }
-    int red = GetRValue(rgb);
-    int blue = GetBValue(rgb);
-    int green = GetGValue(rgb);
-    for (color = 0; color <= MAXCOLORS; color++) {
-	if (BGIpalette[color].peRed == red &&
-	    BGIpalette[color].peGreen == green &&
-	    BGIpalette[color].peBlue == blue)
-	{
-	    return color;
-	}
-    }
-    return -1;
-}
-
-void putpixel(int x, int y, int c)
-{
-    c &= MAXCOLORS;
-    if (bgiemu_handle_redraw || visual_page != active_page) {
-	SetPixel(hdc[1], x, y, PALETTEINDEX(c+BG));
-    }
-    if (visual_page == active_page) {
-	SetPixel(hdc[0], x, y, PALETTEINDEX(c+BG));
-    }
-}
-
-void plot(int x, int y)
-{
-    if (bgiemu_handle_redraw || visual_page != active_page) {
-	SetPixel(hdc[1], x, y, PALETTEINDEX(color+BG));
-    }
-    if (visual_page == active_page) {
-	SetPixel(hdc[0], x, y, PALETTEINDEX(color+BG));
-    }
-}
-
-LRESULT CALLBACK WndProc(HWND hWnd, UINT messg,
-			 WPARAM wParam, LPARAM lParam)
-{
-    int i;
-    static bool palette_changed = false;
-
-    switch (messg) {
-      case WM_PAINT:
-	if (hdc[0] == 0) {
-	    hdc[0] = BeginPaint(hWnd, &ps);
-            SelectPalette(hdc[0], hPalette, FALSE);
-	    RealizePalette(hdc[0]);
-	    hdc[1] = CreateCompatibleDC(hdc[0]);
-            SelectPalette(hdc[1], hPalette, FALSE);
-	    hdc[2] = CreateCompatibleDC(hdc[0]);
-            SelectPalette(hdc[2], hPalette, FALSE);
-	    hdc[3] = CreateCompatibleDC(hdc[0]);
-            SelectPalette(hdc[3], hPalette, FALSE);
-
-	    screen_width = GetDeviceCaps(hdc[0], HORZRES);
-	    screen_height = GetDeviceCaps(hdc[0], VERTRES);
-	    hBitmap[active_page] =
-		CreateCompatibleBitmap(hdc[0], screen_width, screen_height);
-	    SelectObject(hdc[1], hBitmap[active_page]);
-
-	    SetTextColor(hdc[0], PALETTEINDEX(text_color+BG));
-	    SetTextColor(hdc[1], PALETTEINDEX(text_color+BG));
-	    SetBkColor(hdc[0], PALETTEINDEX(BG));
-	    SetBkColor(hdc[1], PALETTEINDEX(BG));
-
-	    SelectObject(hdc[0], hBrush[fill_settings.pattern]);
-	    SelectObject(hdc[1], hBrush[fill_settings.pattern]);
-
-	    RECT scr;
-	    scr.left = -view_settings.left;
-	    scr.top = -view_settings.top;
-	    scr.right = screen_width-view_settings.left-1;
-	    scr.bottom = screen_height-view_settings.top-1;
-	    FillRect(hdc[1], &scr, hBackgroundBrush);
-	}
-	if (hRgn != NULL) {
-	    SelectClipRgn(hdc[0], NULL);
-	}
-	if (visual_page != active_page) {
-	    SelectObject(hdc[1], hBitmap[visual_page]);
-	}
-        BitBlt(hdc[0], -view_settings.left,
-	       -view_settings.top, window_width, window_height,
-	       hdc[1], -view_settings.left, -view_settings.top,
-	       SRCCOPY);
-	if (hRgn != NULL) {
-	    SelectClipRgn(hdc[0], hRgn);
-	}
-	if (visual_page != active_page) {
-	    SelectObject(hdc[1], hBitmap[active_page]);
-	}
-	ValidateRect(hWnd, NULL);
-	break;
-      case WM_SETFOCUS:
-	if (palette_changed) {
-	    HPALETTE new_palette = CreatePalette(pPalette);
-	    SelectPalette(hdc[0], new_palette, FALSE);
-	    RealizePalette(hdc[0]);
-	    SelectPalette(hdc[1], new_palette, FALSE);
-	    SelectPalette(hdc[2], new_palette, FALSE);
-	    SelectPalette(hdc[3], new_palette, FALSE);
-	    DeleteObject(hPalette);
-	    hPalette = new_palette;
-	    palette_changed = false;
-	}
-	break;
-      case WM_PALETTECHANGED:
-	RealizePalette(hdc[0]);
-	UpdateColors(hdc[0]);
-	palette_changed = true;
-	break;
-      case WM_DESTROY:
-        EndPaint(hWnd, &ps);
-	hdc[0] = 0;
-	DeleteObject(hdc[1]);
-	DeleteObject(hdc[2]);
-	DeleteObject(hdc[3]);
-	if (hPutimageBitmap) {
-	    DeleteObject(hPutimageBitmap);
-	    hPutimageBitmap = NULL;
-	}
-	for (i = 0; i < MAX_PAGES; i++) {
-	    if (hBitmap[i] != NULL) {
-		DeleteObject(hBitmap[i]);
-		hBitmap[i] = 0;
-	    }
-	}
-	DeleteObject(hPalette);
-	hPalette = 0;
-	PostQuitMessage(0);
-	break;
-      case WM_SIZE:
-	window_width = LOWORD(lParam);
-	window_height = HIWORD(lParam);
-	break;
-      case WM_TIMER:
-	KillTimer(hWnd, TIMER_ID);
-	timeout_expired = true;
-	break;
-      case WM_CHAR:
-	kbd_queue.put((TCHAR) wParam);
-	break;
-	  case WM_LBUTTONUP:
-	  case WM_MBUTTONUP:
-	  case WM_RBUTTONUP :
-		  mouse_queue.put(MAKEPOINTS(lParam));
-	  break;
-      default:
-	return DefWindowProc(hWnd, messg, wParam, lParam);
-    }
-    return 0;
-}
-
-void closegraph()
-{
-    DestroyWindow(hWnd);
-    while(handle_input(true));
-}
-
-
-static void detect_mode(int* gd, int* gm)
-{
-    switch (*gd) {
     case CGA:
-	  window_height = 200;
-	  switch (*gm) {
-  	  case CGAC0:
-	  case CGAC1:
-	  case CGAC2:
-	  case CGAC3:
-	    window_width = 320;
-	    break;
-	  case CGAHI:
-	    window_width = 640;
-	    break;
-	  default:
-	    window_width = 320;
-	    break;
-	  }
-	  break;
+        *lomode = CGAC0;
+        *himode = CGAHI;
+        break;
     case MCGA:
-	  window_height = 200;
-	  switch (*gm) {
-	  case MCGAC0:
-	  case MCGAC1:
-	  case MCGAC2:
-	  case MCGAC3:
-	    window_width = 320;
-	    break;
-	  case MCGAMED:
-  	    window_width = 640;
-	    break;
-	  case MCGAHI:
-	    window_width = 640;
-	    window_height = 480;
-	    break;
-	  default:
-	    window_width = 320;
-	    break;
-	  }
-	  break;
+        *lomode = MCGAC0;
+        *himode = MCGAHI;
+        break;
     case EGA:
-	  window_width = 640;
-	  switch (*gm) {
-	  case EGALO:
-	    window_height = 200;
-	    break;
-	  case EGAHI:
-	    window_height = 350;
-	    break;
-	  default:
-	    window_height = 350;
-	    break;
-	  }
-	  break;
+        *lomode = EGALO;
+        *himode = EGAHI;
+        break;
     case EGA64:
-      window_width = 640;
-	  switch (*gm) {
-	  case EGA64LO:
-	    window_height = 200;
-	    break;
-	  case EGA64HI:
-	    window_height = 350;
-	    break;
-	  default:
-	    window_height = 350;
-	    break;
-	  }
-	  break;
+        *lomode = EGA64LO;
+        *himode = EGA64HI;
+        break;
     case EGAMONO:
-	  window_width = 640;
-	  window_height = 350;
-	  break;
+        *lomode = *himode = EGAMONOHI;
+        break;
     case HERCMONO:
-	  window_width = 720;
-	  window_height = 348;
-	  break;
+        *lomode = *himode = HERCMONOHI;
+        break;
     case ATT400:
-	  window_height = 200;
-	  switch (*gm) {
-	  case ATT400C0:
-	  case ATT400C1:
-	  case ATT400C2:
-	  case ATT400C3:
-	    window_width = 320;
-	    break;
-	  case ATT400MED:
-	    window_width = 640;
-	    break;
-	  case ATT400HI:
-	    window_width = 640;
-	    window_height = 400;
-	    break;
-	  default:
-	    window_width = 320;
-	    break;
-	  }
-	  break;
+        *lomode = ATT400C0;
+        *himode = ATT400HI;
+        break;
+    case VGA:
+        *lomode = VGALO;
+        *himode = VGAHI;
+        break;
+    case PC3270:
+        *lomode = *himode = PC3270HI;
+        break;
+    case IBM8514:
+        *lomode = IBM8514LO;
+        *himode = IBM8514HI;
+        break;
     default:
-      case DETECT:
-	    *gd = VGA;
-	    *gm = bgiemu_default_mode;
-      case VGA:
-        window_width = 640;
-        switch (*gm) {
-          case VGALO:
-	        window_height = 200;
-	        break;
-	      case VGAMED:
-	        window_height = 350;
-	        break;
-	      case VGAHI:
-	        window_height = 480;
-	        break;
-	      default:
-	        window_height = 480;
-	        break;
-		}
-	    break;
-      case PC3270:
-	    window_width = 720;
-	    window_height = 350;
-	    break;
-      case IBM8514:
-	    switch (*gm) {
-  	      case IBM8514LO:
- 	        window_width = 640;
-	        window_height = 480;
-	        break;
-	      case IBM8514HI:
-	        window_width = 1024;
-	        window_height = 768;
-	        break;
-	      default:
-	        window_width = 1024;
-	        window_height = 768;
-	        break;
-		}
-	    break;
+        *lomode = *himode = -1;
+        pWndData->error_code = grInvalidDriver;
+        break;
     }
 }
 
-static void set_defaults()
+
+// This function returns an error string corresponding to the given error code.
+// This code is returned by graphresult()
+//
+char *grapherrormsg( int errorcode )
 {
-    color = text_color = WHITE;
-    bkcolor = 0;
-    line_settings.thickness = 1;
-    line_settings.linestyle = SOLID_LINE;
-    line_settings.upattern = ~0;
-    fill_settings.pattern = SOLID_FILL;
-    fill_settings.color = WHITE;
-    write_mode = COPY_PUT;
+    static char *msg[16] = { "No error", "Graphics not installed",
+        "Graphics hardware not detected", "Device driver not found",
+        "Invalid device driver file", "Insufficient memory to load driver",
+        "Out of memory in scan fill", "Out of memory in flood fill",
+        "Font file not found", "Not enough meory to load font",
+        "Invalid mode for selected driver", "Graphics error",
+        "Graphics I/O error", "Invalid font file",
+        "Invalid font number", "Invalid device number" };
 
-    text_settings.direction = HORIZ_DIR;
-    text_settings.font = DEFAULT_FONT;
-    text_settings.charsize = 1;
-    text_settings.horiz = LEFT_TEXT;
-    text_settings.vert = TOP_TEXT;
-    text_align_mode = ALIGN_NOT_SET;
-
-    active_page = visual_page = 0;
-
-    view_settings.left = 0;
-    view_settings.top = 0;
-    view_settings.right = window_width-1;
-    view_settings.bottom = window_height-1;
-
-    aspect_ratio_x = aspect_ratio_y = 10000;
+    if ( ( errorcode < -16 ) || ( errorcode > 0 ) )
+        return NULL;
+    else
+        return msg[-errorcode];
 }
 
 
-void initgraph(int* device, int* mode, char const* /*pathtodriver*/)
+// This function returns the error code from the most recent graphics operation.
+// It also resets the error to grOk.
+//
+int graphresult( )
 {
-    int index;
-    static WNDCLASS wcApp;
+    WindowData *pWndData = BGI__GetWindowDataPtr( );
+    int code;
 
-    gdi_error_code = grOk;
+    code = pWndData->error_code;
+    pWndData->error_code = grOk;
+    return code;
 
-    if (wcApp.lpszClassName == NULL) {
-	wcApp.lpszClassName = "BGIlibrary";
-	wcApp.hInstance = 0;
-	wcApp.lpfnWndProc = WndProc;
-	wcApp.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wcApp.hIcon = 0;
-	wcApp.lpszMenuName = 0;
-	wcApp.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
-	wcApp.style = CS_SAVEBITS;
-	wcApp.cbClsExtra = 0;
-	wcApp.cbWndExtra = 0;
-
-	if (!RegisterClass(&wcApp)) {
-	    gdi_error_code = GetLastError();
-	    return;
-	}
-
-	pPalette = (NPLOGPALETTE)LocalAlloc(LMEM_FIXED,
-	    sizeof(LOGPALETTE)+sizeof(PALETTEENTRY)*PALETTE_SIZE);
-
-	pPalette->palVersion = 0x300;
-	pPalette->palNumEntries = PALETTE_SIZE;
-	memset(pPalette->palPalEntry, 0, sizeof(PALETTEENTRY)*PALETTE_SIZE);
-	for (index = 0; index < BG; index++) {
-	    pPalette->palPalEntry[index].peFlags = PC_EXPLICIT;
-	    pPalette->palPalEntry[index].peRed = index;
-	    pPalette->palPalEntry[PALETTE_SIZE-BG+index].peFlags = PC_EXPLICIT;
-	    pPalette->palPalEntry[PALETTE_SIZE-BG+index].peRed =
-		PALETTE_SIZE-BG+index;
-	}
-	hBackgroundBrush = CreateSolidBrush(PALETTEINDEX(BG));
-	hBrush[EMPTY_FILL] = (HBRUSH)GetStockObject(NULL_BRUSH);
-	hBrush[SOLID_FILL] =
-	    CreatePatternBrush(CreateBitmap(8, 8, 1, 1, SolidBrushBitmap));
-	hBrush[LINE_FILL] =
-	    CreatePatternBrush(CreateBitmap(8, 8, 1, 1, LineBrushBitmap));
-	hBrush[LTSLASH_FILL] =
-	    CreatePatternBrush(CreateBitmap(8, 8, 1, 1, LtslashBrushBitmap));
-	hBrush[SLASH_FILL] =
-	    CreatePatternBrush(CreateBitmap(8, 8, 1, 1, SlashBrushBitmap));
-	hBrush[BKSLASH_FILL] =
-	    CreatePatternBrush(CreateBitmap(8, 8, 1, 1, BkslashBrushBitmap));
-	hBrush[LTBKSLASH_FILL] =
-	    CreatePatternBrush(CreateBitmap(8, 8, 1, 1, LtbkslashBrushBitmap));
-	hBrush[HATCH_FILL] =
-	    CreatePatternBrush(CreateBitmap(8, 8, 1, 1, HatchBrushBitmap));
-	hBrush[XHATCH_FILL] =
-	    CreatePatternBrush(CreateBitmap(8, 8, 1, 1, XhatchBrushBitmap));
-	hBrush[INTERLEAVE_FILL] =
-	    CreatePatternBrush(CreateBitmap(8, 8, 1, 1, InterleaveBrushBitmap));
-	hBrush[WIDE_DOT_FILL] =
-	    CreatePatternBrush(CreateBitmap(8, 8, 1, 1, WidedotBrushBitmap));
-	hBrush[CLOSE_DOT_FILL] =
-	    CreatePatternBrush(CreateBitmap(8, 8, 1, 1, ClosedotBrushBitmap));
-	hBrush[USER_FILL] =
-	    CreatePatternBrush(CreateBitmap(8, 8, 1, 1, SolidBrushBitmap));
-    }
-    memcpy(BGIpalette, BGIcolor, sizeof BGIpalette);
-    current_palette.size = MAXCOLORS+1;
-    for (index = 10; index <= MAXCOLORS; index++) {
-	pPalette->palPalEntry[index] = BGIcolor[0];
-    }
-    for (index = 0; index <= MAXCOLORS; index++) {
-	current_palette.colors[index] = index;
-	pPalette->palPalEntry[index+BG] = BGIcolor[index];
-    }
-    hPalette = CreatePalette(pPalette);
-    detect_mode(device, mode);
-    set_defaults();
-
-    hWnd = CreateWindow("BGIlibrary", "Windows BGI",
-			WS_OVERLAPPEDWINDOW,
-		        0, 0, window_width+BORDER_WIDTH,
-			window_height+BORDER_HEIGHT,
-			(HWND)NULL,  (HMENU)NULL,
-	    		0, NULL);
-    if (hWnd == NULL) {
-	gdi_error_code = GetLastError();
-	return;
-    }
-
-    ShowWindow(hWnd, *mode == VGAMAX ? SW_SHOWMAXIMIZED : SW_SHOWNORMAL);
-    UpdateWindow(hWnd);
 }
 
-//rajoute : prend directement la taille de la fenetre en parametres
 
-void initgraphsize(int width,int height)
+// This function uses the information in graphdriver and graphmode to select
+// the appropriate size for the window to be created.
+//
+void initgraph( int *graphdriver, int *graphmode, char *pathtodriver )
 {
-    int index;
-    static WNDCLASS wcApp;
+    WindowData *pWndData;
+    int width = 0, height = 0;
+    bool valid = true;
+    
+    if ( *graphdriver == DETECT )
+        detectgraph( graphdriver, graphmode );
 
-    gdi_error_code = grOk;
-
-    if (wcApp.lpszClassName == NULL) {
-	wcApp.lpszClassName = "BGIlibrary";
-	wcApp.hInstance = 0;
-	wcApp.lpfnWndProc = WndProc;
-	wcApp.hCursor = LoadCursor(NULL, IDC_ARROW);
-	wcApp.hIcon = 0;
-	wcApp.lpszMenuName = 0;
-	wcApp.hbrBackground = (HBRUSH)GetStockObject(BLACK_BRUSH);
-	wcApp.style = CS_SAVEBITS;
-	wcApp.cbClsExtra = 0;
-	wcApp.cbWndExtra = 0;
-
-	if (!RegisterClass(&wcApp)) {
-	    gdi_error_code = GetLastError();
-	    return;
-	}
-
-	pPalette = (NPLOGPALETTE)LocalAlloc(LMEM_FIXED,
-	    sizeof(LOGPALETTE)+sizeof(PALETTEENTRY)*PALETTE_SIZE);
-
-	pPalette->palVersion = 0x300;
-	pPalette->palNumEntries = PALETTE_SIZE;
-	memset(pPalette->palPalEntry, 0, sizeof(PALETTEENTRY)*PALETTE_SIZE);
-	for (index = 0; index < BG; index++) {
-	    pPalette->palPalEntry[index].peFlags = PC_EXPLICIT;
-	    pPalette->palPalEntry[index].peRed = index;
-	    pPalette->palPalEntry[PALETTE_SIZE-BG+index].peFlags = PC_EXPLICIT;
-	    pPalette->palPalEntry[PALETTE_SIZE-BG+index].peRed =
-		PALETTE_SIZE-BG+index;
-	}
-	hBackgroundBrush = CreateSolidBrush(PALETTEINDEX(BG));
-	hBrush[EMPTY_FILL] = (HBRUSH)GetStockObject(NULL_BRUSH);
-	hBrush[SOLID_FILL] =
-	    CreatePatternBrush(CreateBitmap(8, 8, 1, 1, SolidBrushBitmap));
-	hBrush[LINE_FILL] =
-	    CreatePatternBrush(CreateBitmap(8, 8, 1, 1, LineBrushBitmap));
-	hBrush[LTSLASH_FILL] =
-	    CreatePatternBrush(CreateBitmap(8, 8, 1, 1, LtslashBrushBitmap));
-	hBrush[SLASH_FILL] =
-	    CreatePatternBrush(CreateBitmap(8, 8, 1, 1, SlashBrushBitmap));
-	hBrush[BKSLASH_FILL] =
-	    CreatePatternBrush(CreateBitmap(8, 8, 1, 1, BkslashBrushBitmap));
-	hBrush[LTBKSLASH_FILL] =
-	    CreatePatternBrush(CreateBitmap(8, 8, 1, 1, LtbkslashBrushBitmap));
-	hBrush[HATCH_FILL] =
-	    CreatePatternBrush(CreateBitmap(8, 8, 1, 1, HatchBrushBitmap));
-	hBrush[XHATCH_FILL] =
-	    CreatePatternBrush(CreateBitmap(8, 8, 1, 1, XhatchBrushBitmap));
-	hBrush[INTERLEAVE_FILL] =
-	    CreatePatternBrush(CreateBitmap(8, 8, 1, 1, InterleaveBrushBitmap));
-	hBrush[WIDE_DOT_FILL] =
-	    CreatePatternBrush(CreateBitmap(8, 8, 1, 1, WidedotBrushBitmap));
-	hBrush[CLOSE_DOT_FILL] =
-	    CreatePatternBrush(CreateBitmap(8, 8, 1, 1, ClosedotBrushBitmap));
-	hBrush[USER_FILL] =
-	    CreatePatternBrush(CreateBitmap(8, 8, 1, 1, SolidBrushBitmap));
+    switch ( *graphdriver )
+    {
+    case MCGA:
+        switch ( *graphmode )
+        {
+        case MCGAC0:
+        case MCGAC1:
+        case MCGAC2:
+        case MCGAC3:
+            width = 320;
+            height = 200;
+            break;
+        case MCGAMED:
+            width = 640;
+            height = 200;
+            break;
+        case MCGAHI:
+            width = 640;
+            height = 480;
+            break;
+        }
+        break;
+    case EGA:
+        switch ( *graphmode )
+        {
+        case EGALO:
+            width = 640;
+            height = 200;
+            break;
+        case EGAHI:
+            width = 640;
+            height = 350;
+            break;
+        }
+        break;
+    case EGA64:
+        switch ( *graphmode )
+        {
+        case EGALO:
+            width = 640;
+            height = 200;
+            break;
+        case EGAHI:
+            width = 640;
+            height = 350;
+            break;
+        }
+        break;
+    case EGAMONO:
+        width = 640;
+        height = 350;
+        break;
+    case HERCMONO:
+        width = 720;
+        width = 348;
+        break;
+    case ATT400:
+        switch ( *graphmode )
+        {
+        case ATT400C0:
+        case ATT400C1:
+        case ATT400C2:
+        case ATT400C3:
+            width = 320;
+            height = 200;
+            break;
+        case ATT400MED:
+            width = 640;
+            height = 200;
+            break;
+        case ATT400HI:
+            width = 640;
+            height = 400;
+            break;
+        }
+        break;
+    case VGA:
+        switch ( *graphmode )
+        {
+        case VGALO:
+            width = 640;
+            height = 200;
+            break;
+        case VGAMED:
+            width = 640;
+            height = 350;
+            break;
+        case VGAHI:
+            width = 640;
+            height = 480;
+            break;
+        }
+        break;
+    case PC3270:
+        width = 720;
+        height = 350;
+        break;
+    case IBM8514:
+        switch ( *graphmode )
+        {
+        case IBM8514LO:
+            width = 640;
+            height = 480;
+            break;
+        case IBM8514HI:
+            width = 1024;
+            height = 768;
+            break;
+        }
+        break;
+    default:
+	valid = false;
+    case CGA:
+        switch ( *graphmode )
+        {
+        case CGAC0:
+        case CGAC1:
+        case CGAC2:
+        case CGAC3:
+            width = 320;
+            height = 200;
+            break;
+        case CGAHI:
+            width = 640;
+            height = 200;
+            break;
+        }
+        break;
     }
-    memcpy(BGIpalette, BGIcolor, sizeof BGIpalette);
-    current_palette.size = MAXCOLORS+1;
-    for (index = 10; index <= MAXCOLORS; index++) {
-	pPalette->palPalEntry[index] = BGIcolor[0];
-    }
-    for (index = 0; index <= MAXCOLORS; index++) {
-	current_palette.colors[index] = index;
-	pPalette->palPalEntry[index+BG] = BGIcolor[index];
-    }
-    hPalette = CreatePalette(pPalette);
-	if (width<0)
-		width=640;
-	if (height<0)
-		height=480;
-    window_width=width;
-	window_height=height;
-    set_defaults();
 
-    hWnd = CreateWindow("BGIlibrary", "Windows BGI",
-			WS_OVERLAPPEDWINDOW,
-		        0, 0, window_width+BORDER_WIDTH,
-			window_height+BORDER_HEIGHT,
-			(HWND)NULL,  (HMENU)NULL,
-	    		0, NULL);
-    if (hWnd == NULL) {
-	gdi_error_code = GetLastError();
-	return;
-    }
+    // Create the window with with the specified dimensions
+    initwindow( width, height );
+    if (!valid)
+    {
+        pWndData = BGI__GetWindowDataPtr( );
+        pWndData->error_code = grInvalidDriver;
 
-    ShowWindow(hWnd, SW_SHOWNORMAL);
-    UpdateWindow(hWnd);
+    }
 }
 
-void graphdefaults()
+
+// This function does not do any work in WinBGI since the graphics and text
+// windows are always both open.
+//
+void restorecrtmode( )
+{ }
+
+
+// This function returns true if there is a character waiting to be read
+// from the window's keyboard buffer.
+//
+int kbhit( )
 {
-    set_defaults();
+    // TODO: start critical section
+    // check queue empty
+    // end critical section
+    WindowData *pWndData = BGI__GetWindowDataPtr( );
 
-    for (int i = 0; i <= MAXCOLORS; i++) {
-	current_palette.colors[i] = i;
-	BGIpalette[i] = BGIcolor[i];
+    return !pWndData->kbd_queue.empty( );
+}
+
+
+// This function sets the aspect ratio of the current window.
+//
+void setaspectratio( int xasp, int yasp )
+{
+    WindowData *pWndData = BGI__GetWindowDataPtr( );
+
+    pWndData->x_aspect_ratio = xasp;
+    pWndData->y_aspect_ratio = yasp;
+}
+
+
+void setgraphmode( int mode )
+{
+    // Reset graphics stuff to default
+    graphdefaults( );
+    // Clear the screen
+    cleardevice( );
+}
+
+
+
+
+/*****************************************************************************
+*
+*   User-Controlled Window Functions
+*
+*****************************************************************************/
+
+// This function returns the current window index to the user.  The user can
+// use this return value to refer to the window at a later time.
+//
+int getcurrentwindow( )
+{
+    return BGI__CurrentWindow;
+}
+
+
+// This function sets the current window to the value specified by the user.
+// All future drawing activity will be sent to this window.  If the window
+// index is invalid, the current window is unchanged
+//
+void setcurrentwindow( int window )
+{
+    if ( (window < 0) || (window >= BGI__WindowCount) || BGI__WindowTable[window] == NULL)
+        return;
+
+    BGI__CurrentWindow = window;
+}
+
+
+
+
+
+/*****************************************************************************
+*
+*   Double buffering support
+*
+*****************************************************************************/
+
+// This function returns the current active page for the current window.
+//
+int getactivepage( )
+{
+    WindowData *pWndData = BGI__GetWindowDataPtr( );
+    return pWndData->ActivePage;
+}
+
+
+// This function returns the current visual page for the current window.
+//
+int getvisualpage( )
+{
+    WindowData *pWndData = BGI__GetWindowDataPtr( );
+    return pWndData->VisualPage;
+}
+
+
+// This function changes the active page of the current window to the page
+// specified by page.  If page refers to an invalid number, the current
+// active page is unchanged.
+//
+void setactivepage( int page )
+{
+    WindowData *pWndData = BGI__GetWindowDataPtr( );
+
+    if ( (page < 0) || (page > MAX_PAGES) )
+        return;
+
+    pWndData->ActivePage = page;
+}
+
+
+// This function changes the visual page of the current window to the page
+// specified by page.  If page refers to an invalid number, the current
+// visual page is unchanged.  The graphics window is then redrawn with the
+// new page.
+//
+void setvisualpage( int page )
+{
+    WindowData *pWndData = BGI__GetWindowDataPtr( );
+
+    if ( (page < 0) || (page > MAX_PAGES) )
+        return;
+
+    pWndData->VisualPage = page;
+
+    // Redraw the entire current window.  No need to erase the background as
+    // the new image is simply copied over the old one.
+    InvalidateRect( pWndData->hWnd, NULL, FALSE );
+}
+
+
+// This function will swap the buffers if you have created a double-buffered
+// window.  That is, by having the dbflag true when initwindow was called.
+//
+void swapbuffers( )
+{
+    WindowData *pWndData = BGI__GetWindowDataPtr( );
+    
+    if ( pWndData->ActivePage == 0 )
+    {
+        pWndData->VisualPage = 0;
+        pWndData->ActivePage = 1;
     }
-    SetPaletteEntries(hPalette, BG, MAXCOLORS+1, BGIpalette);
-    RealizePalette(hdc[0]);
-
-    SetTextColor(hdc[0], PALETTEINDEX(text_color+BG));
-    SetTextColor(hdc[1], PALETTEINDEX(text_color+BG));
-    SetBkColor(hdc[0], PALETTEINDEX(BG));
-    SetBkColor(hdc[1], PALETTEINDEX(BG));
-
-    SelectClipRgn(hdc[0], NULL);
-    SelectClipRgn(hdc[1], NULL);
-    SetViewportOrgEx(hdc[0], 0, 0, NULL);
-    SetViewportOrgEx(hdc[1], 0, 0, NULL);
-
-    SelectObject(hdc[0], hBrush[fill_settings.pattern]);
-    SelectObject(hdc[1], hBrush[fill_settings.pattern]);
-
-    moveto(0,0);
+    else    // Active page is 1
+    {
+        pWndData->VisualPage = 1;
+        pWndData->ActivePage = 0;
+    }
+    // Redraw the entire current window.  No need to erase the background as
+    // the new image is simply copied over the old one.
+    InvalidateRect( pWndData->hWnd, NULL, FALSE );
 }
 
-void restorecrtmode() {}
-
-//ajout
-
-static int GraphDriver;
-static int GraphMode;
-
-void opengraph()
-{
-	GraphDriver = DETECT;
-
-	initgraph( &GraphDriver, &GraphMode, "" );
-}
-
-void opengraphsize(int width,int height)
-{
-	initgraphsize(width,height);
-}

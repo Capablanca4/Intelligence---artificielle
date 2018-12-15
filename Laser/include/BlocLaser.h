@@ -8,14 +8,19 @@ namespace ecran{
 class BlocLaser : public Case
 {
     public:
+        /** Constructeurs et destructeur*/
         BlocLaser(Point& centre,int cote);
         BlocLaser(int x,int y,int cote);
         virtual ~BlocLaser();
-        void setDirection(TDirection direction);
-        Laser* shoot();
+
+        /** Fonctions herites de Case et redefinit*/
         virtual void draw(Viewer& fenetre) override;
-        virtual bool touch(Echiquier& plateau)const override;
         virtual coordLaser posNextMoveLaser(Echiquier& plateau) const override;
+
+        /** Fonctions propre au Laser*/
+        Laser* shoot();
+        void setDirection(TDirection direction);
+
     private:
         TDirection d_direction;
 };

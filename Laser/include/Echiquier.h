@@ -9,35 +9,50 @@
 #include "CibleHorirontale.h"
 #include "CibleVerticale.h"
 #include "Mur.h"
+#include "Cible.h"
+#include "Monstre.h"
 
 namespace ecran{
 
 class Echiquier
 {
     public:
+        /** construction de l'echiquier*/
         Echiquier(int nbligne,int nbcolonne,int tailleCase);
-        void init(int nbligne,int nbcolonne);
         virtual ~Echiquier();
+        void init(int nbligne,int nbcolonne);
+
+        /** Changement d'objet de l'Echiquier*/
         Case* emplacementCase(const int x,const int y);
         Case* emplacementCase(const coordLaser& coor);
         Case* emplacementCase(const Point& emplacement);
         void setCase(Case* val);
+
+        /** accesseur de base*/
         const coordLaser coordLas() const;
         std::vector<std::vector<Case*> > plateau();
         const int nbligne() const;
         const int nbcolonne() const;
         const int taille() const;
+
+        /** fonctions transformant les points vers les coord de l'Echiquier*/
         int pointVersCoord(int x);
         int coordVersPoint(int coor);
+
+        /** fonctions gerant les mouvements du laser sur le plateau*/
+        void play(Viewer& fenetre,GameStatut& StatutJeu,int n);
+        void move(Viewer& fenetre,GameStatut& StatutJeu,int n);
+        void moveLaser(Viewer& fenetre,const coordLaser& nextCoord);
+        void losingByBeingOffBoard(GameStatut& StatutJeu,int n);
+        void gameOver(GameStatut& StatutJeu,int n);
+
         void draw(Viewer& fenetre) const;
-        void move();
-        void play(Viewer& fenetre);
         void start(Viewer& fenetre);
         void setCoordLaser(coordLaser coord);
+
     private:
         int d_taille;
         coordLaser d_emplacementLaser; /** emplacement du laser sur le dessin */
-        bool in_move;
         int d_nbligne;
         int d_nbcolonne;
         std::vector<std::vector<Case*> > d_plateau;

@@ -32,10 +32,6 @@ Laser* BlocLaser::shoot(){
     return retLaser;
 }
 
-bool BlocLaser::touch(Echiquier& plateau) const {
-    return false;
-}
-
 void BlocLaser::draw(Viewer& fenetre){
     rectangle(fenetre.pixelX(this->x()-this->cote()/2),
               fenetre.pixelY(this->y()+this->cote()/2),

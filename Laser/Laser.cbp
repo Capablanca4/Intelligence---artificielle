@@ -46,14 +46,19 @@
 		<Unit filename="include/CibleVerticale.h" />
 		<Unit filename="include/Echiquier.h" />
 		<Unit filename="include/Game.h" />
+		<Unit filename="include/GameStatut.h" />
 		<Unit filename="include/Laser.h" />
 		<Unit filename="include/MiroirGaucheVersBas.h" />
 		<Unit filename="include/MiroirGaucheVersHaut.h" />
 		<Unit filename="include/Mur.h" />
 		<Unit filename="include/Point.h" />
 		<Unit filename="include/Viewer.h" />
+		<Unit filename="include/dibapi.h" />
+		<Unit filename="include/dibutil.h" />
 		<Unit filename="include/graphics.h" />
 		<Unit filename="include/viewPort.hpp" />
+		<Unit filename="include/winbgim.h" />
+		<Unit filename="include/winbgitypes.h" />
 		<Unit filename="main.cpp" />
 		<Unit filename="src/BlocLaser.cpp" />
 		<Unit filename="src/Bouton.cpp" />
@@ -64,13 +69,23 @@
 		<Unit filename="src/CibleVerticale.cpp" />
 		<Unit filename="src/Echiquier.cpp" />
 		<Unit filename="src/Game.cpp" />
+		<Unit filename="src/GameStatut.cpp" />
 		<Unit filename="src/Laser.cpp" />
 		<Unit filename="src/MiroirGaucheVersBas.cpp" />
 		<Unit filename="src/MiroirGaucheVersHaut.cpp" />
 		<Unit filename="src/Mur.cpp" />
 		<Unit filename="src/Point.cpp" />
 		<Unit filename="src/Viewer.cpp" />
+		<Unit filename="src/dibutil.cpp" />
+		<Unit filename="src/drawing.cpp" />
+		<Unit filename="src/file.cpp" />
+		<Unit filename="src/misc.cpp" />
+		<Unit filename="src/mouse.cpp" />
+		<Unit filename="src/palette.cpp" />
+		<Unit filename="src/text.cpp" />
 		<Unit filename="src/viewPort.cpp" />
+		<Unit filename="src/winbgi.cpp" />
+		<Unit filename="src/winthread.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />
