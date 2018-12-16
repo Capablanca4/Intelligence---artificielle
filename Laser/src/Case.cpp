@@ -42,6 +42,7 @@ void Case::clearCase(Viewer& fenetre){
             );
 }
 
-void Case::transformation(Echiquier& plateau){}
+void Case::transformation(Echiquier& plateau){
+}
 
 }

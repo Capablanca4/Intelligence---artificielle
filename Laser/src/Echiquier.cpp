@@ -36,7 +36,6 @@ std::vector<std::vector<Case*> > Echiquier::plateau(){
     return d_plateau;
 }
 
-
 const coordLaser Echiquier::coordLas() const{
     return d_emplacementLaser;
 }

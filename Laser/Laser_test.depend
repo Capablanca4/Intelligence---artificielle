@@ -1,0 +1,300 @@
+# depslib dependency file v1.0
+1544885037 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\bloclaser.cpp
+	"BlocLaser.h"
+	"Echiquier.h"
+
+1544886845 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\bloclaser.h
+	"Case.h"
+	"Laser.h"
+
+1544983898 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\case.h
+	"Point.h"
+	"Viewer.h"
+	"GameStatut.h"
+	<vector>
+
+1544823609 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\point.h
+
+1544823730 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\viewer.h
+	"Point.h"
+	"graphics.h"
+	"viewPort.hpp"
+
+1544808174 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\graphics.h
+	<windows.h>
+	<limits.h>
+	<sstream>
+
+1544808174 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\viewport.hpp
+
+1544908151 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\gamestatut.h
+	<vector>
+
+1544823357 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\laser.h
+	"Case.h"
+
+1544887088 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\echiquier.h
+	<vector>
+	"BlocLaser.h"
+	"Laser.h"
+	"CaseVide.h"
+	"MiroirGaucheVersBas.h"
+	"MiroirGaucheVersHaut.h"
+	"CibleHorirontale.h"
+	"CibleVerticale.h"
+	"Mur.h"
+	"Cible.h"
+	"Monstre.h"
+
+1544887335 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\casevide.h
+	"Case.h"
+
+1544823395 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\miroirgaucheversbas.h
+	"Laser.h"
+	"Echiquier.h"
+
+1544823426 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\miroirgauchevershaut.h
+	"Case.h"
+	"Laser.h"
+	"Echiquier.h"
+
+1544887341 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\ciblehorirontale.h
+	"Case.h"
+	"Echiquier.h"
+
+1544887350 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\cibleverticale.h
+	"Case.h"
+	"Echiquier.h"
+
+1544823453 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\mur.h
+	"Case.h"
+
+1544887357 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\cible.h
+	"Case.h"
+
+1544898806 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\monstre.h
+	"Case.h"
+
+1544809736 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\bouton.cpp
+	"Bouton.h"
+
+1544822672 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\bouton.h
+	"Point.h"
+	"Viewer.h"
+
+1544983898 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\case.cpp
+	"Case.h"
+	"Echiquier.h"
+
+1544887368 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\casevide.cpp
+	"CaseVide.h"
+	"Echiquier.h"
+
+1544887376 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\cible.cpp
+	"Cible.h"
+	<iostream>
+
+1544887385 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\ciblehorirontale.cpp
+	"CibleHorirontale.h"
+	<iostream>
+	"Echiquier.h"
+
+1544887391 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\cibleverticale.cpp
+	"CibleVerticale.h"
+	<iostream>
+	"Echiquier.h"
+
+1544808175 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\dibutil.cpp
+	<windows.h>
+	<assert.h>
+	"dibapi.h"
+	"dibutil.h"
+	<stdio.h>
+
+1544808174 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\dibapi.h
+
+1544808174 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\dibutil.h
+
+1544808175 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\drawing.cpp
+	<windows.h>
+	<windowsx.h>
+	<math.h>
+	<ocidl.h>
+	<olectl.h>
+	<string.h>
+	"winbgim.h"
+	"winbgitypes.h"
+	"dibapi.h"
+	<iostream>
+
+1544808174 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\winbgim.h
+	<windows.h>
+	<limits.h>
+	<sstream>
+
+1544808174 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\winbgitypes.h
+	<windows.h>
+	<tchar.h>
+	<queue>
+	<string>
+	"winbgim.h"
+	<vector>
+
+1544984396 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\echiquier.cpp
+	"Echiquier.h"
+	<iostream>
+	<utility>
+
+1544808175 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\file.cpp
+	<windows.h>
+	<string.h>
+	<stdio.h>
+	<math.h>
+	<io.h>
+	<direct.h>
+	<stdlib.h>
+	"dibutil.h"
+	"dibapi.h"
+	"winbgitypes.h"
+
+1544900163 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\game.cpp
+	"Game.h"
+	<iostream>
+
+1544908151 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\game.h
+	"Echiquier.h"
+	"Viewer.h"
+	"Bouton.h"
+	"GameStatut.h"
+
+1544908151 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\gamestatut.cpp
+	"GameStatut.h"
+
+1544808175 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\laser.cpp
+	"Laser.h"
+	<iostream>
+	"Echiquier.h"
+
+1544821199 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\miroirgaucheversbas.cpp
+	"MiroirGaucheVersBas.h"
+	"Echiquier.h"
+	<iostream>
+
+1544821139 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\miroirgauchevershaut.cpp
+	"MiroirGaucheVersHaut.h"
+	<iostream>
+
+1544808176 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\misc.cpp
+	<windows.h>
+	<windowsx.h>
+	"winbgim.h"
+	"winbgitypes.h"
+	<iostream>
+
+1544808176 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\mouse.cpp
+	<windows.h>
+	<windowsx.h>
+	"winbgim.h"
+	"winbgitypes.h"
+
+1544808175 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\mur.cpp
+	"../include/Mur.h"
+	<iostream>
+	"Echiquier.h"
+
+1544808176 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\palette.cpp
+	<windows.h>
+	<windowsx.h>
+	"winbgim.h"
+	"winbgitypes.h"
+
+1544823567 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\point.cpp
+	"../include/Point.h"
+
+1544808176 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\text.cpp
+	<windows.h>
+	<windowsx.h>
+	<iostream>
+	<sstream>
+	<string>
+	"winbgim.h"
+	"winbgitypes.h"
+
+1544808175 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\viewer.cpp
+	"Viewer.h"
+	<iostream>
+
+1544808176 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\viewport.cpp
+	"viewPort.hpp"
+
+1544808176 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\winbgi.cpp
+	<windows.h>
+	<windowsx.h>
+	<stdio.h>
+	<iostream>
+	<vector>
+	"winbgim.h"
+	"winbgitypes.h"
+
+1544808176 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\winthread.cpp
+	<windows.h>
+	<windowsx.h>
+	"winbgim.h"
+	"winbgitypes.h"
+	<vector>
+	<queue>
+	<iostream>
+	<iostream>
+
+1544898806 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\monstre.cpp
+	"Monstre.h"
+	"Echiquier.h"
+
+1544983617 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\testlaser.cpp
+	"doctest.h"
+	<sstream>
+	"CaseVide.h"
+
+1543569522 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\doctest.h
+	<ciso646>
+	<iosfwd>
+	<cstddef>
+	<type_traits>
+	"doctest_fwd.h"
+	<ctime>
+	<cmath>
+	<climits>
+	<math.h>
+	<new>
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<limits>
+	<utility>
+	<sstream>
+	<iostream>
+	<algorithm>
+	<iomanip>
+	<vector>
+	<atomic>
+	<mutex>
+	<set>
+	<map>
+	<exception>
+	<stdexcept>
+	<csignal>
+	<cfloat>
+	<cctype>
+	<cstdint>
+	<sys/types.h>
+	<unistd.h>
+	<sys/sysctl.h>
+	<unistd.h>
+	<AfxWin.h>
+	<Windows.h>
+	<io.h>
+	<sys/time.h>
+
+1544910007 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\testmain.cpp
+	"doctest.h"
+
