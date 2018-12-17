@@ -14,7 +14,7 @@ Laser::Laser(int x,int y ,int cote,const TDirection& direction):
 
 Laser::~Laser(){}
 
-TDirection Laser::direction(){
+const TDirection Laser::direction()const{
     return d_direction;}
 
 void Laser::setDirection(TDirection direction){
@@ -36,16 +36,20 @@ void Laser::draw(Viewer& fenetre){
         fenetre.pixelY(y()-(cote()-petitRectangle)/1.9)
             );
 
-        line(fenetre.pixelX(this->x()-this->cote()/2),
-             fenetre.pixelY(this->y()),
-             fenetre.pixelX(this->x()+this->cote()/2),
-             fenetre.pixelY(this->y()));
+        line(fenetre.pixelX(x()-cote()/2),
+             fenetre.pixelY(y()),
+             fenetre.pixelX(x()+cote()/2),
+             fenetre.pixelY(y()));
         setcolor (WHITE);
 }
-    else line(fenetre.pixelX(this->x()),
-              fenetre.pixelY(this->y()-this->cote()/2),
-              fenetre.pixelX(this->x()),
-              fenetre.pixelY(this->y()+this->cote()/2));
+    else line(fenetre.pixelX(x()),
+              fenetre.pixelY(y()-cote()/2),
+              fenetre.pixelX(x()),
+              fenetre.pixelY(y()+cote()/2));
+}
+
+std::string Laser::typeObjet()const{
+    return "Ceci est un Laser";
 }
 
 }

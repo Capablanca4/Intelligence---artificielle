@@ -13,13 +13,16 @@ class Laser:public Case
         virtual ~Laser();
 
         /** Accesseur*/
-        TDirection direction();
+        const TDirection direction()const;
 
         /**modificateur de base*/
         void setDirection(TDirection direction);
 
         /** Fonction herite de Case et redefinit dans l objet*/
         virtual void draw(Viewer& fenetre) override;
+
+        /** Fonction de test*/
+        virtual std::string typeObjet()const override;
     private:
         TDirection d_direction;
 };

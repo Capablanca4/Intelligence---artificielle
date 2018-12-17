@@ -13,14 +13,18 @@ class BlocLaser : public Case
         BlocLaser(int x,int y,int cote);
         virtual ~BlocLaser();
 
+        /** Accesseur*/
+        const TDirection direction()const;
+
         /** Fonctions herites de Case et redefinit*/
         virtual void draw(Viewer& fenetre) override;
-        virtual coordLaser posNextMoveLaser(Echiquier& plateau) const override;
 
         /** Fonctions propre au Laser*/
         Laser* shoot();
         void setDirection(TDirection direction);
 
+        /**Fonction de test*/
+        virtual std::string typeObjet()const override;
     private:
         TDirection d_direction;
 };

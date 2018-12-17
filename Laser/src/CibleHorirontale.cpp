@@ -12,41 +12,46 @@ CibleHorizontale::~CibleHorizontale(){}
 
 void CibleHorizontale::draw(Viewer& fenetre){
 
-    line(fenetre.pixelX(this->x()-this->cote()/2),
-         fenetre.pixelY(this->y()),
-         fenetre.pixelX(this->x()+this->cote()/2),
-         fenetre.pixelY(this->y()));
+    line(fenetre.pixelX(x()-cote()/2),
+         fenetre.pixelY(y()),
+         fenetre.pixelX(x()+cote()/2),
+         fenetre.pixelY(y()));
 
-    line(fenetre.pixelX(this->x()-this->cote()/2),
-         fenetre.pixelY(this->y()-this->cote()/2),
-         fenetre.pixelX(this->x()-this->cote()/2),
-         fenetre.pixelY(this->y()+this->cote()/2));
+    line(fenetre.pixelX(x()-cote()/2),
+         fenetre.pixelY(y()-cote()/2),
+         fenetre.pixelX(x()-cote()/2),
+         fenetre.pixelY(y()+cote()/2));
 
-    line(fenetre.pixelX(this->x()+this->cote()/2),
-         fenetre.pixelY(this->y()-this->cote()/2),
-         fenetre.pixelX(this->x()+this->cote()/2),
-         fenetre.pixelY(this->y()+this->cote()/2));
+    line(fenetre.pixelX(x()+cote()/2),
+         fenetre.pixelY(y()-cote()/2),
+         fenetre.pixelX(x()+cote()/2),
+         fenetre.pixelY(y()+cote()/2));
 }
 
 bool CibleHorizontale::touch(Echiquier& plateau,GameStatut& StatutJeu,int n){
     Laser* las =(Laser*)plateau.plateau()[plateau.coordLas().x][plateau.coordLas().y];
     switch (las->direction()){
         case Gauche :
-            std::cout << "you lose !" <<std::endl ;
+            //std::cout << "you lose !" <<std::endl ;
             break;
         case Droite :
-            std::cout << "you lose !" <<std::endl ;
+            //std::cout << "you lose !" <<std::endl ;
             break;
         case Haut :
-            std::cout << "you win !" <<std::endl ;
+            //std::cout << "you win !" <<std::endl ;
             StatutJeu.setTouchTrue(n);
             break;
         case Bas :
-            std::cout << "you win !" <<std::endl ;
+            //std::cout << "you win !" <<std::endl ;
             StatutJeu.setTouchTrue(n);
             break;
     }
     return false;
 }
+
+std::string CibleHorizontale::typeObjet()const {
+    return "Ceci est une CibleHorizontale";
+}
+
 
 }

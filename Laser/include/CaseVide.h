@@ -17,6 +17,9 @@ class CaseVide : public Case
         virtual bool touch(Echiquier& plateau,GameStatut& StatutJeu,int n) override;
         void transformation(Echiquier& plateau) override;
 
+        /** Fonction de test*/
+        virtual std::string typeObjet()const override;
+
 };
 }
 #endif // CASEVIDE_H

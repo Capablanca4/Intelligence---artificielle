@@ -11,15 +11,15 @@ Cible::Cible(const int x,const int y,const int cote):Case{x,y,cote} {}
 
 void Cible::draw(Viewer& fenetre){
 
-    line(fenetre.pixelX(this->x()-this->cote()/2),
-         fenetre.pixelY(this->y()),
-         fenetre.pixelX(this->x()+this->cote()/2),
-         fenetre.pixelY(this->y()));
+    line(fenetre.pixelX(x()-cote()/2),
+         fenetre.pixelY(y()),
+         fenetre.pixelX(x()+cote()/2),
+         fenetre.pixelY(y()));
 
-    line(fenetre.pixelX(this->x()),
-         fenetre.pixelY(this->y()-this->cote()/2),
-         fenetre.pixelX(this->x()),
-         fenetre.pixelY(this->y()+this->cote()/2));
+    line(fenetre.pixelX(x()),
+         fenetre.pixelY(y()-cote()/2),
+         fenetre.pixelX(x()),
+         fenetre.pixelY(y()+cote()/2));
 
 }
 
@@ -27,6 +27,10 @@ bool Cible::touch(Echiquier& plateau,GameStatut& StatutJeu,int n){
     std::cout << "you win !" <<std::endl ;
     StatutJeu.setTouchTrue(n);
     return false;
+}
+
+std::string Cible::typeObjet()const{
+    return "Ceci est une Cible";
 }
 
 }

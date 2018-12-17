@@ -41,6 +41,9 @@ class Case: public Point
         virtual void draw(Viewer& fenetre)=0;
         void clearCase(Viewer& fenetre);
 
+        /**Fonction de test*/
+        virtual std::string typeObjet()const;
+
     private:
         int d_cote; /** largeur du carre definissant la case*/
 

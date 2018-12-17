@@ -45,4 +45,9 @@ void Case::clearCase(Viewer& fenetre){
 void Case::transformation(Echiquier& plateau){
 }
 
+std::string Case::typeObjet()const{
+    return "Ceci est une Case";
+}
+
+
 }
