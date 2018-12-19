@@ -8,13 +8,17 @@
 
 /** Les fonctions de dessins ne sont pas prises en compte dans ces tests */
 
-/** Les classes suivantes ont déja des tests unitaires : -Case
-                                                         -CaseVide
-                                                         -BlocLaser
-                                                         -Cible
-                                                         -CibleHorizontale
-                                                         -CibleVerticale
-                                                         -Laser
+/** Les classes suivantes ont déja des tests unitaires : - Case
+                                                         - CaseVide
+                                                         - BlocLaser
+                                                         - Cible
+                                                         - CibleHorizontale
+                                                         - CibleVerticale
+                                                         - Laser
+                                                         - MiroirGaucheVersBas
+                                                         -
+                                                         -
+                                                         -
                                                          -
 */
 
@@ -164,7 +168,7 @@ TEST_CASE("Les methodes de CibleHorizontale sont correctes"){
         tabl.setCase(cible);
         ecran::Laser* las= new ecran::Laser{tabl.coordVersPoint(x1),tabl.coordVersPoint(y1-1),cote};
         tabl.setCase(las);
-        tabl.setCoordLaser(ecran::coordLaser{x1,y1-1});
+        tabl.setCoordLaser(ecran::coord{x1,y1-1});
 
         SUBCASE("La methode touch() renvoie faux"){
             REQUIRE_FALSE(tabl.emplacementCase(x1,y1)->touch(tabl,StatutJeu,0));}
@@ -209,7 +213,7 @@ TEST_CASE("Les methodes de CibleVerticale sont correctes"){
         tabl.setCase(cible);
         ecran::Laser* las= new ecran::Laser{tabl.coordVersPoint(x1),tabl.coordVersPoint(y1-1),cote};
         tabl.setCase(las);
-        tabl.setCoordLaser(ecran::coordLaser{x1,y1-1});
+        tabl.setCoordLaser(ecran::coord{x1,y1-1});
 
         SUBCASE("La methode touch() renvoie faux"){
             REQUIRE_FALSE(tabl.emplacementCase(x1,y1)->touch(tabl,StatutJeu,0));}
@@ -248,7 +252,7 @@ TEST_CASE("Les methodes de Laser sont correctes"){
 
     SUBCASE("Le constructeur par defaut est correcte"){
         ecran::Laser las{x1,y1,cote};
-        REQUIRE_EQ(las.direction(),ecran::Gauche);
+        REQUIRE_EQ(las.direction(),ecran::Droite);
     }
 
     SUBCASE("La methode direction() est correcte"){
@@ -324,6 +328,15 @@ TEST_CASE("Les methodes de MiroirGaucheVersBas sont correctes"){
         ecran::Echiquier tabl{nbLigne,nbColonne,cote};
         ecran::MiroirGaucheVersBas* mir= new ecran::MiroirGaucheVersBas{tabl.coordVersPoint(x1),tabl.coordVersPoint(y1),cote};
         tabl.setCase(mir);
+
+        SUBCASE("Cas ou le Laser vient de la Gauche et n'est pas au bord du tableau"){ /** Test s'effectuant mais d'une manière très bizarre*/
+            ecran::Laser* las= new ecran::Laser{tabl.coordVersPoint(x1),tabl.coordVersPoint(y1-1),cote};
+            tabl.setCase(las);
+            tabl.setCoordLaser(ecran::coord{x1,y1-1});
+            las->setDirection(ecran::Gauche);
+            REQUIRE_EQ(mir->posNextMoveLaser(tabl).x,x1);
+            REQUIRE_EQ(mir->posNextMoveLaser(tabl).y,y1-1);
+        }
     }
 
 

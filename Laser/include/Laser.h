@@ -8,8 +8,8 @@ class Laser:public Case
 {
     public:
         /** Constructeurs et destructeur*/
-        Laser(Point& centre,int cote,const TDirection& direction =Gauche);
-        Laser(int x,int y ,int cote,const TDirection& direction =Gauche);
+        Laser(Point& centre,int cote,const TDirection& direction =Droite);
+        Laser(int x,int y ,int cote,const TDirection& direction =Droite);
         virtual ~Laser();
 
         /** Accesseur*/

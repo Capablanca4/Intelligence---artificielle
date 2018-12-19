@@ -17,13 +17,13 @@ void MiroirGaucheVersHaut::draw(Viewer& fenetre){
          fenetre.pixelY(this->y()+this->cote()/2));
 }
 
-coordLaser MiroirGaucheVersHaut::posNextMoveLaser(Echiquier& plateau) const{
+coord MiroirGaucheVersHaut::posNextMoveLaser(Echiquier& plateau) const{
     Laser* las =(Laser*)plateau.plateau()[plateau.coordLas().x][plateau.coordLas().y];
     switch (las->direction()){
 
         case Gauche :
             if(plateau.pointVersCoord(this->y())-1<0){
-                coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
+                coord ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
                 return ret;}
             else  {
                 Case* maCase =plateau.plateau()[plateau.pointVersCoord(this->x())][plateau.pointVersCoord(this->y())-1];
@@ -33,7 +33,7 @@ coordLaser MiroirGaucheVersHaut::posNextMoveLaser(Echiquier& plateau) const{
 
         case Droite :
             if(plateau.pointVersCoord(this->y())+1>=plateau.nbligne()){
-                coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
+                coord ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
                 return ret;}
             else  {
                 Case* maCase = plateau.plateau()[plateau.pointVersCoord(this->x())][plateau.pointVersCoord(this->y())+1];
@@ -43,7 +43,7 @@ coordLaser MiroirGaucheVersHaut::posNextMoveLaser(Echiquier& plateau) const{
 
         case Haut :
             if(plateau.pointVersCoord(this->x())+1>=plateau.nbcolonne()){
-                coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
+                coord ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
                 return ret;}
             else  {
                 Case* maCase = plateau.plateau()[plateau.pointVersCoord(this->x())+1][plateau.pointVersCoord(this->y())];
@@ -53,7 +53,7 @@ coordLaser MiroirGaucheVersHaut::posNextMoveLaser(Echiquier& plateau) const{
 
         case Bas :
             if(plateau.pointVersCoord(this->x())-1<0){
-                coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
+                coord ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
                 return ret;}
             else  {
                 Case* maCase = plateau.plateau()[plateau.pointVersCoord(this->x())-1][plateau.pointVersCoord(this->y())];

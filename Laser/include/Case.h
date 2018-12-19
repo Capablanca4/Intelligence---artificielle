@@ -7,7 +7,7 @@
 
 namespace ecran{
 
-struct coordLaser {
+struct coord {
     int x,y; };
 
 class Echiquier;
@@ -32,7 +32,7 @@ class Case: public Point
 
         /** Fonction gerant le deplacement du laser*/
         virtual bool touch(Echiquier& plateau,GameStatut& StatutJeu,int n);
-        virtual coordLaser posNextMoveLaser(Echiquier& plateau) const;
+        virtual coord posNextMoveLaser(Echiquier& plateau) const;
 
         /**Fonction gerant le changement d'objet*/
         virtual void transformation(Echiquier& plateau);

@@ -16,8 +16,8 @@ int Echiquier::pointVersCoord(int x) const{
     return (x-d_taille/2)/d_taille;
 }
 
-Point Echiquier::pointVersCoord(int x,int y) const{
-    return Point{pointVersCoord(x),pointVersCoord(y)};
+coord Echiquier::pointVersCoord(int x,int y) const{
+    return coord{pointVersCoord(x),pointVersCoord(y)};
 }
 
 int Echiquier::coordVersPoint(int coor) const{
@@ -40,7 +40,7 @@ std::vector<std::vector<Case*> > Echiquier::plateau(){
     return d_plateau;
 }
 
-const coordLaser Echiquier::coordLas() const{
+const coord Echiquier::coordLas() const{
     return d_emplacementLaser;
 }
 
@@ -56,15 +56,15 @@ const int Echiquier::taille() const{
     return d_taille;
 }
 
-Case* Echiquier::emplacementCase(const Point& emplacement) {
+Case*& Echiquier::emplacementCase(const Point& emplacement) {
     return emplacementCase(emplacement.x(),emplacement.y());
 }
 
-Case* Echiquier::emplacementCase(const coordLaser& coor) {
+Case*& Echiquier::emplacementCase(const coord& coor) {
     return emplacementCase(coor.x,coor.y);
 }
 
-Case* Echiquier::emplacementCase(const int x,const int y){
+Case*& Echiquier::emplacementCase(const int x,const int y){
     return d_plateau[x][y];
 }
 
@@ -77,8 +77,8 @@ void Echiquier::draw(Viewer& fenetre) const{
 }
 
 void Echiquier::setCase(Case* val){
-    Case* tamp=d_plateau[pointVersCoord(val->x())][pointVersCoord(val->y())];
-    d_plateau[pointVersCoord(val->x())][pointVersCoord(val->y())]=val;
+    Case* tamp=emplacementCase(pointVersCoord(val->x(), val->y() ) ) ;
+    emplacementCase(pointVersCoord(val->x(), val->y() ) )=val;
     delete tamp;
 }
 
@@ -98,7 +98,7 @@ void Echiquier::play(Viewer& fenetre,GameStatut& StatutJeu,int n){
     }
 }
 
-void Echiquier::moveLaser(Viewer& fenetre,const coordLaser& nextCoord){
+void Echiquier::moveLaser(Viewer& fenetre,const coord& nextCoord){
     std::swap(d_plateau[nextCoord.x][nextCoord.y],
               d_plateau[d_emplacementLaser.x][d_emplacementLaser.y]);
 
@@ -129,7 +129,7 @@ void Echiquier::move(Viewer& fenetre,GameStatut& StatutJeu,int n){
         case Droite :
             if(d_emplacementLaser.x+1>=d_nbcolonne) losingByBeingOffBoard(StatutJeu,n);
             else {
-                coordLaser nextCoord = d_plateau[d_emplacementLaser.x+1][d_emplacementLaser.y]->posNextMoveLaser(*this);
+                coord nextCoord = d_plateau[d_emplacementLaser.x+1][d_emplacementLaser.y]->posNextMoveLaser(*this);
                 if (emplacementCase(nextCoord)->touch(*this,StatutJeu,n)){
                     moveLaser(fenetre,nextCoord);
                     }
@@ -139,7 +139,7 @@ void Echiquier::move(Viewer& fenetre,GameStatut& StatutJeu,int n){
         case Gauche :
             if(d_emplacementLaser.x-1<0) losingByBeingOffBoard(StatutJeu,n);
             else {
-                coordLaser nextCoord = d_plateau[d_emplacementLaser.x-1][d_emplacementLaser.y]->posNextMoveLaser(*this);
+                coord nextCoord = d_plateau[d_emplacementLaser.x-1][d_emplacementLaser.y]->posNextMoveLaser(*this);
                 if (emplacementCase(nextCoord)->touch(*this,StatutJeu,n)){
                     moveLaser(fenetre,nextCoord);}
                 else gameOver(StatutJeu,n);
@@ -148,7 +148,7 @@ void Echiquier::move(Viewer& fenetre,GameStatut& StatutJeu,int n){
             case Haut:
                 if(d_emplacementLaser.y+1>=d_nbcolonne) losingByBeingOffBoard(StatutJeu,n);
                 else {
-                    coordLaser nextCoord = d_plateau[d_emplacementLaser.x][d_emplacementLaser.y+1]->posNextMoveLaser(*this);
+                    coord nextCoord = d_plateau[d_emplacementLaser.x][d_emplacementLaser.y+1]->posNextMoveLaser(*this);
                     if (emplacementCase(nextCoord)->touch(*this,StatutJeu,n)){
                         moveLaser(fenetre,nextCoord);
                         }
@@ -158,7 +158,7 @@ void Echiquier::move(Viewer& fenetre,GameStatut& StatutJeu,int n){
                 case Bas:
                     if(d_emplacementLaser.y-1<0) losingByBeingOffBoard(StatutJeu,n);
                     else {
-                        coordLaser nextCoord = d_plateau[d_emplacementLaser.x][d_emplacementLaser.y-1]->posNextMoveLaser(*this);
+                        coord nextCoord = d_plateau[d_emplacementLaser.x][d_emplacementLaser.y-1]->posNextMoveLaser(*this);
                         if (emplacementCase(nextCoord)->touch(*this,StatutJeu,n)){
                             moveLaser(fenetre,nextCoord);
                             }
@@ -168,7 +168,7 @@ void Echiquier::move(Viewer& fenetre,GameStatut& StatutJeu,int n){
             }
 }
 
-void Echiquier::setCoordLaser(coordLaser coord){
+void Echiquier::setCoordLaser(coord coord){
     d_emplacementLaser=coord;
 }
 

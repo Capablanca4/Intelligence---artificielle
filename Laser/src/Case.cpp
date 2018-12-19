@@ -26,8 +26,8 @@ bool Case::touch(Echiquier& plateau,GameStatut& StatutJeu,int n) {
     return false ;
 }
 
-coordLaser Case::posNextMoveLaser(Echiquier& plateau) const{
-    coordLaser ret{plateau.pointVersCoord(x()),
+coord Case::posNextMoveLaser(Echiquier& plateau) const{
+    coord ret{plateau.pointVersCoord(x()),
                    plateau.pointVersCoord(y())};
     return ret;
 }
