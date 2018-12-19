@@ -29,7 +29,7 @@ void CibleHorizontale::draw(Viewer& fenetre){
 }
 
 bool CibleHorizontale::touch(Echiquier& plateau,GameStatut& StatutJeu,int n){
-    Laser* las =(Laser*)plateau.plateau()[plateau.coordLas().x][plateau.coordLas().y];
+    Laser* las =(Laser*)plateau.emplacementCase(plateau.coordLas());
     switch (las->direction()){
         case Gauche :
             //std::cout << "you lose !" <<std::endl ;

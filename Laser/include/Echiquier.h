@@ -36,8 +36,9 @@ class Echiquier
         const int taille() const;
 
         /** fonctions transformant les points vers les coord de l'Echiquier*/
-        int pointVersCoord(int x);
-        int coordVersPoint(int coor);
+        int pointVersCoord(int x) const;
+        Point pointVersCoord(int x,int y) const;
+        int coordVersPoint(int coor) const;
 
         /** fonctions gerant les mouvements du laser sur le plateau*/
         void play(Viewer& fenetre,GameStatut& StatutJeu,int n);

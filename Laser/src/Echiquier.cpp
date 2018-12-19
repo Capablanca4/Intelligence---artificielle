@@ -12,11 +12,15 @@ Echiquier::Echiquier(int nbligne,int nbcolonne,int tailleCase):
 
         {init(nbligne,nbcolonne);}
 
-int Echiquier::pointVersCoord(int x){
+int Echiquier::pointVersCoord(int x) const{
     return (x-d_taille/2)/d_taille;
 }
 
-int Echiquier::coordVersPoint(int coor){
+Point Echiquier::pointVersCoord(int x,int y) const{
+    return Point{pointVersCoord(x),pointVersCoord(y)};
+}
+
+int Echiquier::coordVersPoint(int coor) const{
     return coor*d_taille+d_taille/2;
 }
 
@@ -126,7 +130,7 @@ void Echiquier::move(Viewer& fenetre,GameStatut& StatutJeu,int n){
             if(d_emplacementLaser.x+1>=d_nbcolonne) losingByBeingOffBoard(StatutJeu,n);
             else {
                 coordLaser nextCoord = d_plateau[d_emplacementLaser.x+1][d_emplacementLaser.y]->posNextMoveLaser(*this);
-                if (d_plateau[nextCoord.x][nextCoord.y]->touch(*this,StatutJeu,n)){
+                if (emplacementCase(nextCoord)->touch(*this,StatutJeu,n)){
                     moveLaser(fenetre,nextCoord);
                     }
                 else gameOver(StatutJeu,n);
@@ -136,7 +140,7 @@ void Echiquier::move(Viewer& fenetre,GameStatut& StatutJeu,int n){
             if(d_emplacementLaser.x-1<0) losingByBeingOffBoard(StatutJeu,n);
             else {
                 coordLaser nextCoord = d_plateau[d_emplacementLaser.x-1][d_emplacementLaser.y]->posNextMoveLaser(*this);
-                if (d_plateau[nextCoord.x][nextCoord.y]->touch(*this,StatutJeu,n)){
+                if (emplacementCase(nextCoord)->touch(*this,StatutJeu,n)){
                     moveLaser(fenetre,nextCoord);}
                 else gameOver(StatutJeu,n);
                 }
@@ -145,7 +149,7 @@ void Echiquier::move(Viewer& fenetre,GameStatut& StatutJeu,int n){
                 if(d_emplacementLaser.y+1>=d_nbcolonne) losingByBeingOffBoard(StatutJeu,n);
                 else {
                     coordLaser nextCoord = d_plateau[d_emplacementLaser.x][d_emplacementLaser.y+1]->posNextMoveLaser(*this);
-                    if (d_plateau[nextCoord.x][nextCoord.y]->touch(*this,StatutJeu,n)){
+                    if (emplacementCase(nextCoord)->touch(*this,StatutJeu,n)){
                         moveLaser(fenetre,nextCoord);
                         }
                     else gameOver(StatutJeu,n);
@@ -155,7 +159,7 @@ void Echiquier::move(Viewer& fenetre,GameStatut& StatutJeu,int n){
                     if(d_emplacementLaser.y-1<0) losingByBeingOffBoard(StatutJeu,n);
                     else {
                         coordLaser nextCoord = d_plateau[d_emplacementLaser.x][d_emplacementLaser.y-1]->posNextMoveLaser(*this);
-                        if (d_plateau[nextCoord.x][nextCoord.y]->touch(*this,StatutJeu,n)){
+                        if (emplacementCase(nextCoord)->touch(*this,StatutJeu,n)){
                             moveLaser(fenetre,nextCoord);
                             }
                         else gameOver(StatutJeu,n);

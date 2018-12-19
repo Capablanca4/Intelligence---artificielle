@@ -33,9 +33,9 @@ void Game::waitUntilMouseCkicked(){
         double d_y=d_fenetre.reversePixelY(y)*1.0/d_echiquier.taille();
         if(d_x>=0 && d_x<d_echiquier.nbcolonne() && d_y>=0 && d_y<d_echiquier.nbligne()){ /** On touche l'échiquier*/
             x=d_x; y=d_y;
-            Case* cas= (Case*)d_echiquier.plateau()[x][y];
+            Case* cas= (Case*)d_echiquier.emplacementCase(x,y);
             cas->transformation(d_echiquier);
-            cas= (Case*)d_echiquier.plateau()[x][y];
+            cas= (Case*)d_echiquier.emplacementCase(x,y);
             cas->clearCase(d_fenetre);
             cas->draw(d_fenetre);
         }

@@ -12,24 +12,24 @@ CibleVerticale::~CibleVerticale(){}
 
 void CibleVerticale::draw(Viewer& fenetre){
 
-    line(fenetre.pixelX(this->x()),
-         fenetre.pixelY(this->y()-this->cote()/2),
-         fenetre.pixelX(this->x()),
-         fenetre.pixelY(this->y()+this->cote()/2));
+    line(fenetre.pixelX(x()),
+         fenetre.pixelY(y()-cote()/2),
+         fenetre.pixelX(x()),
+         fenetre.pixelY(y()+cote()/2));
 
-    line(fenetre.pixelX(this->x()-this->cote()/2),
-         fenetre.pixelY(this->y()-this->cote()/2),
-         fenetre.pixelX(this->x()+this->cote()/2),
-         fenetre.pixelY(this->y()-this->cote()/2));
+    line(fenetre.pixelX(x()-cote()/2),
+         fenetre.pixelY(y()-cote()/2),
+         fenetre.pixelX(x()+cote()/2),
+         fenetre.pixelY(y()-cote()/2));
 
-    line(fenetre.pixelX(this->x()-this->cote()/2),
-         fenetre.pixelY(this->y()+this->cote()/2),
-         fenetre.pixelX(this->x()+this->cote()/2),
-         fenetre.pixelY(this->y()+this->cote()/2));
+    line(fenetre.pixelX(x()-cote()/2),
+         fenetre.pixelY(y()+cote()/2),
+         fenetre.pixelX(x()+cote()/2),
+         fenetre.pixelY(y()+cote()/2));
 }
 
 bool CibleVerticale::touch(Echiquier& plateau,GameStatut& StatutJeu,int n){
-    Laser* las =(Laser*)plateau.plateau()[plateau.coordLas().x][plateau.coordLas().y];
+    Laser* las =(Laser*)plateau.emplacementCase(plateau.coordLas());
     switch (las->direction()){
         case Gauche :
             std::cout << "you win !" <<std::endl ;
@@ -47,6 +47,10 @@ bool CibleVerticale::touch(Echiquier& plateau,GameStatut& StatutJeu,int n){
             break;
     }
     return false;
+}
+
+std::string CibleVerticale::typeObjet()const {
+    return "Ceci est une CibleVerticale";
 }
 
 }

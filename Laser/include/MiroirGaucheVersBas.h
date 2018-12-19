@@ -17,6 +17,9 @@ class MiroirGaucheVersBas :public Case
         virtual void draw(Viewer& fenetre) override;
         virtual coordLaser posNextMoveLaser(Echiquier& plateau) const override;
         void transformation(Echiquier& plateau) override;
+
+        /** Fonction de test*/
+        virtual std::string typeObjet()const override;
 };
 }
 
