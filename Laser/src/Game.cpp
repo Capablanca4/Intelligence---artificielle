@@ -43,8 +43,8 @@ void Game::waitUntilMouseCkicked(){
            x<=d_fenetre.pixelX(d_boutonQuit.centre().x()+d_boutonQuit.largeur()/2) &&
            y>=d_fenetre.pixelY(d_boutonQuit.centre().y()+d_boutonQuit.hauteur()/2) &&
            y<=d_fenetre.pixelY(d_boutonQuit.centre().y()-d_boutonQuit.hauteur()/2) ){
-            touchedButton=true;
-            closeGame();
+                touchedButton=true;
+                closeGame();
            }
         if(x>=d_fenetre.pixelX(d_boutonDemarrer.centre().x()-d_boutonDemarrer.largeur()/2) &&
            x<=d_fenetre.pixelX(d_boutonDemarrer.centre().x()+d_boutonDemarrer.largeur()/2) &&

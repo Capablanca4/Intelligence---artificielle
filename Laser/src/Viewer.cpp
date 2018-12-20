@@ -10,7 +10,6 @@ Viewer::Viewer(int largeur,int hauteur):
     CoordonneesX{0,hauteur,decalageX,hauteur-decalageX}{}
 
 void Viewer::openWindow() {
-    //opengraphsize(d_hauteur+10,d_largeur+13); /** il faut rajouter des constantes car WinBGi rogne le bord des fenêtres */
     initwindow(d_hauteur+10,d_largeur+13); /** il faut rajouter des constantes car WinBGi rogne le bord des fenêtres */
     d_open=true;
     }

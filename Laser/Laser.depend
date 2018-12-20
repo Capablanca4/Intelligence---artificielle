@@ -657,7 +657,7 @@
 	"winbgim.h"
 	<vector>
 
-1545221954 source:\\uha.fr\users\e1603982\bureau\projet qualité de programmation\intelligence---artificielle-testunitaire\laser\src\echiquier.cpp
+1545316923 source:\\uha.fr\users\e1603982\bureau\projet qualité de programmation\intelligence---artificielle-testunitaire\laser\src\echiquier.cpp
 	"Echiquier.h"
 	<iostream>
 	<utility>
@@ -674,7 +674,7 @@
 	"dibapi.h"
 	"winbgitypes.h"
 
-1545212870 source:\\uha.fr\users\e1603982\bureau\projet qualité de programmation\intelligence---artificielle-testunitaire\laser\src\game.cpp
+1545300741 source:\\uha.fr\users\e1603982\bureau\projet qualité de programmation\intelligence---artificielle-testunitaire\laser\src\game.cpp
 	"Game.h"
 	<iostream>
 
@@ -686,7 +686,7 @@
 	<iostream>
 	"Echiquier.h"
 
-1545225227 source:\\uha.fr\users\e1603982\bureau\projet qualité de programmation\intelligence---artificielle-testunitaire\laser\src\miroirgaucheversbas.cpp
+1545317208 source:\\uha.fr\users\e1603982\bureau\projet qualité de programmation\intelligence---artificielle-testunitaire\laser\src\miroirgaucheversbas.cpp
 	"MiroirGaucheVersBas.h"
 	"Echiquier.h"
 	<iostream>
@@ -735,7 +735,7 @@
 	"winbgim.h"
 	"winbgitypes.h"
 
-1545066520 source:\\uha.fr\users\e1603982\bureau\projet qualité de programmation\intelligence---artificielle-testunitaire\laser\src\viewer.cpp
+1545314584 source:\\uha.fr\users\e1603982\bureau\projet qualité de programmation\intelligence---artificielle-testunitaire\laser\src\viewer.cpp
 	"Viewer.h"
 	<iostream>
 
