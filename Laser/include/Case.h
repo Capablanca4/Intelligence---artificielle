@@ -20,6 +20,7 @@ class Case: public Point
         /** Constructeurs et destructeur*/
         Case(Point& centre,int cote);
         Case(int x,int y,int cote);
+        Case(Case& cas);
         virtual ~Case();
 
         /** Accesseur*/

@@ -62,4 +62,8 @@ void Mur::draw(Viewer& fenetre){
 
 }
 
+std::string Mur::typeObjet()const{
+    return "Ceci est un Mur";
+}
+
 }

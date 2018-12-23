@@ -9,6 +9,8 @@ Case::Case(Point& centre,int cote):Point{centre},d_cote{cote}{}
 
 Case::Case(int x,int y,int cote):Point{x,y},d_cote{cote}{}
 
+Case::Case(Case& cas):Point{cas.centre()},d_cote{cas.cote()}{}
+
 const Point Case::centre()const {
     return Point{x(),y()};}
 

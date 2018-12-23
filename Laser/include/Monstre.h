@@ -9,12 +9,16 @@ class Monstre:public Case
     /** Constructeurs et destructeur*/
         Monstre(Point& centre,int cote);
         Monstre(int x,int y,int cote);
+        Monstre(Case& cas);
         virtual ~Monstre();
 
         /** Fonctions herites de Case et redefinit dans l objet*/
         virtual void draw(Viewer& fenetre) override;
         virtual bool touch(Echiquier& plateau,GameStatut& StatutJeu,int n) override;
         void changement(Echiquier& plateau);
+
+        /** Fonction de test*/
+        virtual std::string typeObjet()const override;
 };
 }
 #endif // MONSTRE_H

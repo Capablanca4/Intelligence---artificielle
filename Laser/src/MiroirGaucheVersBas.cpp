@@ -12,59 +12,55 @@ MiroirGaucheVersBas::MiroirGaucheVersBas(Point& centre,int cote):
 MiroirGaucheVersBas::MiroirGaucheVersBas(int x,int y,int cote):
         Case{x,y,cote}{}
 
+MiroirGaucheVersBas::MiroirGaucheVersBas(Case& cas):
+        Case{cas}{}
+
 MiroirGaucheVersBas::~MiroirGaucheVersBas() {}
 
 void MiroirGaucheVersBas::draw(Viewer& fenetre){
 
     line(fenetre.pixelX(x()-cote()/2),
-         fenetre.pixelY(y()+cote()/2),
+         fenetre.pixelY(y()-cote()/2),
          fenetre.pixelX(x()+cote()/2),
-         fenetre.pixelY(y()-cote()/2));
+         fenetre.pixelY(y()+cote()/2));
 }
-
-/** Complètement cassée !! */
 
 coord MiroirGaucheVersBas::posNextMoveLaser(Echiquier& plateau) const{
     Laser* las =(Laser*)plateau.emplacementCase(plateau.coordLas());
     switch (las->direction()){
-
         case Gauche :
-            if(plateau.pointVersCoord(y())+1>=plateau.nbcolonne()){
-                coord ret{plateau.pointVersCoord(x()),plateau.pointVersCoord(y())};
-                return ret;}
-            else  {
-                Case* maCase = plateau.emplacementCase(plateau.pointVersCoord(x(),(y()+cote())));
-                las->setDirection(Haut);
-                return maCase->posNextMoveLaser(plateau);}
-           break;
-
-        case Droite :
-             if(plateau.pointVersCoord(y())-1<0){
-                coord ret{plateau.pointVersCoord(x()),plateau.pointVersCoord(y())};
-                return ret;}
+            if(plateau.pointVersCoord(y())-1<0){
+                return coord{plateau.pointVersCoord(x()),plateau.pointVersCoord(y())};}
             else  {
                 Case* maCase = plateau.emplacementCase(plateau.pointVersCoord(x(),(y()-cote())));
                 las->setDirection(Bas);
                 return maCase->posNextMoveLaser(plateau);}
             break;
 
-        case Haut :
-            if(plateau.pointVersCoord(x())-1<0){
-                coord ret{plateau.pointVersCoord(x()),plateau.pointVersCoord(y())};
-                return ret;}
+        case Droite :
+            if(plateau.pointVersCoord(y())+1>=plateau.nbcolonne()){
+                return coord{plateau.pointVersCoord(x()),plateau.pointVersCoord(y())};}
             else  {
-                Case* maCase = plateau.emplacementCase(plateau.pointVersCoord((x()-cote()),y()));
-                las->setDirection(Gauche);
+                Case* maCase = plateau.emplacementCase(plateau.pointVersCoord(x(),(y()+cote())));
+                las->setDirection(Haut);
+                return maCase->posNextMoveLaser(plateau);}
+           break;
+
+        case Haut :
+            if(plateau.pointVersCoord(x())+1>=plateau.nbligne()){
+                return coord{plateau.pointVersCoord(x()),plateau.pointVersCoord(y())};}
+            else  {
+                Case* maCase = plateau.emplacementCase(plateau.pointVersCoord(x()+cote(),y()));
+                las->setDirection(Droite);
                 return maCase->posNextMoveLaser(plateau);}
             break;
 
         case Bas :
-            if(plateau.pointVersCoord(x())+1>=plateau.nbligne()){
-                coord ret{plateau.pointVersCoord(x()),plateau.pointVersCoord(y())};
-                return ret;}
+            if(plateau.pointVersCoord(x())-1<0){
+                return coord{plateau.pointVersCoord(x()),plateau.pointVersCoord(y())};}
             else  {
-                Case* maCase = plateau.emplacementCase(plateau.pointVersCoord(x()+cote(),y()));
-                las->setDirection(Droite);
+                Case* maCase = plateau.emplacementCase(plateau.pointVersCoord((x()-cote()),y()));
+                las->setDirection(Gauche);
                 return maCase->posNextMoveLaser(plateau);}
             break;
     }

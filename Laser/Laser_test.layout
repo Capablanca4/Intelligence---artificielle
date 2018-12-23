@@ -2,44 +2,14 @@
 <CodeBlocks_layout_file>
 	<FileVersion major="1" minor="0" />
 	<ActiveTarget name="Debug" />
-	<File name="include\MiroirGaucheVersHaut.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include\Case.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="543" topLine="0" />
+			<Cursor1 position="980" topLine="21" />
 		</Cursor>
 	</File>
-	<File name="src\misc.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include\GameStatut.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="18334" topLine="600" />
-		</Cursor>
-	</File>
-	<File name="include\Echiquier.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="1744" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src\BlocLaser.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="457" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="include\MiroirGaucheVersBas.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="226" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="include\Laser.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="158" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="testLaser.cpp" open="1" top="0" tabpos="2" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="12423" topLine="311" />
-		</Cursor>
-	</File>
-	<File name="include\dibapi.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="742" topLine="0" />
+			<Cursor1 position="436" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="testmain.cpp" open="1" top="0" tabpos="1" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -47,24 +17,44 @@
 			<Cursor1 position="66" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src\Case.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\MiroirGaucheVersHaut.cpp" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="685" topLine="21" />
+			<Cursor1 position="2640" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="include\BlocLaser.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\Case.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="659" topLine="1" />
+			<Cursor1 position="994" topLine="20" />
+		</Cursor>
+	</File>
+	<File name="include\Echiquier.h" open="1" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="1263" topLine="33" />
+		</Cursor>
+	</File>
+	<File name="include\dibapi.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="742" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include\Game.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="0" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="src\CaseVide.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1849" topLine="0" />
+			<Cursor1 position="1135" topLine="36" />
 		</Cursor>
 	</File>
-	<File name="include\Case.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\Monstre.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1080" topLine="21" />
+			<Cursor1 position="1007" topLine="13" />
+		</Cursor>
+	</File>
+	<File name="include\Laser.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="627" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="src\Cible.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -72,9 +62,14 @@
 			<Cursor1 position="432" topLine="0" />
 		</Cursor>
 	</File>
+	<File name="include\Cible.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="445" topLine="0" />
+		</Cursor>
+	</File>
 	<File name="src\CibleHorirontale.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="1617" topLine="24" />
+			<Cursor1 position="1519" topLine="9" />
 		</Cursor>
 	</File>
 	<File name="src\CibleVerticale.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -82,54 +77,89 @@
 			<Cursor1 position="1585" topLine="23" />
 		</Cursor>
 	</File>
-	<File name="include\doctest.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\misc.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="87208" topLine="1911" />
+			<Cursor1 position="18334" topLine="600" />
 		</Cursor>
 	</File>
-	<File name="src\Echiquier.cpp" open="0" top="0" tabpos="7" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include\CibleVerticale.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="4522" topLine="109" />
+			<Cursor1 position="632" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\BlocLaser.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="457" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include\Mur.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="424" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="testLaser.cpp" open="1" top="1" tabpos="2" split="0" active="1" splitpos="0" zoom_1="1" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="26113" topLine="605" />
+		</Cursor>
+	</File>
+	<File name="include\BlocLaser.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="659" topLine="1" />
+		</Cursor>
+	</File>
+	<File name="include\MiroirGaucheVersBas.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="739" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="include\MiroirGaucheVersHaut.h" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="787" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="src\Game.cpp" open="0" top="0" tabpos="5" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2837" topLine="39" />
+			<Cursor1 position="2432" topLine="42" />
 		</Cursor>
 	</File>
-	<File name="include\Cible.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\MiroirGaucheVersBas.cpp" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="445" topLine="0" />
+			<Cursor1 position="2689" topLine="49" />
 		</Cursor>
 	</File>
-	<File name="src\GameStatut.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include\Monstre.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="424" topLine="9" />
-		</Cursor>
-	</File>
-	<File name="src\Laser.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="486" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="src\MiroirGaucheVersBas.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="557" topLine="12" />
+			<Cursor1 position="617" topLine="0" />
 		</Cursor>
 	</File>
 	<File name="include\CibleHorirontale.h" open="0" top="0" tabpos="8" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="671" topLine="0" />
+			<Cursor1 position="591" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="src\MiroirGaucheVersHaut.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\Echiquier.cpp" open="1" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="2319" topLine="38" />
+			<Cursor1 position="2708" topLine="81" />
 		</Cursor>
 	</File>
-	<File name="include\CaseVide.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="src\Mur.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="643" topLine="0" />
+			<Cursor1 position="1721" topLine="38" />
+		</Cursor>
+	</File>
+	<File name="include\doctest.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="102161" topLine="2102" />
+		</Cursor>
+	</File>
+	<File name="src\GameStatut.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="495" topLine="0" />
+		</Cursor>
+	</File>
+	<File name="src\Laser.cpp" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+		<Cursor>
+			<Cursor1 position="486" topLine="24" />
 		</Cursor>
 	</File>
 	<File name="include\Point.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
@@ -142,19 +172,9 @@
 			<Cursor1 position="254" topLine="0" />
 		</Cursor>
 	</File>
-	<File name="include\Game.h" open="0" top="0" tabpos="4" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
+	<File name="include\CaseVide.h" open="0" top="0" tabpos="6" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
 		<Cursor>
-			<Cursor1 position="0" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="include\CibleVerticale.h" open="0" top="0" tabpos="3" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="632" topLine="0" />
-		</Cursor>
-	</File>
-	<File name="include\GameStatut.h" open="0" top="0" tabpos="0" split="0" active="1" splitpos="0" zoom_1="0" zoom_2="0">
-		<Cursor>
-			<Cursor1 position="436" topLine="0" />
+			<Cursor1 position="643" topLine="0" />
 		</Cursor>
 	</File>
 </CodeBlocks_layout_file>

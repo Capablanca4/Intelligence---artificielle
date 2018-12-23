@@ -127,6 +127,7 @@ void Echiquier::move(Viewer& fenetre,GameStatut& StatutJeu,int n){
     Laser* las = (Laser*) emplacementCase(d_emplacementLaser);
     switch (las->direction()){
         case Droite :
+            std::cout << " Droite "<<std::endl;
             if(d_emplacementLaser.x+1>=d_nbcolonne) losingByBeingOffBoard(StatutJeu,n);
             else {
                 coord nextCoord = d_plateau[d_emplacementLaser.x+1][d_emplacementLaser.y]->posNextMoveLaser(*this);
@@ -137,6 +138,7 @@ void Echiquier::move(Viewer& fenetre,GameStatut& StatutJeu,int n){
                 }
             break;
         case Gauche :
+            std::cout << " Gauche "<<std::endl;
             if(d_emplacementLaser.x-1<0) losingByBeingOffBoard(StatutJeu,n);
             else {
                 coord nextCoord = d_plateau[d_emplacementLaser.x-1][d_emplacementLaser.y]->posNextMoveLaser(*this);

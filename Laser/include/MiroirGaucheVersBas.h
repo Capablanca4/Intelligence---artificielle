@@ -11,6 +11,7 @@ class MiroirGaucheVersBas :public Case
         /** Constructeurs et destructeur*/
         MiroirGaucheVersBas(Point& centre,int cote);
         MiroirGaucheVersBas(int x,int y,int cote);
+        MiroirGaucheVersBas(Case& cas);
         virtual ~MiroirGaucheVersBas();
 
         /** Fonctions herites de Case et redefinit dans l objet*/

@@ -7,6 +7,8 @@ Monstre::Monstre(Point& centre,int cote) :Case{centre,cote} {}
 
 Monstre::Monstre(int x,int y,int cote): Case{x,y,cote} {}
 
+Monstre::Monstre(Case& cas):Case{cas}{}
+
 Monstre::~Monstre() {}
 
 void Monstre::draw(Viewer& fenetre){
@@ -31,6 +33,10 @@ bool Monstre::touch(Echiquier& plateau,GameStatut& StatutJeu,int n) {
 void Monstre::changement(Echiquier& plateau){
     CaseVide* cas = new CaseVide{x(),y(),cote()};
     plateau.setCase(cas);
+}
+
+std::string Monstre::typeObjet()const {
+    return "Ceci est un Monstre";
 }
 
 }
