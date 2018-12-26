@@ -1,5 +1,5 @@
 #include "MiroirGaucheVersBas.h"
-#include "Echiquier.h"
+#include "Game.h"
 #include <iostream>
 
 /** attention x = mouvement selon l'axe horizontale et y = mouvement selon l'axe verticale*/
@@ -25,43 +25,43 @@ void MiroirGaucheVersBas::draw(Viewer& fenetre){
          fenetre.pixelY(y()+cote()/2));
 }
 
-coord MiroirGaucheVersBas::posNextMoveLaser(Echiquier& plateau) const{
-    Laser* las =(Laser*)plateau.emplacementCase(plateau.coordLas());
+coord MiroirGaucheVersBas::posNextMoveLaser(Game& Jeu,int n) const{
+    Laser* las =(Laser*)Jeu.plateau().emplacementCase(Jeu.coordLas(n));
     switch (las->direction()){
         case Gauche :
-            if(plateau.pointVersCoord(y())-1<0){
-                return coord{plateau.pointVersCoord(x()),plateau.pointVersCoord(y())};}
+            if(Jeu.plateau().pointVersCoord(y())-1<0){
+                return coord{Jeu.plateau().pointVersCoord(x()),Jeu.plateau().pointVersCoord(y())};}
             else  {
-                Case* maCase = plateau.emplacementCase(plateau.pointVersCoord(x(),(y()-cote())));
+                Case* maCase = Jeu.plateau().emplacementCase(Jeu.plateau().pointVersCoord(x(),(y()-cote())));
                 las->setDirection(Bas);
-                return maCase->posNextMoveLaser(plateau);}
+                return maCase->posNextMoveLaser(Jeu,n);}
             break;
 
         case Droite :
-            if(plateau.pointVersCoord(y())+1>=plateau.nbcolonne()){
-                return coord{plateau.pointVersCoord(x()),plateau.pointVersCoord(y())};}
+            if(Jeu.plateau().pointVersCoord(y())+1>=Jeu.plateau().nbcolonne()){
+                return coord{Jeu.plateau().pointVersCoord(x()),Jeu.plateau().pointVersCoord(y())};}
             else  {
-                Case* maCase = plateau.emplacementCase(plateau.pointVersCoord(x(),(y()+cote())));
+                Case* maCase = Jeu.plateau().emplacementCase(Jeu.plateau().pointVersCoord(x(),(y()+cote())));
                 las->setDirection(Haut);
-                return maCase->posNextMoveLaser(plateau);}
+                return maCase->posNextMoveLaser(Jeu,n);}
            break;
 
         case Haut :
-            if(plateau.pointVersCoord(x())+1>=plateau.nbligne()){
-                return coord{plateau.pointVersCoord(x()),plateau.pointVersCoord(y())};}
+            if(Jeu.plateau().pointVersCoord(x())+1>=Jeu.plateau().nbligne()){
+                return coord{Jeu.plateau().pointVersCoord(x()),Jeu.plateau().pointVersCoord(y())};}
             else  {
-                Case* maCase = plateau.emplacementCase(plateau.pointVersCoord(x()+cote(),y()));
+                Case* maCase = Jeu.plateau().emplacementCase(Jeu.plateau().pointVersCoord(x()+cote(),y()));
                 las->setDirection(Droite);
-                return maCase->posNextMoveLaser(plateau);}
+                return maCase->posNextMoveLaser(Jeu,n);}
             break;
 
         case Bas :
-            if(plateau.pointVersCoord(x())-1<0){
-                return coord{plateau.pointVersCoord(x()),plateau.pointVersCoord(y())};}
+            if(Jeu.plateau().pointVersCoord(x())-1<0){
+                return coord{Jeu.plateau().pointVersCoord(x()),Jeu.plateau().pointVersCoord(y())};}
             else  {
-                Case* maCase = plateau.emplacementCase(plateau.pointVersCoord((x()-cote()),y()));
+                Case* maCase = Jeu.plateau().emplacementCase(Jeu.plateau().pointVersCoord((x()-cote()),y()));
                 las->setDirection(Gauche);
-                return maCase->posNextMoveLaser(plateau);}
+                return maCase->posNextMoveLaser(Jeu,n);}
             break;
     }
 }

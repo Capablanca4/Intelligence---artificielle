@@ -46,7 +46,6 @@
 		<Unit filename="include/CibleVerticale.h" />
 		<Unit filename="include/Echiquier.h" />
 		<Unit filename="include/Game.h" />
-		<Unit filename="include/GameStatut.h" />
 		<Unit filename="include/Laser.h" />
 		<Unit filename="include/MiroirGaucheVersBas.h" />
 		<Unit filename="include/MiroirGaucheVersHaut.h" />
@@ -71,7 +70,6 @@
 		<Unit filename="src/CibleVerticale.cpp" />
 		<Unit filename="src/Echiquier.cpp" />
 		<Unit filename="src/Game.cpp" />
-		<Unit filename="src/GameStatut.cpp" />
 		<Unit filename="src/Laser.cpp" />
 		<Unit filename="src/MiroirGaucheVersBas.cpp" />
 		<Unit filename="src/MiroirGaucheVersHaut.cpp" />

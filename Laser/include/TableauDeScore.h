@@ -2,7 +2,6 @@
 #define TABLEAUDESCORE_H
 #include "Viewer.h"
 #include "Point.h"
-#include "GameStatut.h"
 
 namespace ecran{
 
@@ -17,15 +16,16 @@ class TableauDeScore
         Point centre() const;
         const int largeur() const;
         const int hauteur() const;
+        const int score() const;
 
         /** Dessine l'objet sur la fenetre*/
         void draw(Viewer& fenetre)const;
         void clear(Viewer& fenetre)const;
 
-        void addScore(int add,Viewer& fenetre);
+        void addScore(int add);
     private:
         Point d_centre;
-        int score;
+        int d_score;
         const int d_largeur;
         const int d_hauteur;
 };

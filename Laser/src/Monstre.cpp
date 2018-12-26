@@ -1,5 +1,7 @@
 #include "Monstre.h"
 #include "Echiquier.h"
+#include "Game.h"
+#include <iostream>
 
 namespace ecran{
 
@@ -24,9 +26,9 @@ void Monstre::draw(Viewer& fenetre){
 
 }
 
-bool Monstre::touch(Echiquier& plateau,GameStatut& StatutJeu,int n) {
-    changement(plateau);
-    StatutJeu.addScore(100); /** Ajout d'un score quand le Monstre est touché*/
+bool Monstre::touch(Game& Jeu,int n) {
+    changement(Jeu.plateau());
+    Jeu.addScore(100); /** Ajout d'un score quand le Monstre est touché*/
     return true;
 }
 

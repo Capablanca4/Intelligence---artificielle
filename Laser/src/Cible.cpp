@@ -1,5 +1,6 @@
 #include "Cible.h"
 #include <iostream>
+#include "Game.h"
 
 namespace ecran{
 
@@ -23,9 +24,9 @@ void Cible::draw(Viewer& fenetre){
 
 }
 
-bool Cible::touch(Echiquier& plateau,GameStatut& StatutJeu,int n){
+bool Cible::touch(Game& Jeu,int n){
     std::cout << "you win !" <<std::endl ;
-    StatutJeu.setTouchTrue(n);
+    Jeu.setTouchTrue(n);
     return false;
 }
 

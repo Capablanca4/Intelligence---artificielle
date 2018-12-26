@@ -51,7 +51,7 @@ void CaseVide::draw(Viewer& fenetre){
          fenetre.pixelY(y()-cote()*1/4));
     }
 
-bool CaseVide::touch(Echiquier& plateau,GameStatut& StatutJeu,int n){
+bool CaseVide::touch(Game& Jeu,int n){
     return true;
 }
 

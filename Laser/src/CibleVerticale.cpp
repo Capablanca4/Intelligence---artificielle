@@ -1,6 +1,7 @@
 #include "CibleVerticale.h"
 #include <iostream>
 #include "Echiquier.h"
+#include "Game.h"
 
 namespace ecran{
 
@@ -28,16 +29,16 @@ void CibleVerticale::draw(Viewer& fenetre){
          fenetre.pixelY(y()+cote()/2));
 }
 
-bool CibleVerticale::touch(Echiquier& plateau,GameStatut& StatutJeu,int n){
-    Laser* las =(Laser*)plateau.emplacementCase(plateau.coordLas());
+bool CibleVerticale::touch(Game& Jeu,int n){
+    Laser* las =(Laser*)Jeu.plateau().emplacementCase(Jeu.coordLas(n));
     switch (las->direction()){
         case Gauche :
             std::cout << "you win !" <<std::endl ;
-            StatutJeu.setTouchTrue(n);
+            Jeu.setTouchTrue(n);
             break;
         case Droite :
             std::cout << "you win !" <<std::endl ;
-            StatutJeu.setTouchTrue(n);
+            Jeu.setTouchTrue(n);
             break;
         case Haut :
             std::cout << "you lose !" <<std::endl ;

@@ -14,7 +14,7 @@ class Monstre:public Case
 
         /** Fonctions herites de Case et redefinit dans l objet*/
         virtual void draw(Viewer& fenetre) override;
-        virtual bool touch(Echiquier& plateau,GameStatut& StatutJeu,int n) override;
+        virtual bool touch(Game& Jeu,int n) override;
         void changement(Echiquier& plateau);
 
         /** Fonction de test*/

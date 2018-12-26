@@ -3,9 +3,12 @@
 
 namespace ecran{
 
-Viewer::Viewer(int largeur,int hauteur):
+Viewer::Viewer(int largeur,int hauteur,int decalageX,int decalageY):
     d_hauteur{hauteur},
     d_largeur{largeur},
+    decalageX{decalageX},
+    decalageY{decalageY},
+    d_open{false},
     CoordonneesY{0,largeur,largeur-decalageY,decalageY},
     CoordonneesX{0,hauteur,decalageX,hauteur-decalageX}{}
 
@@ -13,6 +16,10 @@ void Viewer::openWindow() {
     initwindow(d_hauteur+10,d_largeur+13); /** il faut rajouter des constantes car WinBGi rogne le bord des fenêtres */
     d_open=true;
     }
+
+const bool Viewer::open()const{
+    return d_open;
+}
 
  void Viewer::closeWindow() {
     closegraph();

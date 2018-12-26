@@ -1,5 +1,5 @@
 #include "Case.h"
-#include "Echiquier.h"
+#include "Game.h"
 
 namespace ecran{
 
@@ -21,16 +21,13 @@ void Case::changerCentre(const Point& centre){
 const int Case::cote()const{
     return d_cote;}
 
-void Case::changerCote(const int cote){
-    d_cote=cote;}
-
-bool Case::touch(Echiquier& plateau,GameStatut& StatutJeu,int n) {
+bool Case::touch(Game& Jeu,int n) {
     return false ;
 }
 
-coord Case::posNextMoveLaser(Echiquier& plateau) const{
-    coord ret{plateau.pointVersCoord(x()),
-                   plateau.pointVersCoord(y())};
+coord Case::posNextMoveLaser(Game& Jeu,int n) const{
+    coord ret{Jeu.plateau().pointVersCoord(x()),
+                   Jeu.plateau().pointVersCoord(y())};
     return ret;
 }
 

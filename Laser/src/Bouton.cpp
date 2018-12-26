@@ -2,17 +2,17 @@
 
 namespace ecran{
 
-Bouton::Bouton(const Point& centre,int largeur,int hauteur,const std::string text):
+Bouton::Bouton(const Point& centre,int largeur,int hauteur,const std::string texte):
     d_centre{centre},
     d_largeur{largeur},
     d_hauteur{hauteur},
-    d_texte{text} {}
+    d_texte{texte} {}
 
-Bouton::Bouton(int x,int y,int largeur,int hauteur,const std::string text):
+Bouton::Bouton(int x,int y,int largeur,int hauteur,const std::string texte):
     d_centre{x,y},
     d_largeur{largeur},
     d_hauteur{hauteur},
-    d_texte{text} {}
+    d_texte{texte} {}
 
 Point Bouton::centre() const{
     return d_centre;
@@ -24,6 +24,10 @@ const int Bouton::largeur() const{
 
 const int Bouton::hauteur() const{
     return d_hauteur;
+}
+
+const std::string Bouton::texte() const{
+    return d_texte;
 }
 
 void Bouton::draw(Viewer& fenetre)const{
