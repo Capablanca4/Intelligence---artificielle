@@ -20,32 +20,46 @@ TDirection Laser::direction(){
 void Laser::setDirection(TDirection direction){
     d_direction=direction;}
 
-void Laser::draw(Viewer& fenetre){
+void Laser::draw(Viewer& fenetre)
+{
+    const int pixel=cote()/32;
+    if (d_direction == Droite || d_direction == Gauche)
+    {
+        setcolor (RED);
+        bar(
+        fenetre.pixelX(x())+cote()/2,
+        fenetre.pixelY(y()+1)-3*pixel,
+        fenetre.pixelX(x())-cote()/2,
+        fenetre.pixelY(y()-2)+3*pixel);
 
-    const int epaisseur = cote()/10;
-    const int longueur = cote()/1.1;
-    const int petitRectangle=50;
-
-    if (d_direction == Droite|| d_direction == Gauche){
-     setcolor (BROWN);
+        setcolor (LIGHTRED);
 
         bar(
-        fenetre.pixelX(x()-(cote()-petitRectangle)/2),
-        fenetre.pixelY(y()+(cote()-petitRectangle)/2),
-        fenetre.pixelX(x()+(cote()-petitRectangle)/2),
-        fenetre.pixelY(y()-(cote()-petitRectangle)/1.9)
-            );
+        fenetre.pixelX(x())+cote()/2,
+        fenetre.pixelY(y()+1)-1.5*pixel,
+        fenetre.pixelX(x())-cote()/2,
+        fenetre.pixelY(y()-2)+1.5*pixel);
+    }
 
-        line(fenetre.pixelX(this->x()-this->cote()/2),
-             fenetre.pixelY(this->y()),
-             fenetre.pixelX(this->x()+this->cote()/2),
-             fenetre.pixelY(this->y()));
-        setcolor (WHITE);
-}
-    else line(fenetre.pixelX(this->x()),
-              fenetre.pixelY(this->y()-this->cote()/2),
-              fenetre.pixelX(this->x()),
-              fenetre.pixelY(this->y()+this->cote()/2));
+    else
+    {
+        setcolor (RED);
+        bar(
+        fenetre.pixelX(x())-3*pixel,
+        fenetre.pixelY(y()+1)+cote()/2,
+        fenetre.pixelX(x())+3*pixel,
+        fenetre.pixelY(y()-2)-cote()/2);
+
+        setcolor (LIGHTRED);
+
+        bar(
+        fenetre.pixelX(x())-1.5*pixel,
+        fenetre.pixelY(y()+1)+cote()/2,
+        fenetre.pixelX(x())+1.5*pixel,
+        fenetre.pixelY(y()-2)-cote()/2);
+        //fillellipse(fenetre.pixelX(x()),fenetre.pixelY(y()),cote()/3,cote()/8)
+    }
+    setcolor(WHITE);
 }
 
 }

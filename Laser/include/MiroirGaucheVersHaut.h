@@ -9,15 +9,11 @@ namespace ecran{
 class MiroirGaucheVersHaut:public Case
 {
     public:
-        /** Constructeurs et destructeur*/
         MiroirGaucheVersHaut(Point& centre,int cote);
         MiroirGaucheVersHaut(int x,int y,int cote);
         virtual ~MiroirGaucheVersHaut();
-
-        /** Fonctions herites de Case et redefinit dans l objet*/
         virtual void draw(Viewer& fenetre) override;
         virtual coordLaser posNextMoveLaser(Echiquier& plateau) const override;
-        void transformation(Echiquier& plateau) override;
 };
 }
 #endif // MIROIRGAUCHEVERSHAUT_H

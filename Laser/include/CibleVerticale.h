@@ -1,20 +1,17 @@
 #ifndef CIBLEVERTICALE_H
 #define CIBLEVERTICALE_H
-#include "Case.h"
+#include "Cible.h"
 #include "Echiquier.h"
 
 namespace ecran{
-class CibleVerticale : public Case
+class CibleVerticale : public Cible
 {
     public:
-        /** Constructeurs et destructeur*/
-        CibleVerticale(Point& centre,int cote);
+        CibleVerticale(const Cible& cib);
         CibleVerticale(const int x,const int y,const int cote);
         virtual ~CibleVerticale();
-
-        /** Fonctions herites de Case et redefinit dans l objet*/
         virtual void draw(Viewer& fenetre) override;
-        virtual bool touch(Echiquier& plateau,GameStatut& StatutJeu,int n) override;
+        virtual bool touch(Echiquier& plateau) const override;
 };
 }
 #endif // CIBLEVERTICALE_H

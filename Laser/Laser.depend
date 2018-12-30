@@ -1,25 +1,44 @@
 # depslib dependency file v1.0
-1544693320 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\main.cpp
+1543856948 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\main.cpp
 	<iostream>
 	"Viewer.h"
+	"CibleHorirontale.h"
+	"CibleVerticale.h"
+	"Mur.h"
+	"BlocLaser.h"
+	"MiroirGaucheVersHaut.h"
+	"MiroirGaucheVersBas.h"
+	"CaseVide.h"
 	"Echiquier.h"
-	"Game.h"
 
-1544693321 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\viewer.h
+1543856403 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\include\viewer.h
 	"Point.h"
 	"graphics.h"
 	"viewPort.hpp"
 
-1544693321 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\point.h
+1543856403 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\include\point.h
 
-1544693321 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\graphics.h
-	<windows.h>
-	<limits.h>
-	<sstream>
+1543856403 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\include\graphics.h
 
-1544693321 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\viewport.hpp
+1543856403 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\include\viewport.hpp
 
-1544693321 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\echiquier.h
+1544025155 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\include\ciblehorirontale.h
+	"Cible.h"
+	"Echiquier.h"
+
+1543856403 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\include\cible.h
+	"Case.h"
+	"Laser.h"
+
+1544025449 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\include\case.h
+	"Point.h"
+	"Viewer.h"
+	<vector>
+
+1544025700 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\include\laser.h
+	"Case.h"
+
+1543856403 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\include\echiquier.h
 	<vector>
 	"BlocLaser.h"
 	"Laser.h"
@@ -30,236 +49,135 @@
 	"CibleVerticale.h"
 	"Mur.h"
 
-1544693320 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\bloclaser.h
+1543856403 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\include\bloclaser.h
 	"Case.h"
 	"Laser.h"
 
-1544693320 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\case.h
-	"Point.h"
-	"Viewer.h"
-	<vector>
-
-1544693321 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\laser.h
+1544025094 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\include\casevide.h
 	"Case.h"
 
-1544693320 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\casevide.h
-	"Case.h"
-
-1544693321 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\miroirgaucheversbas.h
+1544025740 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\include\miroirgaucheversbas.h
 	"Laser.h"
 	"Echiquier.h"
 
-1544693321 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\miroirgauchevershaut.h
+1544025770 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\include\miroirgauchevershaut.h
 	"Case.h"
 	"Laser.h"
 	"Echiquier.h"
 
-1544693320 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\ciblehorirontale.h
+1544025187 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\include\cibleverticale.h
 	"Cible.h"
 	"Echiquier.h"
 
-1544693320 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\cible.h
-	"Case.h"
-	"Laser.h"
-
-1544693321 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\cibleverticale.h
-	"Cible.h"
-	"Echiquier.h"
-
-1544693321 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\mur.h
+1544025450 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\include\mur.h
 	"Case.h"
 
-1544693321 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\game.h
-	"Echiquier.h"
-	"Viewer.h"
-	"Bouton.h"
-
-1544693320 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\bouton.h
-	"Point.h"
-	"Viewer.h"
-
-1544693321 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\bloclaser.cpp
+1543856404 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\src\bloclaser.cpp
 	"BlocLaser.h"
 	"Echiquier.h"
 
-1544693321 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\bouton.cpp
-	"Bouton.h"
-
-1544693321 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\case.cpp
+1544025465 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\src\case.cpp
 	"Case.h"
 	"Echiquier.h"
 
-1544693321 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\casevide.cpp
+1544024700 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\src\casevide.cpp
 	"CaseVide.h"
 	"Echiquier.h"
 
-1544693321 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\cible.cpp
+1543856404 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\src\cible.cpp
 	"Cible.h"
 
-1544693321 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\ciblehorirontale.cpp
+1544025155 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\src\ciblehorirontale.cpp
 	"CibleHorirontale.h"
 	<iostream>
 	"Echiquier.h"
 
-1544693321 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\cibleverticale.cpp
+1544025187 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\src\cibleverticale.cpp
 	"CibleVerticale.h"
 	<iostream>
 	"Echiquier.h"
 
-1544693184 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\dibutil.cpp
-	<windows.h>
-	<assert.h>
-	"dibapi.h"
-	"dibutil.h"
-	<stdio.h>
-
-1544693184 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\dibapi.h
-
-1544693184 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\dibutil.h
-
-1544693184 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\drawing.cpp
-	<windows.h>
-	<windowsx.h>
-	<math.h>
-	<ocidl.h>
-	<olectl.h>
-	<string.h>
-	"winbgim.h"
-	"winbgitypes.h"
-	"dibapi.h"
-	<iostream>
-
-1544693184 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\winbgim.h
-	<windows.h>
-	<limits.h>
-	<sstream>
-
-1544693184 \\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\include\winbgitypes.h
-	<windows.h>
-	<tchar.h>
-	<queue>
-	<string>
-	"winbgim.h"
-	<vector>
-
-1544693322 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\echiquier.cpp
+1543856404 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\src\echiquier.cpp
 	"Echiquier.h"
 	<iostream>
 	<utility>
 
-1544693184 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\file.cpp
-	<windows.h>
-	<string.h>
-	<stdio.h>
-	<math.h>
-	<io.h>
-	<direct.h>
-	<stdlib.h>
-	"dibutil.h"
-	"dibapi.h"
-	"winbgitypes.h"
-
-1544693322 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\game.cpp
-	"Game.h"
-	<iostream>
-
-1544693322 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\laser.cpp
+1544025700 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\src\laser.cpp
 	"Laser.h"
 	<iostream>
 	"Echiquier.h"
 
-1544693322 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\miroirgaucheversbas.cpp
+1544025740 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\src\miroirgaucheversbas.cpp
 	"MiroirGaucheVersBas.h"
 	"Echiquier.h"
 	<iostream>
 
-1544693322 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\miroirgauchevershaut.cpp
+1543856404 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\src\miroirgauchevershaut.cpp
 	"MiroirGaucheVersHaut.h"
 	<iostream>
 
-1544693184 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\mouse.cpp
-	<windows.h>
-	<windowsx.h>
-	"winbgim.h"
-	"winbgitypes.h"
-
-1544693322 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\mur.cpp
+1544025449 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\src\mur.cpp
 	"../include/Mur.h"
 	<iostream>
 	"Echiquier.h"
 
-1544693184 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\palette.cpp
-	<windows.h>
-	<windowsx.h>
-	"winbgim.h"
-	"winbgitypes.h"
-
-1544693322 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\point.cpp
+1543856404 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\src\point.cpp
 	"../include/Point.h"
 
-1544693184 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\text.cpp
-	<windows.h>
-	<windowsx.h>
-	<iostream>
-	<sstream>
-	<string>
-	"winbgim.h"
-	"winbgitypes.h"
-
-1544693322 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\viewer.cpp
+1543917491 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\src\viewer.cpp
 	"Viewer.h"
 	<iostream>
 
-1544693322 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\viewport.cpp
+1543856404 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\src\viewport.cpp
 	"viewPort.hpp"
 
-1544693184 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\winbgi.cpp
+1543856404 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-master\laser\src\winbgi.cpp
 	<windows.h>
-	<windowsx.h>
+	<stddef.h>
 	<stdio.h>
-	<iostream>
-	<vector>
-	"winbgim.h"
-	"winbgitypes.h"
+	<math.h>
+	"graphics.h"
 
-1544693184 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\winthread.cpp
-	<windows.h>
-	<windowsx.h>
-	"winbgim.h"
-	"winbgitypes.h"
-	<vector>
-	<queue>
-	<iostream>
-	<iostream>
-
-1544694012 source:\\uha.fr\users\e1603982\bureau\intelligence---artificielle-unstable\laser\src\misc.cpp
-	<windows.h>
-	<windowsx.h>
-	"winbgim.h"
-	"winbgitypes.h"
-	<iostream>
-
-1544882929 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\main.cpp
+1544192253 source:u:\l3\qp\projet\laser\main.cpp
 	<iostream>
 	"Viewer.h"
+	"CibleHorirontale.h"
+	"CibleVerticale.h"
+	"Mur.h"
+	"BlocLaser.h"
+	"MiroirGaucheVersHaut.h"
+	"MiroirGaucheVersBas.h"
+	"CaseVide.h"
 	"Echiquier.h"
-	"Game.h"
 
-1544823730 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\viewer.h
+1544186200 u:\l3\qp\projet\laser\include\viewer.h
 	"Point.h"
 	"graphics.h"
 	"viewPort.hpp"
 
-1544823609 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\point.h
+1544186200 u:\l3\qp\projet\laser\include\point.h
 
-1544808174 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\graphics.h
-	<windows.h>
-	<limits.h>
-	<sstream>
+1544186200 u:\l3\qp\projet\laser\include\graphics.h
 
-1544808174 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\viewport.hpp
+1544186191 u:\l3\qp\projet\laser\include\viewport.hpp
 
-1544887088 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\echiquier.h
+1544186200 u:\l3\qp\projet\laser\include\ciblehorirontale.h
+	"Cible.h"
+	"Echiquier.h"
+
+1544186200 u:\l3\qp\projet\laser\include\cible.h
+	"Case.h"
+	"Laser.h"
+
+1544186200 u:\l3\qp\projet\laser\include\case.h
+	"Point.h"
+	"Viewer.h"
+	<vector>
+
+1544186200 u:\l3\qp\projet\laser\include\laser.h
+	"Case.h"
+
+1544186200 u:\l3\qp\projet\laser\include\echiquier.h
 	<vector>
 	"BlocLaser.h"
 	"Laser.h"
@@ -269,238 +187,232 @@
 	"CibleHorirontale.h"
 	"CibleVerticale.h"
 	"Mur.h"
+
+1544186200 u:\l3\qp\projet\laser\include\bloclaser.h
+	"Case.h"
+	"Laser.h"
+
+1544186200 u:\l3\qp\projet\laser\include\casevide.h
+	"Case.h"
+
+1544186200 u:\l3\qp\projet\laser\include\miroirgaucheversbas.h
+	"Laser.h"
+	"Echiquier.h"
+
+1544186200 u:\l3\qp\projet\laser\include\miroirgauchevershaut.h
+	"Case.h"
+	"Laser.h"
+	"Echiquier.h"
+
+1544186200 u:\l3\qp\projet\laser\include\cibleverticale.h
 	"Cible.h"
-	"Monstre.h"
-
-1544886845 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\bloclaser.h
-	"Case.h"
-	"Laser.h"
-
-1544887325 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\case.h
-	"Point.h"
-	"Viewer.h"
-	"GameStatut.h"
-	<vector>
-
-1544823357 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\laser.h
-	"Case.h"
-
-1544887335 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\casevide.h
-	"Case.h"
-
-1544823395 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\miroirgaucheversbas.h
-	"Laser.h"
 	"Echiquier.h"
 
-1544823426 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\miroirgauchevershaut.h
+1544186200 u:\l3\qp\projet\laser\include\mur.h
 	"Case.h"
-	"Laser.h"
-	"Echiquier.h"
 
-1544887341 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\ciblehorirontale.h
+1544186201 source:u:\l3\qp\projet\laser\src\case.cpp
 	"Case.h"
 	"Echiquier.h"
 
-1544887357 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\cible.h
-	"Case.h"
-
-1544887350 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\cibleverticale.h
-	"Case.h"
-	"Echiquier.h"
-
-1544823453 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\mur.h
-	"Case.h"
-
-1544908151 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\game.h
-	"Echiquier.h"
-	"Viewer.h"
-	"Bouton.h"
-	"GameStatut.h"
-
-1544822672 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\bouton.h
-	"Point.h"
-	"Viewer.h"
-
-1544808175 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\dibutil.cpp
-	<windows.h>
-	<assert.h>
-	"dibapi.h"
-	"dibutil.h"
-	<stdio.h>
-
-1544808174 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\dibapi.h
-
-1544808174 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\dibutil.h
-
-1544808175 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\drawing.cpp
-	<windows.h>
-	<windowsx.h>
-	<math.h>
-	<ocidl.h>
-	<olectl.h>
-	<string.h>
-	"winbgim.h"
-	"winbgitypes.h"
-	"dibapi.h"
-	<iostream>
-
-1544808174 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\winbgim.h
-	<windows.h>
-	<limits.h>
-	<sstream>
-
-1544808174 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\winbgitypes.h
-	<windows.h>
-	<tchar.h>
-	<queue>
-	<string>
-	"winbgim.h"
-	<vector>
-
-1544808175 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\file.cpp
-	<windows.h>
-	<string.h>
-	<stdio.h>
-	<math.h>
-	<io.h>
-	<direct.h>
-	<stdlib.h>
-	"dibutil.h"
-	"dibapi.h"
-	"winbgitypes.h"
-
-1544808175 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\laser.cpp
-	"Laser.h"
-	<iostream>
-	"Echiquier.h"
-
-1544821199 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\miroirgaucheversbas.cpp
-	"MiroirGaucheVersBas.h"
-	"Echiquier.h"
-	<iostream>
-
-1544821139 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\miroirgauchevershaut.cpp
-	"MiroirGaucheVersHaut.h"
-	<iostream>
-
-1544808175 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\mur.cpp
-	"../include/Mur.h"
-	<iostream>
-	"Echiquier.h"
-
-1544823567 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\point.cpp
-	"../include/Point.h"
-
-1544808175 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\viewer.cpp
-	"Viewer.h"
-	<iostream>
-
-1544885037 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\bloclaser.cpp
-	"BlocLaser.h"
-	"Echiquier.h"
-
-1544809736 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\bouton.cpp
-	"Bouton.h"
-
-1544887325 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\case.cpp
-	"Case.h"
-	"Echiquier.h"
-
-1544887368 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\casevide.cpp
+1544186201 source:u:\l3\qp\projet\laser\src\casevide.cpp
 	"CaseVide.h"
 	"Echiquier.h"
 
-1544887376 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\cible.cpp
+1544186201 source:u:\l3\qp\projet\laser\src\cible.cpp
 	"Cible.h"
-	<iostream>
 
-1544887385 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\ciblehorirontale.cpp
+1544186201 source:u:\l3\qp\projet\laser\src\ciblehorirontale.cpp
 	"CibleHorirontale.h"
 	<iostream>
 	"Echiquier.h"
 
-1544887391 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\cibleverticale.cpp
+1544186201 source:u:\l3\qp\projet\laser\src\cibleverticale.cpp
 	"CibleVerticale.h"
 	<iostream>
 	"Echiquier.h"
 
-1544899083 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\echiquier.cpp
+1544186192 source:u:\l3\qp\projet\laser\src\viewport.cpp
+	"viewPort.hpp"
+
+1544186201 source:u:\l3\qp\projet\laser\src\bloclaser.cpp
+	"BlocLaser.h"
+	"Echiquier.h"
+
+1544192509 source:u:\l3\qp\projet\laser\src\echiquier.cpp
 	"Echiquier.h"
 	<iostream>
 	<utility>
 
-1544900163 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\game.cpp
-	"Game.h"
+1544192755 source:u:\l3\qp\projet\laser\src\laser.cpp
+	"Laser.h"
 	<iostream>
-
-1544808176 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\misc.cpp
-	<windows.h>
-	<windowsx.h>
-	"winbgim.h"
-	"winbgitypes.h"
-	<iostream>
-
-1544808176 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\mouse.cpp
-	<windows.h>
-	<windowsx.h>
-	"winbgim.h"
-	"winbgitypes.h"
-
-1544808176 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\palette.cpp
-	<windows.h>
-	<windowsx.h>
-	"winbgim.h"
-	"winbgitypes.h"
-
-1544808176 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\text.cpp
-	<windows.h>
-	<windowsx.h>
-	<iostream>
-	<sstream>
-	<string>
-	"winbgim.h"
-	"winbgitypes.h"
-
-1544808176 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\viewport.cpp
-	"viewPort.hpp"
-
-1544808176 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\winbgi.cpp
-	<windows.h>
-	<windowsx.h>
-	<stdio.h>
-	<iostream>
-	<vector>
-	"winbgim.h"
-	"winbgitypes.h"
-
-1544808176 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\winthread.cpp
-	<windows.h>
-	<windowsx.h>
-	"winbgim.h"
-	"winbgitypes.h"
-	<vector>
-	<queue>
-	<iostream>
-	<iostream>
-
-1544908151 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\gamestatut.cpp
-	"GameStatut.h"
-
-1544908151 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\gamestatut.h
-	<vector>
-
-1544898806 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\monstre.cpp
-	"Monstre.h"
 	"Echiquier.h"
 
-1544898806 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\monstre.h
+1544186202 source:u:\l3\qp\projet\laser\src\miroirgaucheversbas.cpp
+	"MiroirGaucheVersBas.h"
+	"Echiquier.h"
+	<iostream>
+
+1544186202 source:u:\l3\qp\projet\laser\src\miroirgauchevershaut.cpp
+	"MiroirGaucheVersHaut.h"
+	<iostream>
+
+1544192205 source:u:\l3\qp\projet\laser\src\mur.cpp
+	"../include/Mur.h"
+	<iostream>
+	"Echiquier.h"
+
+1544186202 source:u:\l3\qp\projet\laser\src\point.cpp
+	"../include/Point.h"
+
+1544186202 source:u:\l3\qp\projet\laser\src\viewer.cpp
+	"Viewer.h"
+	<iostream>
+
+1544192089 source:u:\l3\qp\projet\laser\src\winbgi.cpp
+	<windows.h>
+	<stddef.h>
+	<stdio.h>
+	<math.h>
+	"graphics.h"
+
+1546193913 source:c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\main.cpp
+	<iostream>
+	"Viewer.h"
+	"CibleHorirontale.h"
+	"CibleVerticale.h"
+	"Mur.h"
+	"BlocLaser.h"
+	"MiroirGaucheVersHaut.h"
+	"MiroirGaucheVersBas.h"
+	"CaseVide.h"
+	"Echiquier.h"
+
+1544193358 c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\include\viewer.h
+	"Point.h"
+	"graphics.h"
+	"viewPort.hpp"
+
+1544193358 c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\include\point.h
+
+1546192011 c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\include\graphics.h
+
+1544193358 c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\include\viewport.hpp
+
+1544193358 c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\include\ciblehorirontale.h
+	"Cible.h"
+	"Echiquier.h"
+
+1544193358 c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\include\cible.h
+	"Case.h"
+	"Laser.h"
+
+1544193358 c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\include\case.h
+	"Point.h"
+	"Viewer.h"
+	<vector>
+
+1544193358 c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\include\laser.h
 	"Case.h"
 
-1544898612 source:c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\src\tableaudescore.cpp
-	"TableauDeScore.h"
+1544193358 c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\include\echiquier.h
+	<vector>
+	"BlocLaser.h"
+	"Laser.h"
+	"CaseVide.h"
+	"MiroirGaucheVersBas.h"
+	"MiroirGaucheVersHaut.h"
+	"CibleHorirontale.h"
+	"CibleVerticale.h"
+	"Mur.h"
 
-1544894814 c:\users\pierre vix\desktop\intelligence---artificielle-unstable-v-miage\laser\include\tableaudescore.h
+1544193358 c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\include\bloclaser.h
+	"Case.h"
+	"Laser.h"
+
+1544193358 c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\include\casevide.h
+	"Case.h"
+
+1544193358 c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\include\miroirgaucheversbas.h
+	"Laser.h"
+	"Echiquier.h"
+
+1544193358 c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\include\miroirgauchevershaut.h
+	"Case.h"
+	"Laser.h"
+	"Echiquier.h"
+
+1544193358 c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\include\cibleverticale.h
+	"Cible.h"
+	"Echiquier.h"
+
+1544193358 c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\include\mur.h
+	"Case.h"
+
+1544193358 source:c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\src\bloclaser.cpp
+	"BlocLaser.h"
+	"Echiquier.h"
+
+1544193358 source:c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\src\case.cpp
+	"Case.h"
+	"Echiquier.h"
+
+1546192630 source:c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\src\casevide.cpp
+	"CaseVide.h"
+	"Echiquier.h"
+
+1544193358 source:c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\src\cible.cpp
+	"Cible.h"
+
+1544692177 source:c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\src\ciblehorirontale.cpp
+	"CibleHorirontale.h"
+	<iostream>
+	"Echiquier.h"
+
+1544692264 source:c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\src\cibleverticale.cpp
+	"CibleVerticale.h"
+	<iostream>
+	"Echiquier.h"
+
+1544465336 source:c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\src\echiquier.cpp
+	"Echiquier.h"
+	<iostream>
+	<utility>
+
+1546201083 source:c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\src\laser.cpp
+	"Laser.h"
+	<iostream>
+	"Echiquier.h"
+
+1544537619 source:c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\src\miroirgaucheversbas.cpp
+	"MiroirGaucheVersBas.h"
+	"Echiquier.h"
+	<iostream>
+
+1546193877 source:c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\src\miroirgauchevershaut.cpp
+	"MiroirGaucheVersHaut.h"
+	<iostream>
+
+1544477180 source:c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\src\mur.cpp
+	"../include/Mur.h"
+	<iostream>
+	"Echiquier.h"
+
+1544465049 source:c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\src\point.cpp
+	"../include/Point.h"
+
+1544193358 source:c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\src\viewer.cpp
 	"Viewer.h"
-	"Point.h"
-	"GameStatut.h"
+	<iostream>
+
+1544193358 source:c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\src\viewport.cpp
+	"viewPort.hpp"
+
+1546192011 source:c:\users\antoine\documents\cours l3s1\stéphane rivière\projet\laser\src\winbgi.cpp
+	<windows.h>
+	<stddef.h>
+	<stdio.h>
+	<math.h>
+	"graphics.h"
 

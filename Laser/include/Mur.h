@@ -6,12 +6,9 @@ namespace ecran{
 class Mur:public Case
 {
     public:
-        /** Constructeurs et destructeur*/
         virtual ~Mur();
         Mur(Point& centre,int cote);
         Mur(int x,int y,int cote);
-
-        /** Fonctions herites de Case et redefinit dans l objet*/
         virtual void draw(Viewer& fenetre) override;
 };
 }

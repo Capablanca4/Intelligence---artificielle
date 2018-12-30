@@ -10,22 +10,14 @@ namespace ecran{
 class Viewer
 {
     public:
-        /** Constructeur*/
         Viewer(int largeur,int hauteur);
-
-        /** Fonction gerant la fenetre et les actions sur la fenetre*/
         void openWindow();
         void closeWindow();
-        void clear();
         void waitUntilButton();
-        void waitUntilMouseCkicked(int& x,int& y);
-
-        /** Fonctions gerant le ViewPort*/
+        void clear();
+        Point pixel(Point& P);
         double pixelX(double x);
         double pixelY(double y);
-        double reversePixelX(double x);
-        double reversePixelY(double y);
-
     private:
         int d_hauteur;
         int d_largeur;

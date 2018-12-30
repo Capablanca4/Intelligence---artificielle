@@ -7,18 +7,11 @@ namespace ecran{
 class Laser:public Case
 {
     public:
-        /** Constructeurs et destructeur*/
         Laser(Point& centre,int cote,const TDirection& direction =Gauche);
         Laser(int x,int y ,int cote,const TDirection& direction =Gauche);
         virtual ~Laser();
-
-        /** Accesseur*/
-        TDirection direction();
-
-        /**modificateur de base*/
         void setDirection(TDirection direction);
-
-        /** Fonction herite de Case et redefinit dans l objet*/
+        TDirection direction();
         virtual void draw(Viewer& fenetre) override;
     private:
         TDirection d_direction;

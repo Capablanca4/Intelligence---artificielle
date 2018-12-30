@@ -3,10 +3,9 @@
 
 namespace ecran{
 
-Game::Game(int nbLigne,int nbColonne,int cote,int nbLaser,int maxIter):
+Game::Game(int nbLigne,int nbColonne,int cote):
     d_echiquier{nbLigne,nbColonne,cote},
     d_fenetre{nbLigne*cote,nbColonne*cote+200},
-    StatutJeu{nbLaser,maxIter},
     d_boutonQuit{nbLigne*cote+100,nbColonne*cote-100,50,20,"Quitter"},
     d_boutonDemarrer{nbLigne*cote+100,nbColonne*cote-200,70,20,"Demarrer"} {}
 
@@ -35,9 +34,8 @@ void Game::waitUntilMouseCkicked(){
             x=d_x; y=d_y;
             Case* cas= (Case*)d_echiquier.plateau()[x][y];
             cas->transformation(d_echiquier);
-            cas= (Case*)d_echiquier.plateau()[x][y];
-            cas->clearCase(d_fenetre);
-            cas->draw(d_fenetre);
+            d_fenetre.clear();
+            draw();
         }
         if(x>=d_fenetre.pixelX(d_boutonQuit.centre().x()-d_boutonQuit.largeur()/2) &&
            x<=d_fenetre.pixelX(d_boutonQuit.centre().x()+d_boutonQuit.largeur()/2) &&
@@ -50,8 +48,8 @@ void Game::waitUntilMouseCkicked(){
            x<=d_fenetre.pixelX(d_boutonDemarrer.centre().x()+d_boutonDemarrer.largeur()/2) &&
            y>=d_fenetre.pixelY(d_boutonDemarrer.centre().y()+d_boutonDemarrer.hauteur()/2) &&
            y<=d_fenetre.pixelY(d_boutonDemarrer.centre().y()-d_boutonDemarrer.hauteur()/2) ){
-                touchedButton=true;
-                d_echiquier.play(d_fenetre,StatutJeu,0); /** Attention cas exceptionnel pour tester !! */
+            touchedButton=true;
+            d_echiquier.play(d_fenetre);
            }
 
     }
@@ -60,13 +58,11 @@ void Game::waitUntilMouseCkicked(){
 void Game::test(){
     Laser* las = new Laser{d_echiquier.coordVersPoint(0),d_echiquier.coordVersPoint(19),d_echiquier.taille(),ecran::Droite};
     MiroirGaucheVersBas* mur= new MiroirGaucheVersBas{d_echiquier.coordVersPoint(8),d_echiquier.coordVersPoint(19),d_echiquier.taille()};
-    Cible* cible= new Cible{d_echiquier.coordVersPoint(8),d_echiquier.coordVersPoint(0),d_echiquier.taille()};
-    Monstre* monstre = new Monstre{d_echiquier.coordVersPoint(8),d_echiquier.coordVersPoint(10),d_echiquier.taille()};
+    CibleHorizontale* cible= new CibleHorizontale{d_echiquier.coordVersPoint(8),d_echiquier.coordVersPoint(0),d_echiquier.taille()};
     d_echiquier.setCoordLaser({0,19});
     d_echiquier.setCase(las);
     d_echiquier.setCase(mur);
     d_echiquier.setCase(cible);
-    d_echiquier.setCase(monstre);
 }
 
 }

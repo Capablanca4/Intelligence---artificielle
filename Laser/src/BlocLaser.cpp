@@ -32,25 +32,33 @@ Laser* BlocLaser::shoot(){
     return retLaser;
 }
 
+bool BlocLaser::touch(Echiquier& plateau) const {
+    return false;
+}
+
 void BlocLaser::draw(Viewer& fenetre){
-    rectangle(fenetre.pixelX(this->x()-this->cote()/2),
-              fenetre.pixelY(this->y()+this->cote()/2),
-              fenetre.pixelX(this->x()+this->cote()/2),
-              fenetre.pixelY(this->y()-this->cote()/2 ));
-    line(fenetre.pixelX(this->x()-this->cote()/2),
-         fenetre.pixelY(this->y()+this->cote()/2),
-         fenetre.pixelX(this->x()+this->cote()/2),
-         fenetre.pixelY(this->y()-this->cote()/2));
-    line(fenetre.pixelX(this->x()-this->cote()/2),
-         fenetre.pixelY(this->y()-this->cote()/2),
-         fenetre.pixelX(this->x()+this->cote()/2),
-         fenetre.pixelY(this->y()+this->cote()/2));
+
+    const int pixel=cote()/32;
+
     switch (d_direction){
+
         case Gauche :
-            line(fenetre.pixelX(this->x()-this->cote()/2),
-                 fenetre.pixelY(this->y()),
-                 fenetre.pixelX(this->x()-this->cote()*9/10),
-                 fenetre.pixelY(this->y()));
+        setcolor (RED);
+        bar(
+        fenetre.pixelX(x())+cote()/3,
+        fenetre.pixelY(y()+1)-3*pixel,
+        fenetre.pixelX(x())-cote()/3,
+        fenetre.pixelY(y()-2)+3*pixel);
+
+        setcolor (LIGHTRED);
+
+        bar(
+        fenetre.pixelX(x())+cote()/3,
+        fenetre.pixelY(y()+1)-1.5*pixel,
+        fenetre.pixelX(x())-cote()/3,
+        fenetre.pixelY(y()-2)+1.5*pixel);
+
+
             break;
         case Droite :
             line(fenetre.pixelX(this->x()+this->cote()/2),
