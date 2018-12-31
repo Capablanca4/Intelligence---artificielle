@@ -1,6 +1,7 @@
 #include "CibleHorirontale.h"
 #include <iostream>
 #include "Echiquier.h"
+#include "Game.h"
 
 namespace ecran{
 
@@ -11,42 +12,38 @@ CibleHorizontale::CibleHorizontale(const int x,const int y,const int cote):Case{
 CibleHorizontale::~CibleHorizontale(){}
 
 void CibleHorizontale::draw(Viewer& fenetre){
-
-    line(fenetre.pixelX(this->x()-this->cote()/2),
-         fenetre.pixelY(this->y()),
-         fenetre.pixelX(this->x()+this->cote()/2),
-         fenetre.pixelY(this->y()));
-
-    line(fenetre.pixelX(this->x()-this->cote()/2),
-         fenetre.pixelY(this->y()-this->cote()/2),
-         fenetre.pixelX(this->x()-this->cote()/2),
-         fenetre.pixelY(this->y()+this->cote()/2));
-
-    line(fenetre.pixelX(this->x()+this->cote()/2),
-         fenetre.pixelY(this->y()-this->cote()/2),
-         fenetre.pixelX(this->x()+this->cote()/2),
-         fenetre.pixelY(this->y()+this->cote()/2));
+    if(fenetre.open()){
+        int rayon=cote()/2-1;
+        setcolor(RED);
+        fillellipse(fenetre.pixelX(x()), fenetre.pixelY(y()), rayon, rayon/1.5);
+        setcolor(WHITE);
+        fillellipse(fenetre.pixelX(x()), fenetre.pixelY(y()), rayon/1.5, rayon/3);
+        setcolor(RED);
+        fillellipse(fenetre.pixelX(x()), fenetre.pixelY(y()), rayon/3, rayon/5.5);
+        setcolor(WHITE);
+    }
 }
 
-bool CibleHorizontale::touch(Echiquier& plateau,GameStatut& StatutJeu,int n){
-    Laser* las =(Laser*)plateau.plateau()[plateau.coordLas().x][plateau.coordLas().y];
+bool CibleHorizontale::touch(Game& Jeu,int n){
+    Laser* las =(Laser*)Jeu.plateau().emplacementCase(Jeu.coordLas(n));
     switch (las->direction()){
         case Gauche :
-            std::cout << "you lose !" <<std::endl ;
             break;
         case Droite :
-            std::cout << "you lose !" <<std::endl ;
             break;
         case Haut :
-            std::cout << "you win !" <<std::endl ;
-            StatutJeu.setTouchTrue(n);
+            Jeu.setTouchTrue(n);
             break;
         case Bas :
-            std::cout << "you win !" <<std::endl ;
-            StatutJeu.setTouchTrue(n);
+            Jeu.setTouchTrue(n);
             break;
     }
     return false;
 }
+
+std::string CibleHorizontale::typeObjet()const {
+    return "Ceci est une CibleHorizontale";
+}
+
 
 }

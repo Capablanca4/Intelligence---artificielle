@@ -2,17 +2,17 @@
 
 namespace ecran{
 
-Bouton::Bouton(const Point& centre,int largeur,int hauteur,const std::string text):
+Bouton::Bouton(const Point& centre,int largeur,int hauteur,const std::string texte):
     d_centre{centre},
     d_largeur{largeur},
     d_hauteur{hauteur},
-    d_texte{text} {}
+    d_texte{texte} {}
 
-Bouton::Bouton(int x,int y,int largeur,int hauteur,const std::string text):
+Bouton::Bouton(int x,int y,int largeur,int hauteur,const std::string texte):
     d_centre{x,y},
     d_largeur{largeur},
     d_hauteur{hauteur},
-    d_texte{text} {}
+    d_texte{texte} {}
 
 Point Bouton::centre() const{
     return d_centre;
@@ -26,17 +26,23 @@ const int Bouton::hauteur() const{
     return d_hauteur;
 }
 
+const std::string Bouton::texte() const{
+    return d_texte;
+}
+
 void Bouton::draw(Viewer& fenetre)const{
-    outtextxy(fenetre.pixelX(d_centre.x()-d_largeur/2),
-              fenetre.pixelY(d_centre.y()+d_hauteur/2),
-              (char *)d_texte.c_str());
+    if(fenetre.open()){
 
-    rectangle(fenetre.pixelX(d_centre.x()-d_largeur/2),
-              fenetre.pixelY(d_centre.y()-d_hauteur/2),
-              fenetre.pixelX(d_centre.x()+d_largeur/2),
-              fenetre.pixelY(d_centre.y()+d_hauteur/2));
+        outtextxy(fenetre.pixelX(d_centre.x()-d_largeur/2),
+                  fenetre.pixelY(d_centre.y()+d_hauteur/2),
+                  (char *)d_texte.c_str());
 
+        rectangle(fenetre.pixelX(d_centre.x()-d_largeur/2),
+                  fenetre.pixelY(d_centre.y()-d_hauteur/2),
+                  fenetre.pixelX(d_centre.x()+d_largeur/2),
+                  fenetre.pixelY(d_centre.y()+d_hauteur/2));
 
+    }
 }
 
 }

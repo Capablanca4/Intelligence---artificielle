@@ -11,7 +11,10 @@ class Viewer
 {
     public:
         /** Constructeur*/
-        Viewer(int largeur,int hauteur);
+        Viewer(int largeur,int hauteur,int decalageX=50,int decalageY=50);
+
+        /**Accesseur*/
+        const bool open()const;
 
         /** Fonction gerant la fenetre et les actions sur la fenetre*/
         void openWindow();
@@ -30,10 +33,10 @@ class Viewer
         int d_hauteur;
         int d_largeur;
         bool d_open;
-        const int decalageX=20;
-        const int decalageY=20;
-        viewPort CoordonneesY/*{0, 1000, 980, 20}*/;
-        viewPort CoordonneesX/*{0, 1000, 20, 980}*/;
+        const int decalageX;
+        const int decalageY;
+        viewPort CoordonneesY;
+        viewPort CoordonneesX;
 
 };
 }

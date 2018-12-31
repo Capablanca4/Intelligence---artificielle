@@ -13,6 +13,9 @@ class Mur:public Case
 
         /** Fonctions herites de Case et redefinit dans l objet*/
         virtual void draw(Viewer& fenetre) override;
+
+        /** Fonction de test*/
+        virtual std::string typeObjet()const override;
 };
 }
 #endif // MUR_H

@@ -2,17 +2,17 @@
 #define CASE_H
 #include "Point.h"
 #include "Viewer.h"
-#include "GameStatut.h"
 #include <vector>
 
 namespace ecran{
 
-struct coordLaser {
-    int x,y; };
+struct coord {int x,y; };
+
+enum TDirection{Droite,Gauche,Haut,Bas};
 
 class Echiquier;
 
-enum TDirection{Droite,Gauche,Haut,Bas};
+class Game;
 
 class Case: public Point
 {
@@ -20,6 +20,7 @@ class Case: public Point
         /** Constructeurs et destructeur*/
         Case(Point& centre,int cote);
         Case(int x,int y,int cote);
+        Case(Case& cas);
         virtual ~Case();
 
         /** Accesseur*/
@@ -27,12 +28,14 @@ class Case: public Point
         const int cote()const;
 
         /** Modificateur*/
-        void changerCote(const int cote);
         void changerCentre(const Point& centre);
 
+        /**Fonction de test*/
+        virtual std::string typeObjet()const;
+
         /** Fonction gerant le deplacement du laser*/
-        virtual bool touch(Echiquier& plateau,GameStatut& StatutJeu,int n);
-        virtual coordLaser posNextMoveLaser(Echiquier& plateau) const;
+        virtual bool touch(Game& Jeu,int n);
+        virtual coord posNextMoveLaser(Game& Jeu,int n) const;
 
         /**Fonction gerant le changement d'objet*/
         virtual void transformation(Echiquier& plateau);

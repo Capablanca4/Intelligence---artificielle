@@ -1,4 +1,4 @@
-#include "../include/Mur.h"
+#include "Mur.h"
 #include <iostream>
 #include "Echiquier.h"
 
@@ -14,52 +14,47 @@ Mur::Mur(int x,int y,int cote):
         Case{x,y,cote} {}
 
 void Mur::draw(Viewer& fenetre){
+    if(fenetre.open()){
 
-    setcolor(LIGHTGRAY);
+        setfillstyle(SOLID_FILL,LIGHTGRAY);
+        bar(fenetre.pixelX(x()-cote()/2),
+            fenetre.pixelY(y()+cote()/2),
+            fenetre.pixelX(x()+cote()/2),
+            fenetre.pixelY(y()-cote()/2));
 
-    bar(
-        fenetre.pixelX(x()-cote()/2),
-        fenetre.pixelY(y()+cote()/2),
-        fenetre.pixelX(x()+cote()/2),
-        fenetre.pixelY(y()-cote()/2)
-            );
-
-    int petitRectangle=cote()/2.1;
-
+        int petitRectangle=cote()/2.1;
         int triangleInf [6]=
-        {static_cast <int> (fenetre.pixelX(x()+cote()/2)),static_cast<int> (fenetre.pixelY(y()+cote()/2)),
-        static_cast <int> (fenetre.pixelX(x()+cote()/2)),static_cast <int> (fenetre.pixelY(y()-cote()/2)),
-        static_cast <int> (fenetre.pixelX(x()-cote()/2)),static_cast <int> (fenetre.pixelY(y()-cote()/2))};
+            {static_cast <int> (fenetre.pixelX(x()+cote()/2)),static_cast<int> (fenetre.pixelY(y()+cote()/2)),
+            static_cast <int> (fenetre.pixelX(x()+cote()/2)),static_cast <int> (fenetre.pixelY(y()-cote()/2)),
+            static_cast <int> (fenetre.pixelX(x()-cote()/2)),static_cast <int> (fenetre.pixelY(y()-cote()/2))};
 
-        setcolor(BLACK);
+        setfillstyle(SOLID_FILL,BLACK);
 
         fillpoly(3,triangleInf);
 
-        setcolor (BROWN);
+        setfillstyle(SOLID_FILL,BROWN);
 
-        bar(
-        fenetre.pixelX(x()-(cote()-petitRectangle)/2),
-        fenetre.pixelY(y()+(cote()-petitRectangle)/2),
-        fenetre.pixelX(x()+(cote()-petitRectangle)/2),
-        fenetre.pixelY(y()-(cote()-petitRectangle)/1.9)
-            );
+        bar(fenetre.pixelX(x()-(cote()-petitRectangle)/2),
+            fenetre.pixelY(y()+(cote()-petitRectangle)/2),
+            fenetre.pixelX(x()+(cote()-petitRectangle)/2),
+            fenetre.pixelY(y()-(cote()-petitRectangle)/1.9));
 
-        line(
-        fenetre.pixelX(x()-cote()/2),
-        fenetre.pixelY(y()+cote()/2),
-        fenetre.pixelX(x()+cote()/2),
-        fenetre.pixelY(y()-cote()/2)
-             );
+        line(fenetre.pixelX(x()-cote()/2),
+             fenetre.pixelY(y()+cote()/2),
+             fenetre.pixelX(x()+cote()/2),
+             fenetre.pixelY(y()-cote()/2));
 
-        setcolor(WHITE);
+        setfillstyle(SOLID_FILL,WHITE);
 
-            rectangle(
-        fenetre.pixelX(x()-cote()/2),
-        fenetre.pixelY(y()+cote()/2),
-        fenetre.pixelX(x()+cote()/2),
-        fenetre.pixelY(y()-cote()/2)
-            );
+        rectangle(fenetre.pixelX(x()-cote()/2),
+                  fenetre.pixelY(y()+cote()/2),
+                  fenetre.pixelX(x()+cote()/2),
+                  fenetre.pixelY(y()-cote()/2));
+    }
+}
 
+std::string Mur::typeObjet()const{
+    return "Ceci est un Mur";
 }
 
 }
