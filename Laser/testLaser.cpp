@@ -8,21 +8,22 @@
 
 /** Les fonctions de dessins ne sont pas prises en compte dans ces tests */
 
-/** Les classes suivantes ont déja des tests unitaires : - BlocLaser              l.28
+/** Les classes suivantes ont déja des tests unitaires : - BlocLaser              l.29
                                                          - Case                   l.84
-                                                         - CaseVide               l.118
-                                                         - Cible                  l.144
-                                                         - CibleHorizontale       l.164
-                                                         - CibleVerticale         l.209
-                                                         - Laser                  l.254
-                                                         - MiroirGaucheVersBas    l.327
-                                                         - MiroirGaucheVersHaut   l.443
-                                                         - Monstre                l.559
-                                                         - Mur                    l.588
-                                                         - Echiquier              l.597
-                                                         - Viewer                 l.815
-                                                         - Bouton                 l.841
-                                                         - TableauDeScore         l.850
+                                                         - CaseVide               l.112
+                                                         - Cible                  l.138
+                                                         - CibleHorizontale       l.157
+                                                         - CibleVerticale         l.201
+                                                         - Laser                  l.245
+                                                         - MiroirGaucheVersBas    l.273
+                                                         - MiroirGaucheVersHaut   l.389
+                                                         - Monstre                l.505
+                                                         - Mur                    l.532
+                                                         - Echiquier              l.541
+                                                         - Viewer                 l.767
+                                                         - Bouton                 l.793
+                                                         - TableauDeScore         l.802
+                                                         - Game                   l.813
 */
 
 TEST_CASE("Les methodes de Bloclaser sont correctes"){
@@ -42,9 +43,9 @@ TEST_CASE("Les methodes de Bloclaser sont correctes"){
     SUBCASE("La methode shoot() est correcte"){
         int x1=1,y1=1;
         int nbLigne=20,nbColonne=20;
-        ecran::Echiquier tabl{nbLigne,nbColonne,cote};
+        ecran::Game Jeu{nbLigne,nbColonne,cote};
         ecran::BlocLaser* bloc1 = new ecran::BlocLaser{x1,y1,cote};
-        tabl.setCase(bloc1);
+        Jeu.plateau().setCase(bloc1);
 
         SUBCASE("La methode shoot() creer un Laser avec la bonne direction(Gauche)"){
             ecran::TDirection direc{ecran::Gauche};
@@ -80,7 +81,6 @@ TEST_CASE("Les methodes de Bloclaser sont correctes"){
     }
 }
 
-
 TEST_CASE("Les methodes de Case sont correctes"){
 
     int x=6, y=7,cote=20;
@@ -98,10 +98,10 @@ TEST_CASE("Les methodes de Case sont correctes"){
 
     SUBCASE("La methode posNextMoveLaser() est correcte"){
         int nbLigne=20,nbColonne=20;
-        ecran::Echiquier tabl{nbLigne,nbColonne,cote};/** Plateau remplie de caseVide*/
-        ecran::Case* cas1=(ecran::Case*) tabl.emplacementCase(x,y);
-        REQUIRE_EQ(cas1->posNextMoveLaser(tabl,0).x,x);
-        REQUIRE_EQ(cas1->posNextMoveLaser(tabl,0).y,y);
+        ecran::Game Jeu{nbLigne,nbColonne,cote};
+        ecran::Case* cas1=(ecran::Case*) Jeu.plateau().emplacementCase(x,y);
+        REQUIRE_EQ(cas1->posNextMoveLaser(Jeu,0).x,x);
+        REQUIRE_EQ(cas1->posNextMoveLaser(Jeu,0).y,y);
     }
 
     /*SUBCASE("La metode typeObjet() est correcte"){
@@ -137,16 +137,15 @@ TEST_CASE("Les methodes de CaseVide sont correctes"){
 
 TEST_CASE("Les methodes de Cible sont correctes"){
     int x=6, y=7,cote=20;
+    int nbLigne=20,nbColonne=20;
     ecran::Cible cible{x,y,cote};
+    ecran::Game Jeu{nbLigne,nbColonne,cote};
 
     SUBCASE("La methode touch() est correcte"){
-        int nbLigne=20,nbColonne=20,cote=20;
-        int x1=1,y1=1;
-        ecran::Game Jeu{nbLigne,nbColonne,cote};
-        ecran::Cible* cible1 = new ecran::Cible{x1,y1,cote};
+        ecran::Cible* cible1 = new ecran::Cible{x,y,cote};
         Jeu.plateau().setCase(cible1);
-        Jeu.plateau().ajouteCoordlaser(ecran::coord{0,0},Jeu);/** Pour éviter que les tests plantent*/
-        REQUIRE_FALSE(cible1->touch(Jeu,0));
+        Jeu.addLaser(ecran::coord{0,0});
+        REQUIRE_FALSE(cible1->touch(Jeu,0));/** Cas avec 1 Laser */
         REQUIRE_FALSE(!Jeu.touch(0));
     }
 
@@ -158,42 +157,42 @@ TEST_CASE("Les methodes de Cible sont correctes"){
 TEST_CASE("Les methodes de CibleHorizontale sont correctes"){
 
     int nbLigne=20,nbColonne=20;
-    int x1=2,y1=2,cote=20;
+    int x=2,y=2,cote=20;
+    ecran::Game Jeu{nbLigne,nbColonne,cote};
 
     SUBCASE("La methode touch() est correcte "){
-        ecran::Game Jeu{nbLigne,nbColonne,cote};
-        ecran::CibleHorizontale* cible = new ecran::CibleHorizontale{Jeu.plateau().coordVersPoint(x1),Jeu.plateau().coordVersPoint(y1),cote};
+        ecran::CibleHorizontale* cible = new ecran::CibleHorizontale{Jeu.plateau().coordVersPoint(x),Jeu.plateau().coordVersPoint(y),cote};
         Jeu.plateau().setCase(cible);
-        ecran::Laser* las= new ecran::Laser{Jeu.plateau().coordVersPoint(x1),Jeu.plateau().coordVersPoint(y1-1),cote};
+        ecran::Laser* las= new ecran::Laser{Jeu.plateau().coordVersPoint(x),Jeu.plateau().coordVersPoint(y-1),cote};
         Jeu.plateau().setCase(las);
-        Jeu.plateau().ajouteCoordlaser(ecran::coord{x1,y1-1},Jeu);
+        Jeu.addLaser(ecran::coord{x,y-1});
 
         SUBCASE("La methode touch() renvoie faux"){
-            REQUIRE_FALSE(Jeu.plateau().emplacementCase(x1,y1)->touch(Jeu,0));}
+            REQUIRE_FALSE(Jeu.plateau().emplacementCase(x,y)->touch(Jeu,0));}
 
-        SUBCASE("La methode touch() modifie le GameStatut selon le direction du Laser(Haut)"){
+        SUBCASE("La methode touch() modifie le Game selon le direction du Laser(Haut)"){
             las->setDirection(ecran::Haut);
             if(!cible->touch(Jeu,0))REQUIRE_FALSE(!Jeu.touch(0));
        }
 
-       SUBCASE("La methode touch() modifie le GameStatut selon le direction du Laser(Bas)"){
+       SUBCASE("La methode touch() modifie le Game selon le direction du Laser(Bas)"){
             las->setDirection(ecran::Bas);
             if(!cible->touch(Jeu,0))REQUIRE_FALSE(!Jeu.touch(0));
        }
 
-       SUBCASE("La methode touch() modifie le GameStatut selon le direction du Laser(Droite)"){
+       SUBCASE("La methode touch() modifie le Game selon le direction du Laser(Droite)"){
             las->setDirection(ecran::Droite);
             if(!cible->touch(Jeu,0))REQUIRE_FALSE(Jeu.touch(0));
        }
 
-       SUBCASE("La methode touch() modifie le GameStatut selon le direction du Laser(Gauche)"){
+       SUBCASE("La methode touch() modifie le Game selon le direction du Laser(Gauche)"){
             las->setDirection(ecran::Gauche);
             if(!cible->touch(Jeu,0))REQUIRE_FALSE(Jeu.touch(0));
        }
    }
 
    SUBCASE("La methode typeObjet() est correcte"){
-        ecran::CibleHorizontale cible{x1,y1,cote};
+        ecran::CibleHorizontale cible{x,y,cote};
         REQUIRE_EQ("Ceci est une CibleHorizontale",cible.typeObjet());
    }
 
@@ -203,34 +202,34 @@ TEST_CASE("Les methodes de CibleVerticale sont correctes"){
 
     int nbLigne=20,nbColonne=20;
     int x1=2,y1=2,cote=20;
+    ecran::Game Jeu{nbLigne,nbColonne,cote};
 
     SUBCASE("La methode touch() est correcte"){
-        ecran::Game Jeu{nbLigne,nbColonne,cote};
         ecran::CibleVerticale* cible = new ecran::CibleVerticale{Jeu.plateau().coordVersPoint(x1),Jeu.plateau().coordVersPoint(y1),cote};
         Jeu.plateau().setCase(cible);
         ecran::Laser* las= new ecran::Laser{Jeu.plateau().coordVersPoint(x1),Jeu.plateau().coordVersPoint(y1-1),cote};
         Jeu.plateau().setCase(las);
-        Jeu.plateau().ajouteCoordlaser(ecran::coord{x1,y1-1},Jeu);
+        Jeu.addLaser(ecran::coord{x1,y1-1});
 
         SUBCASE("La methode touch() renvoie faux"){
             REQUIRE_FALSE(Jeu.plateau().emplacementCase(x1,y1)->touch(Jeu,0));}
 
-        SUBCASE("La methode touch() modifie le GameStatut selon le direction du Laser(Haut)"){
+        SUBCASE("La methode touch() modifie le Game selon le direction du Laser(Haut)"){
             las->setDirection(ecran::Haut);
             if(!cible->touch(Jeu,0))REQUIRE_FALSE(Jeu.touch(0));
        }
 
-       SUBCASE("La methode touch() modifie le GameStatut selon le direction du Laser(Bas)"){
+       SUBCASE("La methode touch() modifie le Game selon le direction du Laser(Bas)"){
             las->setDirection(ecran::Bas);
             if(!cible->touch(Jeu,0))REQUIRE_FALSE(Jeu.touch(0));
        }
 
-       SUBCASE("La methode touch() modifie le GameStatut selon le direction du Laser(Droite)"){
+       SUBCASE("La methode touch() modifie le Game selon le direction du Laser(Droite)"){
             las->setDirection(ecran::Droite);
             if(!cible->touch(Jeu,0))REQUIRE_FALSE(!Jeu.touch(0));
        }
 
-       SUBCASE("La methode touch() modifie le GameStatut selon le direction du Laser(Gauche)"){
+       SUBCASE("La methode touch() modifie le Game selon le direction du Laser(Gauche)"){
             las->setDirection(ecran::Gauche);
             if(!cible->touch(Jeu,0))REQUIRE_FALSE(!Jeu.touch(0));
        }
@@ -253,66 +252,21 @@ TEST_CASE("Les methodes de Laser sont correctes"){
     }
 
     SUBCASE("La methode direction() est correcte"){
-
-        SUBCASE("La methode direction() est correcte selon la direction du Laser(Gauche)"){
-            ecran::TDirection direc{ecran::Gauche};
-            ecran::Laser las{x1,y1,cote,direc};
-            REQUIRE_EQ(las.direction(),direc);
-        }
-
-        SUBCASE("La methode direction() est correcte selon la direction du Laser(Droite)"){
-            ecran::TDirection direc{ecran::Droite};
-            ecran::Laser las{x1,y1,cote,direc};
-            REQUIRE_EQ(las.direction(),direc);
-        }
-
-        SUBCASE("La methode direction() est correcte selon la direction du Laser(Haut)"){
-            ecran::TDirection direc{ecran::Haut};
-            ecran::Laser las{x1,y1,cote,direc};
-            REQUIRE_EQ(las.direction(),direc);
-        }
-
-        SUBCASE("La methode direction() est correcte selon la direction du Laser(Bas)"){
-            ecran::TDirection direc{ecran::Bas};
-            ecran::Laser las{x1,y1,cote,direc};
-            REQUIRE_EQ(las.direction(),direc);
-        }
+        ecran::TDirection direc{ecran::Gauche};
+        ecran::Laser las{x1,y1,cote,direc};
+        REQUIRE_EQ(las.direction(),direc);
     }
 
     SUBCASE("la methode setDirection() est correcte"){
+        ecran::TDirection direc{ecran::Droite};
+        ecran::Laser las{x1,y1,cote};
+        las.setDirection(direc);
+        REQUIRE_EQ(las.direction(),direc);
+    }
 
-        SUBCASE("La methode direction() est correcte selon la direction du Laser(Gauche)"){
-            ecran::TDirection direc{ecran::Gauche};
-            ecran::Laser las{x1,y1,cote};
-            las.setDirection(direc);
-            REQUIRE_EQ(las.direction(),direc);
-        }
-
-        SUBCASE("La methode direction() est correcte selon la direction du Laser(Droite)"){
-            ecran::TDirection direc{ecran::Droite};
-            ecran::Laser las{x1,y1,cote};
-            las.setDirection(direc);
-            REQUIRE_EQ(las.direction(),direc);
-        }
-
-        SUBCASE("La methode direction() est correcte selon la direction du Laser(Haut)"){
-            ecran::TDirection direc{ecran::Haut};
-            ecran::Laser las{x1,y1,cote};
-            las.setDirection(direc);
-            REQUIRE_EQ(las.direction(),direc);
-        }
-
-        SUBCASE("La methode direction() est correcte selon la direction du Laser(Bas)"){
-            ecran::TDirection direc{ecran::Bas};
-            ecran::Laser las{x1,y1,cote};
-            las.setDirection(direc);
-            REQUIRE_EQ(las.direction(),direc);
-        }
-
-        SUBCASE("La methode typeObjet() est correcte"){
-            ecran::Laser las{x1,y1,cote};
-            REQUIRE_EQ(las.typeObjet(),"Ceci est un Laser");
-        }
+    SUBCASE("La methode typeObjet() est correcte"){
+        ecran::Laser las{x1,y1,cote};
+        REQUIRE_EQ(las.typeObjet(),"Ceci est un Laser");
     }
 }
 
@@ -329,9 +283,9 @@ TEST_CASE("Les methodes de MiroirGaucheVersBas sont correctes"){
         SUBCASE("Cas ou le Laser vient de la Gauche "){
             ecran::Laser* las= new ecran::Laser{Jeu.plateau().coordVersPoint(x1+1),Jeu.plateau().coordVersPoint(y1),cote};
             Jeu.plateau().setCase(las);
-            Jeu.plateau().ajouteCoordlaser(ecran::coord{x1+1,y1},Jeu);
+            Jeu.addLaser(ecran::coord{x1+1,y1});
             las->setDirection(ecran::Gauche);
-            ecran::coord test= mir->posNextMoveLaser(Jeu.plateau(),0);
+            ecran::coord test= mir->posNextMoveLaser(Jeu,0);
             REQUIRE_EQ(test.x,x1);
             REQUIRE_EQ(test.y,y1-1);
         }
@@ -339,9 +293,9 @@ TEST_CASE("Les methodes de MiroirGaucheVersBas sont correctes"){
         SUBCASE("Cas ou le Laser vient de la Droite "){
             ecran::Laser* las= new ecran::Laser{Jeu.plateau().coordVersPoint(x1-1),Jeu.plateau().coordVersPoint(y1),cote};
             Jeu.plateau().setCase(las);
-            Jeu.plateau().ajouteCoordlaser(ecran::coord{x1-1,y1},Jeu);
+            Jeu.addLaser(ecran::coord{x1-1,y1});
             las->setDirection(ecran::Droite);
-            ecran::coord test= mir->posNextMoveLaser(Jeu.plateau(),0);
+            ecran::coord test= mir->posNextMoveLaser(Jeu,0);
             REQUIRE_EQ(test.x,x1);
             REQUIRE_EQ(test.y,y1+1);
         }
@@ -349,9 +303,9 @@ TEST_CASE("Les methodes de MiroirGaucheVersBas sont correctes"){
         SUBCASE("Cas ou le Laser vient d'en Haut "){
             ecran::Laser* las= new ecran::Laser{Jeu.plateau().coordVersPoint(x1),Jeu.plateau().coordVersPoint(y1+1),cote};
             Jeu.plateau().setCase(las);
-            Jeu.plateau().ajouteCoordlaser(ecran::coord{x1,y1+1},Jeu);
+            Jeu.addLaser(ecran::coord{x1,y1+1});
             las->setDirection(ecran::Haut);
-            ecran::coord test= mir->posNextMoveLaser(Jeu.plateau(),0);
+            ecran::coord test= mir->posNextMoveLaser(Jeu,0);
             REQUIRE_EQ(test.x,x1+1);
             REQUIRE_EQ(test.y,y1);
         }
@@ -359,9 +313,9 @@ TEST_CASE("Les methodes de MiroirGaucheVersBas sont correctes"){
         SUBCASE("Cas ou le Laser vient d'en Bas "){
             ecran::Laser* las= new ecran::Laser{Jeu.plateau().coordVersPoint(x1),Jeu.plateau().coordVersPoint(y1-1),cote};
             Jeu.plateau().setCase(las);
-            Jeu.plateau().ajouteCoordlaser(ecran::coord{x1,y1-1},Jeu);
+            Jeu.addLaser(ecran::coord{x1,y1-1});
             las->setDirection(ecran::Bas);
-            ecran::coord test= mir->posNextMoveLaser(Jeu.plateau(),0);
+            ecran::coord test= mir->posNextMoveLaser(Jeu,0);
             REQUIRE_EQ(test.x,x1-1);
             REQUIRE_EQ(test.y,y1);
         }
@@ -374,9 +328,9 @@ TEST_CASE("Les methodes de MiroirGaucheVersBas sont correctes"){
             Jeu.plateau().setCase(mir);
             ecran::Laser* las = new ecran::Laser{Jeu.plateau().coordVersPoint(x1),Jeu.plateau().coordVersPoint(1),cote};
             Jeu.plateau().setCase(las);
-            Jeu.plateau().ajouteCoordlaser(ecran::coord{x1,1},Jeu);
+            Jeu.addLaser(ecran::coord{x1,1});
             las->setDirection(ecran::Gauche);
-            ecran::coord test= mir->posNextMoveLaser(Jeu.plateau(),0);
+            ecran::coord test= mir->posNextMoveLaser(Jeu,0);
             REQUIRE_EQ(test.x,x1);
             REQUIRE_EQ(test.y,0);
         }
@@ -386,9 +340,9 @@ TEST_CASE("Les methodes de MiroirGaucheVersBas sont correctes"){
             Jeu.plateau().setCase(mir);
             ecran::Laser* las = new ecran::Laser{Jeu.plateau().coordVersPoint(x1),Jeu.plateau().coordVersPoint(nbLigne-2),cote};
             Jeu.plateau().setCase(las);
-            Jeu.plateau().ajouteCoordlaser(ecran::coord{x1,nbLigne-2},Jeu);
+            Jeu.addLaser(ecran::coord{x1,nbLigne-2});
             las->setDirection(ecran::Droite);
-            ecran::coord test= mir->posNextMoveLaser(Jeu.plateau(),0);
+            ecran::coord test= mir->posNextMoveLaser(Jeu,0);
             REQUIRE_EQ(test.x,x1);
             REQUIRE_EQ(test.y,nbLigne-1);
         }
@@ -398,9 +352,9 @@ TEST_CASE("Les methodes de MiroirGaucheVersBas sont correctes"){
             Jeu.plateau().setCase(mir);
             ecran::Laser* las = new ecran::Laser{Jeu.plateau().coordVersPoint(1),Jeu.plateau().coordVersPoint(y1),cote};
             Jeu.plateau().setCase(las);
-            Jeu.plateau().ajouteCoordlaser(ecran::coord{1,y1},Jeu);
+            Jeu.addLaser(ecran::coord{1,y1});
             las->setDirection(ecran::Bas);
-            ecran::coord test= mir->posNextMoveLaser(Jeu.plateau(),0);
+            ecran::coord test= mir->posNextMoveLaser(Jeu,0);
             REQUIRE_EQ(test.x,0);
             REQUIRE_EQ(test.y,y1);
         }
@@ -410,9 +364,9 @@ TEST_CASE("Les methodes de MiroirGaucheVersBas sont correctes"){
             Jeu.plateau().setCase(mir);
             ecran::Laser* las = new ecran::Laser{Jeu.plateau().coordVersPoint(nbColonne-2),Jeu.plateau().coordVersPoint(y1),cote};
             Jeu.plateau().setCase(las);
-            Jeu.plateau().ajouteCoordlaser(ecran::coord{nbColonne-2,y1},Jeu);
+            Jeu.addLaser(ecran::coord{nbColonne-2,y1});
             las->setDirection(ecran::Haut);
-            ecran::coord test= mir->posNextMoveLaser(Jeu.plateau(),0);
+            ecran::coord test= mir->posNextMoveLaser(Jeu,0);
             REQUIRE_EQ(test.x,nbColonne-1);
             REQUIRE_EQ(test.y,y1);
         }
@@ -445,9 +399,9 @@ TEST_CASE("Les methodes de MiroirGaucheVersHaut sont correctes"){
         SUBCASE("Cas ou le Laser vient de la Gauche "){
             ecran::Laser* las= new ecran::Laser{Jeu.plateau().coordVersPoint(x1-1),Jeu.plateau().coordVersPoint(y1),cote};
             Jeu.plateau().setCase(las);
-            Jeu.plateau().ajouteCoordlaser(ecran::coord{x1-1,y1},Jeu);
+            Jeu.addLaser(ecran::coord{x1-1,y1});
             las->setDirection(ecran::Gauche);
-            ecran::coord test= mir->posNextMoveLaser(Jeu.plateau(),0);
+            ecran::coord test= mir->posNextMoveLaser(Jeu,0);
             REQUIRE_EQ(test.x,x1);
             REQUIRE_EQ(test.y,y1+1);
         }
@@ -455,9 +409,9 @@ TEST_CASE("Les methodes de MiroirGaucheVersHaut sont correctes"){
         SUBCASE("Cas ou le Laser vient de la Droite "){
             ecran::Laser* las= new ecran::Laser{Jeu.plateau().coordVersPoint(x1+1),Jeu.plateau().coordVersPoint(y1),cote};
             Jeu.plateau().setCase(las);
-            Jeu.plateau().ajouteCoordlaser(ecran::coord{x1+1,y1},Jeu);
+            Jeu.addLaser(ecran::coord{x1+1,y1});
             las->setDirection(ecran::Droite);
-            ecran::coord test= mir->posNextMoveLaser(Jeu.plateau(),0);
+            ecran::coord test= mir->posNextMoveLaser(Jeu,0);
             REQUIRE_EQ(test.x,x1);
             REQUIRE_EQ(test.y,y1-1);
         }
@@ -465,9 +419,9 @@ TEST_CASE("Les methodes de MiroirGaucheVersHaut sont correctes"){
         SUBCASE("Cas ou le Laser vient d'en Haut "){
             ecran::Laser* las= new ecran::Laser{Jeu.plateau().coordVersPoint(x1),Jeu.plateau().coordVersPoint(y1-1),cote};
             Jeu.plateau().setCase(las);
-            Jeu.plateau().ajouteCoordlaser(ecran::coord{x1,y1-1},Jeu);
+            Jeu.addLaser(ecran::coord{x1,y1-1});
             las->setDirection(ecran::Haut);
-            ecran::coord test= mir->posNextMoveLaser(Jeu.plateau(),0);
+            ecran::coord test= mir->posNextMoveLaser(Jeu,0);
             REQUIRE_EQ(test.x,x1-1);
             REQUIRE_EQ(test.y,y1);
         }
@@ -475,9 +429,9 @@ TEST_CASE("Les methodes de MiroirGaucheVersHaut sont correctes"){
         SUBCASE("Cas ou le Laser vient d'en Bas "){
             ecran::Laser* las= new ecran::Laser{Jeu.plateau().coordVersPoint(x1),Jeu.plateau().coordVersPoint(y1+1),cote};
             Jeu.plateau().setCase(las);
-            Jeu.plateau().ajouteCoordlaser(ecran::coord{x1,y1+1},Jeu);
+            Jeu.addLaser(ecran::coord{x1,y1+1});
             las->setDirection(ecran::Bas);
-            ecran::coord test= mir->posNextMoveLaser(Jeu.plateau(),0);
+            ecran::coord test= mir->posNextMoveLaser(Jeu,0);
             REQUIRE_EQ(test.x,x1+1);
             REQUIRE_EQ(test.y,y1);
         }
@@ -490,9 +444,9 @@ TEST_CASE("Les methodes de MiroirGaucheVersHaut sont correctes"){
             Jeu.plateau().setCase(mir);
             ecran::Laser* las = new ecran::Laser{Jeu.plateau().coordVersPoint(x1),Jeu.plateau().coordVersPoint(nbLigne-2),cote};
             Jeu.plateau().setCase(las);
-            Jeu.plateau().ajouteCoordlaser(ecran::coord{x1,nbLigne-2},Jeu);
+            Jeu.addLaser(ecran::coord{x1,nbLigne-2});
             las->setDirection(ecran::Gauche);
-            ecran::coord test= mir->posNextMoveLaser(Jeu.plateau(),0);
+            ecran::coord test= mir->posNextMoveLaser(Jeu,0);
             REQUIRE_EQ(test.x,x1);
             REQUIRE_EQ(test.y,nbLigne-1);
         }
@@ -502,9 +456,9 @@ TEST_CASE("Les methodes de MiroirGaucheVersHaut sont correctes"){
             Jeu.plateau().setCase(mir);
             ecran::Laser* las = new ecran::Laser{Jeu.plateau().coordVersPoint(x1),Jeu.plateau().coordVersPoint(1),cote};
             Jeu.plateau().setCase(las);
-            Jeu.plateau().ajouteCoordlaser(ecran::coord{x1,1},Jeu);
+            Jeu.addLaser(ecran::coord{x1,1});
             las->setDirection(ecran::Droite);
-            ecran::coord test= mir->posNextMoveLaser(Jeu.plateau(),0);
+            ecran::coord test= mir->posNextMoveLaser(Jeu,0);
             REQUIRE_EQ(test.x,x1);
             REQUIRE_EQ(test.y,0);
         }
@@ -514,9 +468,9 @@ TEST_CASE("Les methodes de MiroirGaucheVersHaut sont correctes"){
             Jeu.plateau().setCase(mir);
             ecran::Laser* las = new ecran::Laser{Jeu.plateau().coordVersPoint(nbColonne-2),Jeu.plateau().coordVersPoint(y1),cote};
             Jeu.plateau().setCase(las);
-            Jeu.plateau().ajouteCoordlaser(ecran::coord{nbColonne-2,y1},Jeu);
+            Jeu.addLaser(ecran::coord{nbColonne-2,y1});
             las->setDirection(ecran::Bas);
-            ecran::coord test= mir->posNextMoveLaser(Jeu.plateau(),0);
+            ecran::coord test= mir->posNextMoveLaser(Jeu,0);
             REQUIRE_EQ(test.x,nbColonne-1);
             REQUIRE_EQ(test.y,y1);
         }
@@ -526,9 +480,9 @@ TEST_CASE("Les methodes de MiroirGaucheVersHaut sont correctes"){
             Jeu.plateau().setCase(mir);
             ecran::Laser* las = new ecran::Laser{Jeu.plateau().coordVersPoint(1),Jeu.plateau().coordVersPoint(y1),cote};
             Jeu.plateau().setCase(las);
-            Jeu.plateau().ajouteCoordlaser(ecran::coord{1,y1},Jeu);
+            Jeu.addLaser(ecran::coord{1,y1});
             las->setDirection(ecran::Haut);
-            ecran::coord test= mir->posNextMoveLaser(Jeu.plateau(),0);
+            ecran::coord test= mir->posNextMoveLaser(Jeu,0);
             REQUIRE_EQ(test.x,0);
             REQUIRE_EQ(test.y,y1);
         }
@@ -607,57 +561,76 @@ TEST_CASE("Les methodes de Echiquier sont correctes"){
             ecran::Point point{x,y};
             ecran::Case* cas=Jeu.plateau().emplacementCase(point);
             REQUIRE_EQ(cas,bloc);}
+
+        /*SUBCASE("emplacementCase(Case*& cas) est correcte"){
+            const ecran::Case*& cas1=(ecran::Case*)& bloc;
+            ecran::Case* cas2=Jeu.plateau().emplacementCase(cas1);
+            REQUIRE_EQ(cas2,bloc);}
+        }*/
     }
 
-    SUBCASE("La methode setCase() est correcte"){/**Pas très utile car déjà testé au desus*/
+    SUBCASE("La methode setCase() est correcte"){
         ecran::Mur* bloc = new ecran::Mur{Jeu.plateau().coordVersPoint(x),Jeu.plateau().coordVersPoint(y),cote};
         Jeu.plateau().setCase(bloc);
         REQUIRE_EQ(bloc,Jeu.plateau().emplacementCase(x,y));
     }
 
-    SUBCASE("La methode pointVersCoord() est correcte"){
-        int x1=30;
-        REQUIRE_EQ(((x1-cote/2)/cote),Jeu.plateau().pointVersCoord(x1));
+    SUBCASE("Les methodes pointVersCoord() sont correctes"){
+        int x1=30,y1=50;
+
+        SUBCASE("La methode pointVersCoord(int x) est correcte"){
+            REQUIRE_EQ(((x1-cote/2)/cote),Jeu.plateau().pointVersCoord(x1));
+            }
+
+        SUBCASE("La methode pointVersCoord(int x,int y) est correcte"){
+            ecran::coord coordTest=Jeu.plateau().pointVersCoord(x1,y1);
+            REQUIRE_EQ(((x1-cote/2)/cote),coordTest.x);
+            REQUIRE_EQ(((y1-cote/2)/cote),coordTest.y);
+        }
+
+        SUBCASE("La methode pointVersCoord(Case* cas) est correcte"){
+            ecran::CaseVide* cas= new ecran::CaseVide{x1,y1,cote};
+            ecran::coord coordTest=Jeu.plateau().pointVersCoord(cas);
+            REQUIRE_EQ(((x1-cote/2)/cote),coordTest.x);
+            REQUIRE_EQ(((y1-cote/2)/cote),coordTest.y);
+        }
     }
 
     SUBCASE("La methode coordVersPoint() est correcte"){
         REQUIRE_EQ(Jeu.plateau().coordVersPoint(x),x*cote+cote/2);
     }
 
-    SUBCASE("La methode move est correcte "){
-
-        ecran::Viewer fenetre{500,500};
-        fenetre.openWindow();
+    SUBCASE("La methode move() est correcte "){
 
         SUBCASE("Quand le Laser va vers la Gauche "){
 
             SUBCASE("Dans le cas ou le Laser n'est pas bloque et on ne se situe pas au bord du tableau"){
                 ecran::Laser* las= new ecran::Laser{Jeu.plateau().coordVersPoint(x),Jeu.plateau().coordVersPoint(y),cote};
                 Jeu.plateau().setCase(las);
-                Jeu.plateau().ajouteCoordlaser(ecran::coord{x,y},Jeu);
+                Jeu.addLaser(ecran::coord{x,y});
                 las->setDirection(ecran::Gauche);
-                Jeu.plateau().move(fenetre,Jeu,0);
+                Jeu.plateau().move(Jeu,0);
                 REQUIRE_EQ(Jeu.plateau().emplacementCase(x,y)->typeObjet(),"Ceci est une CaseVide");
-                REQUIRE_EQ(Jeu.plateau().emplacementCase(Jeu.plateau().coordLas(0))->typeObjet(),"Ceci est un Laser");
+                REQUIRE_EQ(Jeu.plateau().emplacementCase(Jeu.coordLas(0))->typeObjet(),"Ceci est un Laser");
             }
 
             SUBCASE("Dans le cas ou est correcte quand le Laser est bloque"){
                 ecran::Laser* las= new ecran::Laser{Jeu.plateau().coordVersPoint(x),Jeu.plateau().coordVersPoint(y),cote};
                 Jeu.plateau().setCase(las);
-                Jeu.plateau().ajouteCoordlaser(ecran::coord{x,y},Jeu);
+                Jeu.addLaser(ecran::coord{x,y});
                 las->setDirection(ecran::Gauche);
                 ecran::Mur* mur= new ecran::Mur{Jeu.plateau().coordVersPoint(x-1),Jeu.plateau().coordVersPoint(y),cote};
                 Jeu.plateau().setCase(mur);
-                Jeu.plateau().move(fenetre,Jeu,0);
+                Jeu.plateau().move(Jeu,0);
                 REQUIRE_FALSE(Jeu.inMove(0));
             }
 
             SUBCASE("Dans le cas ou on se situe au bord du tableau "){
                 ecran::Laser* las= new ecran::Laser{Jeu.plateau().coordVersPoint(0),Jeu.plateau().coordVersPoint(y),cote};
                 Jeu.plateau().setCase(las);
-                Jeu.plateau().ajouteCoordlaser(ecran::coord{0,y},Jeu);
+                Jeu.addLaser(ecran::coord{0,y});
                 las->setDirection(ecran::Gauche);
-                Jeu.plateau().move(fenetre,Jeu,0);
+                Jeu.plateau().move(Jeu,0);
                 REQUIRE_FALSE(Jeu.inMove(0));
 
             }
@@ -668,32 +641,31 @@ TEST_CASE("Les methodes de Echiquier sont correctes"){
             SUBCASE("Dans le cas ou le Laser n'est pas bloque et on ne se situe pas au bord du tableau"){
                 ecran::Laser* las= new ecran::Laser{Jeu.plateau().coordVersPoint(x),Jeu.plateau().coordVersPoint(y),cote};
                 Jeu.plateau().setCase(las);
-                Jeu.plateau().ajouteCoordlaser(ecran::coord{x,y},Jeu);
+                Jeu.addLaser(ecran::coord{x,y});
                 las->setDirection(ecran::Droite);
-                Jeu.plateau().move(fenetre,Jeu,0);
+                Jeu.plateau().move(Jeu,0);
                 REQUIRE_EQ(Jeu.plateau().emplacementCase(x,y)->typeObjet(),"Ceci est une CaseVide");
-                REQUIRE_EQ(Jeu.plateau().emplacementCase(Jeu.plateau().coordLas(0))->typeObjet(),"Ceci est un Laser");
+                REQUIRE_EQ(Jeu.plateau().emplacementCase(Jeu.coordLas(0))->typeObjet(),"Ceci est un Laser");
             }
 
             SUBCASE("Dans le cas ou le Laser est bloque"){
                 ecran::Laser* las= new ecran::Laser{Jeu.plateau().coordVersPoint(x),Jeu.plateau().coordVersPoint(y),cote};
                 Jeu.plateau().setCase(las);
-                Jeu.plateau().ajouteCoordlaser(ecran::coord{x,y},Jeu);
+                Jeu.addLaser(ecran::coord{x,y});
                 las->setDirection(ecran::Droite);
                 ecran::Mur* mur= new ecran::Mur{Jeu.plateau().coordVersPoint(x+1),Jeu.plateau().coordVersPoint(y),cote};
                 Jeu.plateau().setCase(mur);
-                Jeu.plateau().move(fenetre,Jeu,0);
+                Jeu.plateau().move(Jeu,0);
                 REQUIRE_FALSE(Jeu.inMove(0));
             }
 
             SUBCASE("Dans le cas ou on se situe au bord du tableau "){
                 ecran::Laser* las= new ecran::Laser{Jeu.plateau().coordVersPoint(nbColonne-1),Jeu.plateau().coordVersPoint(y),cote};
                 Jeu.plateau().setCase(las);
-                Jeu.plateau().ajouteCoordlaser(ecran::coord{nbColonne-1,y},Jeu);
+                Jeu.addLaser(ecran::coord{nbColonne-1,y});
                 las->setDirection(ecran::Droite);
-                Jeu.plateau().move(fenetre,Jeu,0);
+                Jeu.plateau().move(Jeu,0);
                 REQUIRE_FALSE(Jeu.inMove(0));
-
             }
         }
 
@@ -702,32 +674,31 @@ TEST_CASE("Les methodes de Echiquier sont correctes"){
             SUBCASE("Dans le cas ou le Laser n'est pas bloque et on ne se situe pas au bord du tableau"){
                 ecran::Laser* las= new ecran::Laser{Jeu.plateau().coordVersPoint(x),Jeu.plateau().coordVersPoint(y),cote};
                 Jeu.plateau().setCase(las);
-                Jeu.plateau().ajouteCoordlaser(ecran::coord{x,y},Jeu);
+                Jeu.addLaser(ecran::coord{x,y});
                 las->setDirection(ecran::Haut);
-                Jeu.plateau().move(fenetre,Jeu,0);
+                Jeu.plateau().move(Jeu,0);
                 REQUIRE_EQ(Jeu.plateau().emplacementCase(x,y)->typeObjet(),"Ceci est une CaseVide");
-                REQUIRE_EQ(Jeu.plateau().emplacementCase(Jeu.plateau().coordLas(0))->typeObjet(),"Ceci est un Laser");
+                REQUIRE_EQ(Jeu.plateau().emplacementCase(Jeu.coordLas(0))->typeObjet(),"Ceci est un Laser");
             }
 
             SUBCASE("Dans le cas ou le Laser est bloque"){
                 ecran::Laser* las= new ecran::Laser{Jeu.plateau().coordVersPoint(x),Jeu.plateau().coordVersPoint(y),cote};
                 Jeu.plateau().setCase(las);
-                Jeu.plateau().ajouteCoordlaser(ecran::coord{x,y},Jeu);
+                Jeu.addLaser(ecran::coord{x,y});
                 las->setDirection(ecran::Haut);
                 ecran::Mur* mur= new ecran::Mur{Jeu.plateau().coordVersPoint(x),Jeu.plateau().coordVersPoint(y+1),cote};
                 Jeu.plateau().setCase(mur);
-                Jeu.plateau().move(fenetre,Jeu,0);
+                Jeu.plateau().move(Jeu,0);
                 REQUIRE_FALSE(Jeu.inMove(0));
             }
 
             SUBCASE("Dans le cas ou on se situe au bord du tableau "){
                 ecran::Laser* las= new ecran::Laser{Jeu.plateau().coordVersPoint(x),Jeu.plateau().coordVersPoint(nbLigne-1),cote};
                 Jeu.plateau().setCase(las);
-                Jeu.plateau().ajouteCoordlaser(ecran::coord{x,nbLigne-1},Jeu);
+                Jeu.addLaser(ecran::coord{x,nbLigne-1});
                 las->setDirection(ecran::Haut);
-                Jeu.plateau().move(fenetre,Jeu,0);
+                Jeu.plateau().move(Jeu,0);
                 REQUIRE_FALSE(Jeu.inMove(0));
-
             }
         }
 
@@ -736,67 +707,59 @@ TEST_CASE("Les methodes de Echiquier sont correctes"){
             SUBCASE("Dans le cas ou le Laser n'est pas bloque et on ne se situe pas au bord du tableau"){
                 ecran::Laser* las= new ecran::Laser{Jeu.plateau().coordVersPoint(x),Jeu.plateau().coordVersPoint(y),cote};
                 Jeu.plateau().setCase(las);
-                Jeu.plateau().ajouteCoordlaser(ecran::coord{x,y},Jeu);
+                Jeu.addLaser(ecran::coord{x,y});
                 las->setDirection(ecran::Bas);
-                Jeu.plateau().move(fenetre,Jeu,0);
+                Jeu.plateau().move(Jeu,0);
                 REQUIRE_EQ(Jeu.plateau().emplacementCase(x,y)->typeObjet(),"Ceci est une CaseVide");
-                REQUIRE_EQ(Jeu.plateau().emplacementCase(Jeu.plateau().coordLas(0))->typeObjet(),"Ceci est un Laser");
+                REQUIRE_EQ(Jeu.plateau().emplacementCase(Jeu.coordLas(0))->typeObjet(),"Ceci est un Laser");
             }
 
             SUBCASE("Dans le cas ou le Laser est bloque"){
                 ecran::Laser* las= new ecran::Laser{Jeu.plateau().coordVersPoint(x),Jeu.plateau().coordVersPoint(y),cote};
                 Jeu.plateau().setCase(las);
-                Jeu.plateau().ajouteCoordlaser(ecran::coord{x,y},Jeu);
+                Jeu.addLaser(ecran::coord{x,y});
                 las->setDirection(ecran::Bas);
                 ecran::Mur* mur= new ecran::Mur{Jeu.plateau().coordVersPoint(x),Jeu.plateau().coordVersPoint(y-1),cote};
                 Jeu.plateau().setCase(mur);
-                Jeu.plateau().move(fenetre,Jeu,0);
+                Jeu.plateau().move(Jeu,0);
                 REQUIRE_FALSE(Jeu.inMove(0));
             }
 
             SUBCASE("Dans le cas ou on se situe au bord du tableau "){
                 ecran::Laser* las= new ecran::Laser{Jeu.plateau().coordVersPoint(x),Jeu.plateau().coordVersPoint(0),cote};
                 Jeu.plateau().setCase(las);
-                Jeu.plateau().ajouteCoordlaser(ecran::coord{x,0},Jeu);
+                Jeu.addLaser(ecran::coord{x,0});
                 las->setDirection(ecran::Bas);
-                Jeu.plateau().move(fenetre,Jeu,0);
+                Jeu.plateau().move(Jeu,0);
                 REQUIRE_FALSE(Jeu.inMove(0));
-
             }
         }
-        fenetre.closeWindow();
     }
 
     SUBCASE("La methode start() est correcte"){
         ecran::BlocLaser* bloc = new ecran::BlocLaser{Jeu.plateau().coordVersPoint(x),Jeu.plateau().coordVersPoint(y),cote};
-        Jeu.plateau().ajouteCoordlaser(ecran::coord{x,y},Jeu);
+        Jeu.addLaser(ecran::coord{x,y});
         Jeu.plateau().setCase(bloc);
 
         SUBCASE("Dans le cas ou la direction du BlocLaser est Droite"){
             bloc->setDirection(ecran::Droite);
-            Jeu.plateau().start(0);
+            Jeu.plateau().start(Jeu,0);
             REQUIRE_EQ(Jeu.plateau().emplacementCase(x+1,y)->typeObjet(),"Ceci est un Laser");}
 
         SUBCASE("Dans le cas ou la direction du BlocLaser est Gauche"){
             bloc->setDirection(ecran::Gauche);
-            Jeu.plateau().start(0);
+            Jeu.plateau().start(Jeu,0);
             REQUIRE_EQ(Jeu.plateau().emplacementCase(x-1,y)->typeObjet(),"Ceci est un Laser");}
 
         SUBCASE("Dans le cas ou la direction du BlocLaser est Haut"){
             bloc->setDirection(ecran::Haut);
-            Jeu.plateau().start(0);
+            Jeu.plateau().start(Jeu,0);
             REQUIRE_EQ(Jeu.plateau().emplacementCase(x,y+1)->typeObjet(),"Ceci est un Laser");}
 
         SUBCASE("Dans le cas ou la direction du BlocLaser est Bas"){
             bloc->setDirection(ecran::Bas);
-            Jeu.plateau().start(0);
+            Jeu.plateau().start(Jeu,0);
             REQUIRE_EQ(Jeu.plateau().emplacementCase(x,y-1)->typeObjet(),"Ceci est un Laser");}
-    }
-
-    SUBCASE("La methode ajouteCoordlaser() est correcte"){
-        Jeu.plateau().ajouteCoordlaser(ecran::coord{x,y},Jeu);
-        REQUIRE_EQ(Jeu.plateau().coordLas(0).x,x);
-        REQUIRE_EQ(Jeu.plateau().coordLas(0).y,y);
     }
 
 }
@@ -837,7 +800,94 @@ TEST_CASE("Les methodes de Bouton sont correctes"){ /** Pas grand chose a tester
 }
 
 TEST_CASE("Les methodes de TableauDeScore sont correctes"){
+    int x=20,y=20,largeur=70,hauteur=30,add=100;
+    ecran::TableauDeScore tabl{x,y,largeur,hauteur};
 
-    SUBCASE("La methode est correcte"){}
+    SUBCASE("La methode addScore() est correcte"){
+        REQUIRE_EQ(tabl.score(),0);
+        tabl.addScore(add);
+        REQUIRE_EQ(tabl.score(),add);
+    }
+}
 
+TEST_CASE("Les methodes de Game sont correctes"){
+    int nbLigne=20,nbColonne=20,cote=20;
+    ecran::Game Jeu{nbLigne,nbColonne,cote};
+
+    SUBCASE("La methode setInMoveFalse() est correcte"){
+        Jeu.addLaser({0,0});
+        Jeu.setInMoveFalse(0);
+        REQUIRE_FALSE(Jeu.inMove(0));
+    }
+
+    SUBCASE("La methode setTouchTrue() est correcte"){
+        Jeu.addLaser({0,0});
+        Jeu.setTouchTrue(0);
+        REQUIRE_FALSE(!Jeu.touch(0));
+    }
+
+    SUBCASE("La methode addLaser() est correcte"){
+        int x=5,y=14;
+        Jeu.addLaser({x,y});
+        REQUIRE_EQ(Jeu.coordLas(0).x,x);
+        REQUIRE_EQ(Jeu.coordLas(0).y,y);
+        REQUIRE_EQ(Jeu.nbLaser(),1);
+        REQUIRE_FALSE(!Jeu.inMove(0));
+        REQUIRE_FALSE(Jeu.touch(0));
+    }
+
+    SUBCASE("La methode setCoordLaser() est correcte"){
+        int x=5,y=14;
+        Jeu.addLaser({x,y});
+        Jeu.setCoordLaser({y,x},0);
+        REQUIRE_EQ(Jeu.coordLas(0).x,y);
+        REQUIRE_EQ(Jeu.coordLas(0).y,x);
+    }
+
+    SUBCASE("La methode addScore() est correcte"){
+        int score=1000;
+        Jeu.addScore(score);
+        REQUIRE_EQ(Jeu.score(),score);
+    }
+
+    SUBCASE("La methode increaseIter() est correcte"){
+        Jeu.increaseIter();
+        REQUIRE_EQ(Jeu.iteration(),1);
+    }
+
+    SUBCASE("La methode winning() est correcte"){
+        Jeu.addLaser({0,0});
+        REQUIRE_FALSE(Jeu.winning());
+        Jeu.setTouchTrue(0);
+        REQUIRE_FALSE(!Jeu.winning());
+    }
+
+    SUBCASE("La methode finish() est correcte"){
+
+        SUBCASE("Le jeu doit continuer"){
+            Jeu.addLaser({0,0});
+            REQUIRE_FALSE(Jeu.finish());
+        }
+
+        SUBCASE("Le jeu est fini"){
+            Jeu.addLaser({0,0});
+            Jeu.setInMoveFalse(0);
+            REQUIRE_FALSE(!Jeu.finish());
+        }
+
+        SUBCASE("Un Laser est arrete mais pas les autres"){
+            Jeu.addLaser({0,0});
+            Jeu.addLaser({1,1});
+            Jeu.setInMoveFalse(0);
+            REQUIRE_FALSE(!Jeu.finish());
+        }
+
+        SUBCASE("Un Laser a atteind la cible mais les autres sa deplace encore"){
+            Jeu.addLaser({0,0});
+            Jeu.addLaser({1,1});
+            Jeu.setInMoveFalse(0);
+            Jeu.setTouchTrue(0);
+            REQUIRE_FALSE(Jeu.finish());
+        }
+    }
 }

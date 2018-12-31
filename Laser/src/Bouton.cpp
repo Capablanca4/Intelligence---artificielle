@@ -31,16 +31,18 @@ const std::string Bouton::texte() const{
 }
 
 void Bouton::draw(Viewer& fenetre)const{
-    outtextxy(fenetre.pixelX(d_centre.x()-d_largeur/2),
-              fenetre.pixelY(d_centre.y()+d_hauteur/2),
-              (char *)d_texte.c_str());
+    if(fenetre.open()){
 
-    rectangle(fenetre.pixelX(d_centre.x()-d_largeur/2),
-              fenetre.pixelY(d_centre.y()-d_hauteur/2),
-              fenetre.pixelX(d_centre.x()+d_largeur/2),
-              fenetre.pixelY(d_centre.y()+d_hauteur/2));
+        outtextxy(fenetre.pixelX(d_centre.x()-d_largeur/2),
+                  fenetre.pixelY(d_centre.y()+d_hauteur/2),
+                  (char *)d_texte.c_str());
 
+        rectangle(fenetre.pixelX(d_centre.x()-d_largeur/2),
+                  fenetre.pixelY(d_centre.y()-d_hauteur/2),
+                  fenetre.pixelX(d_centre.x()+d_largeur/2),
+                  fenetre.pixelY(d_centre.y()+d_hauteur/2));
 
+    }
 }
 
 }

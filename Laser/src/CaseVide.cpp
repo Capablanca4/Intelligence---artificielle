@@ -10,45 +10,47 @@ CaseVide::CaseVide(int x,int y,int cote):Case{x,y,cote} {}
 CaseVide::~CaseVide() {}
 
 void CaseVide::draw(Viewer& fenetre){
-    line(fenetre.pixelX(x()-cote()/2),
-         fenetre.pixelY(y()+cote()/2),
-         fenetre.pixelX(x()-cote()*1/4),
-         fenetre.pixelY(y()+cote()/2));
+    if(fenetre.open()){
+        line(fenetre.pixelX(x()-cote()/2),
+             fenetre.pixelY(y()+cote()/2),
+             fenetre.pixelX(x()-cote()*1/4),
+             fenetre.pixelY(y()+cote()/2));
 
-    line(fenetre.pixelX(x()-cote()/2),
-         fenetre.pixelY(y()+cote()/2),
-         fenetre.pixelX(x()-cote()/2),
-         fenetre.pixelY(y()+cote()*1/4)); /** coin haut gauche */
+        line(fenetre.pixelX(x()-cote()/2),
+             fenetre.pixelY(y()+cote()/2),
+             fenetre.pixelX(x()-cote()/2),
+             fenetre.pixelY(y()+cote()*1/4)); /** coin haut gauche */
 
-    line(fenetre.pixelX(x()+cote()/2),
-         fenetre.pixelY(y()-cote()/2),
-         fenetre.pixelX(x()+cote()*1/4),
-         fenetre.pixelY(y()-cote()/2));
+        line(fenetre.pixelX(x()+cote()/2),
+             fenetre.pixelY(y()-cote()/2),
+             fenetre.pixelX(x()+cote()*1/4),
+             fenetre.pixelY(y()-cote()/2));
 
-    line(fenetre.pixelX(x()+cote()/2),
-         fenetre.pixelY(y()-cote()/2),
-         fenetre.pixelX(x()+cote()/2),
-         fenetre.pixelY(y()-cote()*1/4)); /** coin bas droite */
+        line(fenetre.pixelX(x()+cote()/2),
+             fenetre.pixelY(y()-cote()/2),
+             fenetre.pixelX(x()+cote()/2),
+             fenetre.pixelY(y()-cote()*1/4)); /** coin bas droite */
 
-    line(fenetre.pixelX(x()+cote()/2),
-         fenetre.pixelY(y()+cote()/2),
-         fenetre.pixelX(x()+cote()*1/4),
-         fenetre.pixelY(y()+cote()/2));
+        line(fenetre.pixelX(x()+cote()/2),
+             fenetre.pixelY(y()+cote()/2),
+             fenetre.pixelX(x()+cote()*1/4),
+             fenetre.pixelY(y()+cote()/2));
 
-    line(fenetre.pixelX(x()+cote()/2),
-         fenetre.pixelY(y()+cote()/2),
-         fenetre.pixelX(x()+cote()/2),
-         fenetre.pixelY(y()+cote()*1/4));
+        line(fenetre.pixelX(x()+cote()/2),
+             fenetre.pixelY(y()+cote()/2),
+             fenetre.pixelX(x()+cote()/2),
+             fenetre.pixelY(y()+cote()*1/4)); /** coin */
 
-    line(fenetre.pixelX(x()-cote()/2),
-         fenetre.pixelY(y()-cote()/2),
-         fenetre.pixelX(x()-cote()*1/4),
-         fenetre.pixelY(y()-cote()/2));
+        line(fenetre.pixelX(x()-cote()/2),
+             fenetre.pixelY(y()-cote()/2),
+             fenetre.pixelX(x()-cote()*1/4),
+             fenetre.pixelY(y()-cote()/2));
 
-    line(fenetre.pixelX(x()-cote()/2),
-         fenetre.pixelY(y()-cote()/2),
-         fenetre.pixelX(x()-cote()/2),
-         fenetre.pixelY(y()-cote()*1/4));
+        line(fenetre.pixelX(x()-cote()/2),
+             fenetre.pixelY(y()-cote()/2),
+             fenetre.pixelX(x()-cote()/2),
+             fenetre.pixelY(y()-cote()*1/4));/**coin */
+        }
     }
 
 bool CaseVide::touch(Game& Jeu,int n){

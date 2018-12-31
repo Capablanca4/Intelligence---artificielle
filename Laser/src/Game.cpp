@@ -18,18 +18,22 @@ Game::Game(int nbLigne,int nbColonne,int cote,int maxIter):
     maxIter{maxIter} {}
 
 void Game::openGame(){
-    d_fenetre.openWindow();
+    if(!d_fenetre.open()){
+        d_fenetre.openWindow();
+    }
 }
 
 void Game::draw(){
-    d_echiquier.draw(d_fenetre);
-    d_boutonQuit.draw(d_fenetre);
-    d_boutonDemarrer.draw(d_fenetre);
-    d_score.draw(d_fenetre);
+    if(d_fenetre.open()){
+        d_echiquier.draw(d_fenetre);
+        d_boutonQuit.draw(d_fenetre);
+        d_boutonDemarrer.draw(d_fenetre);
+        d_score.draw(d_fenetre);
+    }
 }
 
 void Game::closeGame(){
-    d_fenetre.closeWindow();
+    if(d_fenetre.open()) d_fenetre.closeWindow();
 }
 
 void Game::waitUntilMouseCkicked(){
@@ -97,6 +101,10 @@ const int Game::score() const{
     return d_score.score();
 }
 
+const int Game::maxIteration() const{
+    return maxIter;
+}
+
 void Game::setInMoveFalse(int n){
     in_move[n]=false;
 }
@@ -116,6 +124,17 @@ void Game::increaseIter(){
     d_iteration++;
 }
 
+bool Game::winning() const{
+    bool test=true;
+    for(int i=0;i<in_move.size();i++){
+        if(!d_touch[i]) {
+            test=false;
+            break;
+        }
+    }
+    return test;
+}
+
 bool Game::finish() const{
     bool test=false;
     for(int i=0;i<in_move.size();i++){
@@ -126,14 +145,7 @@ bool Game::finish() const{
             }
         }
     }
-    bool test2=true;
-    for(int i=0;i<in_move.size();i++){
-        if(!d_touch[i]) {
-            test2=false;
-            break;
-        }
-    }
-
+    bool test2=winning();
     return test||test2;
 }
 

@@ -12,38 +12,29 @@ CibleHorizontale::CibleHorizontale(const int x,const int y,const int cote):Case{
 CibleHorizontale::~CibleHorizontale(){}
 
 void CibleHorizontale::draw(Viewer& fenetre){
-
-    line(fenetre.pixelX(x()-cote()/2),
-         fenetre.pixelY(y()),
-         fenetre.pixelX(x()+cote()/2),
-         fenetre.pixelY(y()));
-
-    line(fenetre.pixelX(x()-cote()/2),
-         fenetre.pixelY(y()-cote()/2),
-         fenetre.pixelX(x()-cote()/2),
-         fenetre.pixelY(y()+cote()/2));
-
-    line(fenetre.pixelX(x()+cote()/2),
-         fenetre.pixelY(y()-cote()/2),
-         fenetre.pixelX(x()+cote()/2),
-         fenetre.pixelY(y()+cote()/2));
+    if(fenetre.open()){
+        int rayon=cote()/2-1;
+        setcolor(RED);
+        fillellipse(fenetre.pixelX(x()), fenetre.pixelY(y()), rayon, rayon/1.5);
+        setcolor(WHITE);
+        fillellipse(fenetre.pixelX(x()), fenetre.pixelY(y()), rayon/1.5, rayon/3);
+        setcolor(RED);
+        fillellipse(fenetre.pixelX(x()), fenetre.pixelY(y()), rayon/3, rayon/5.5);
+        setcolor(WHITE);
+    }
 }
 
 bool CibleHorizontale::touch(Game& Jeu,int n){
     Laser* las =(Laser*)Jeu.plateau().emplacementCase(Jeu.coordLas(n));
     switch (las->direction()){
         case Gauche :
-            //std::cout << "you lose !" <<std::endl ;
             break;
         case Droite :
-            //std::cout << "you lose !" <<std::endl ;
             break;
         case Haut :
-            //std::cout << "you win !" <<std::endl ;
             Jeu.setTouchTrue(n);
             break;
         case Bas :
-            //std::cout << "you win !" <<std::endl ;
             Jeu.setTouchTrue(n);
             break;
     }

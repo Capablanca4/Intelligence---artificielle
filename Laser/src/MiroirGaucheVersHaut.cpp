@@ -13,11 +13,40 @@ MiroirGaucheVersHaut::MiroirGaucheVersHaut(Case& cas):Case{cas}{}
 MiroirGaucheVersHaut::~MiroirGaucheVersHaut(){}
 
 void MiroirGaucheVersHaut::draw(Viewer& fenetre){
+    if(fenetre.open()){
 
-    line(fenetre.pixelX(x()-cote()/2),
-         fenetre.pixelY(y()+cote()/2),
-         fenetre.pixelX(x()+cote()/2),
-         fenetre.pixelY(y()-cote()/2));
+        int miroirSup[8]={
+            fenetre.pixelX(x()-cote()/2),
+            fenetre.pixelY(y()+cote()/2),
+
+            fenetre.pixelX(x()-cote()/2)+2,
+            fenetre.pixelY(y()+cote()/2),
+
+            fenetre.pixelX(x()+cote()/2),
+            fenetre.pixelY(y()-cote()/2)-2,
+
+            fenetre.pixelX(x()+cote()/2),
+            fenetre.pixelY(y()-cote()/2)};
+
+        setfillstyle(SOLID_FILL,LIGHTBLUE);
+        fillpoly(4,miroirSup);
+
+        int miroirInf[8]={
+            fenetre.pixelX(x()-cote()/2),
+            fenetre.pixelY(y()+cote()/2),
+
+            fenetre.pixelX(x()-cote()/2),
+            fenetre.pixelY(y()+cote()/2)+2,
+
+            fenetre.pixelX(x()+cote()/2)-2,
+            fenetre.pixelY(y()-cote()/2),
+
+            fenetre.pixelX(x()+cote()/2),
+            fenetre.pixelY(y()-cote()/2)};
+
+        setfillstyle(SOLID_FILL,BLUE);
+        fillpoly(4,miroirInf);
+    }
 }
 
 coord MiroirGaucheVersHaut::posNextMoveLaser(Game& Jeu,int n) const{

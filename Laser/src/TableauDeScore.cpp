@@ -37,35 +37,38 @@ void TableauDeScore::addScore(int add){
 }
 
 void TableauDeScore::draw(Viewer& fenetre)const{
-    std::string str;
-    std::ostringstream oststr(str);
-    oststr.fill('0');
-    oststr.width(8);
-    oststr << std::right << d_score ;
-    str=oststr.str();
-    char* car= (char *)str.c_str();
-    outtextxy(fenetre.pixelX(d_centre.x()-d_largeur/2),
-              fenetre.pixelY(d_centre.y()+d_hauteur/2),
-              car);
+    if(fenetre.open()){
+        std::string str;
+        std::ostringstream oststr(str);
+        oststr.fill('0');
+        oststr.width(8);
+        oststr << std::right << d_score ;
+        str=oststr.str();
+        char* car= (char *)str.c_str();
+        outtextxy(fenetre.pixelX(d_centre.x()-d_largeur/2),
+                  fenetre.pixelY(d_centre.y()+d_hauteur/2),
+                  car);
 
-    outtextxy(fenetre.pixelX(d_centre.x()-d_largeur/2),
-              fenetre.pixelY(d_centre.y()+2*d_hauteur),
-              "Score");
+        outtextxy(fenetre.pixelX(d_centre.x()-d_largeur/2),
+                  fenetre.pixelY(d_centre.y()+2*d_hauteur),
+                  "Score");
 
-    /*rectangle(fenetre.pixelX(d_centre.x()-d_largeur/2),
-              fenetre.pixelY(d_centre.y()-d_hauteur/2),
-              fenetre.pixelX(d_centre.x()+d_largeur/2),
-              fenetre.pixelY(d_centre.y()+d_hauteur/2));*/
+        /*rectangle(fenetre.pixelX(d_centre.x()-d_largeur/2),
+                  fenetre.pixelY(d_centre.y()-d_hauteur/2),
+                  fenetre.pixelX(d_centre.x()+d_largeur/2),
+                  fenetre.pixelY(d_centre.y()+d_hauteur/2));*/
+    }
 
 }
 
 void TableauDeScore::clear(Viewer& fenetre)const{
-    setfillstyle(SOLID_FILL,BLACK);
-    bar(
-        fenetre.pixelX(d_centre.x()-d_largeur/2),
-        fenetre.pixelY(d_centre.y()-d_hauteur/2),
-        fenetre.pixelX(d_centre.x()+d_largeur/2),
-        fenetre.pixelY(d_centre.y()+d_hauteur/2));
+    if(fenetre.open()){
+        setfillstyle(SOLID_FILL,BLACK);
+        bar(fenetre.pixelX(d_centre.x()-d_largeur/2),
+            fenetre.pixelY(d_centre.y()-d_hauteur/2),
+            fenetre.pixelX(d_centre.x()+d_largeur/2),
+            fenetre.pixelY(d_centre.y()+d_hauteur/2));
+    }
 }
 
 }

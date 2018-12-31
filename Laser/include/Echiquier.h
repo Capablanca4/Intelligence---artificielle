@@ -30,7 +30,6 @@ class Echiquier
         void setCase(Case* val);
 
         /** accesseur de base*/
-        std::vector<std::vector<Case*> > plateau();
         const int nbligne() const;
         const int nbcolonne() const;
         const int taille() const;

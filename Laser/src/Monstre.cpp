@@ -14,16 +14,16 @@ Monstre::Monstre(Case& cas):Case{cas}{}
 Monstre::~Monstre() {}
 
 void Monstre::draw(Viewer& fenetre){
-        /** Temporaire: le dessin DOIT changer */
-    line(fenetre.pixelX(x()-cote()/2),
-         fenetre.pixelY(y()+cote()/2),
-         fenetre.pixelX(x()+cote()/2),
-         fenetre.pixelY(y()-cote()/2));
-    line(fenetre.pixelX(x()-cote()/2),
-         fenetre.pixelY(y()-cote()/2),
-         fenetre.pixelX(x()+cote()/2),
-         fenetre.pixelY(y()+cote()/2));
-
+    if(fenetre.open()){/** Temporaire: le dessin DOIT changer */
+        line(fenetre.pixelX(x()-cote()/2),
+             fenetre.pixelY(y()+cote()/2),
+             fenetre.pixelX(x()+cote()/2),
+             fenetre.pixelY(y()-cote()/2));
+        line(fenetre.pixelX(x()-cote()/2),
+             fenetre.pixelY(y()-cote()/2),
+             fenetre.pixelX(x()+cote()/2),
+             fenetre.pixelY(y()+cote()/2));
+    }
 }
 
 bool Monstre::touch(Game& Jeu,int n) {

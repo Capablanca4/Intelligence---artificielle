@@ -36,44 +36,42 @@ Laser* BlocLaser::shoot(){
 }
 
 void BlocLaser::draw(Viewer& fenetre){
+    if(fenetre.open()){
 
-    rectangle(fenetre.pixelX(x()-cote()/2),
-              fenetre.pixelY(y()+cote()/2),
-              fenetre.pixelX(x()+cote()/2),
-              fenetre.pixelY(y()-cote()/2 ));
-
-    line(fenetre.pixelX(x()-cote()/2),
-         fenetre.pixelY(y()+cote()/2),
-         fenetre.pixelX(x()+cote()/2),
-         fenetre.pixelY(y()-cote()/2));
-
-    line(fenetre.pixelX(x()-cote()/2),
-         fenetre.pixelY(y()-cote()/2),
-         fenetre.pixelX(x()+cote()/2),
-         fenetre.pixelY(y()+cote()/2));
+    const int pixel=cote()/32;
 
     switch (d_direction){
-        case Gauche :
-            line(fenetre.pixelX(x()-cote()/2),
-                 fenetre.pixelY(y()),
-                 fenetre.pixelX(x()-cote()*9/10),
-                 fenetre.pixelY(y()));
-            break;
 
+        case Gauche :
+        setcolor (RED);
+        bar(
+        fenetre.pixelX(x())+cote()/3,
+        fenetre.pixelY(y()+1)-3*pixel,
+        fenetre.pixelX(x())-cote()/3,
+        fenetre.pixelY(y()-2)+3*pixel);
+
+        setcolor (LIGHTRED);
+
+        bar(
+        fenetre.pixelX(x())+cote()/3,
+        fenetre.pixelY(y()+1)-1.5*pixel,
+        fenetre.pixelX(x())-cote()/3,
+        fenetre.pixelY(y()-2)+1.5*pixel);
+
+
+            break;
         case Droite :
             line(fenetre.pixelX(x()+cote()/2),
                  fenetre.pixelY(y()),
                  fenetre.pixelX(x()+cote()*9/10),
                  fenetre.pixelY(y()));
             break;
-
         case Haut :
             line(fenetre.pixelX(x()),
                  fenetre.pixelY(y()+cote()/2),
                  fenetre.pixelX(x()),
                  fenetre.pixelY(y()+cote()*9/10));
             break;
-
         case Bas :
             line(fenetre.pixelX(x()),
                  fenetre.pixelY(y()-cote()/2),
@@ -81,6 +79,7 @@ void BlocLaser::draw(Viewer& fenetre){
                  fenetre.pixelY(y()-cote()*9/10));
             break;
         }
+    }
 }
 
 std::string BlocLaser::typeObjet() const{

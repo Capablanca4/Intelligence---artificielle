@@ -32,13 +32,14 @@ coord Case::posNextMoveLaser(Game& Jeu,int n) const{
 }
 
 void Case::clearCase(Viewer& fenetre){
-    setfillstyle(SOLID_FILL,BLACK);
-    bar(
-        fenetre.pixelX(x()-cote()/2),
-        fenetre.pixelY(y()+cote()/2),
-        fenetre.pixelX(x()+cote()/2),
-        fenetre.pixelY(y()-cote()/2)
-            );
+    if(fenetre.open()){
+        setfillstyle(SOLID_FILL,BLACK);
+        bar(
+            fenetre.pixelX(x()-cote()/2),
+            fenetre.pixelY(y()+cote()/2),
+            fenetre.pixelX(x()+cote()/2),
+            fenetre.pixelY(y()-cote()/2));
+    }
 }
 
 void Case::transformation(Echiquier& plateau){

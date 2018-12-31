@@ -26,18 +26,20 @@ class Game
         const int iteration() const;
         const int score() const; /** Pour les tests*/
         const int nbLaser() const;
+        const int maxIteration() const;
         Echiquier& plateau();
         Viewer& fenetre();
 
         /**modificateur de base*/
         void setInMoveFalse(int n);
         void setTouchTrue(int n);
+        void addLaser(coord coord);
         void setCoordLaser(coord coord,int n);
         void addScore(int score);
         void increaseIter();
 
         bool finish() const;
-        void addLaser(coord coord);
+        bool winning() const;
 
         /** Juste une fonction generant quelque objet sur d_echiquier pour réaliser des tests*/
         void test();
