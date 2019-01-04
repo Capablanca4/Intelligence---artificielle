@@ -16,6 +16,7 @@ class Monstre:public Case
         virtual void draw(Viewer& fenetre) override;
         virtual bool touch(Game& Jeu,int n) override;
         void changement(Echiquier& plateau);
+        virtual std::string nameWithHashtag()const override;
 
         /** Fonction de test*/
         virtual std::string typeObjet()const override;

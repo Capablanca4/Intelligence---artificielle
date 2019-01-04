@@ -183,4 +183,13 @@ void Echiquier::start(Game& Jeu,int n){
     Jeu.setCoordLaser(pointVersCoord(las),n);
 }
 
+std::ostream& operator<<(std::ostream& ost, Echiquier& plateau){
+    ost<<plateau.nbligne()<<" "<<plateau.nbcolonne()<<std::endl;
+    for(int i=0;i<plateau.nbcolonne();i++){
+        for(int j=0;j<plateau.nbligne();j++){
+            ost<<*(plateau.emplacementCase(i,j));
+        }
+    }
+}
+
 }

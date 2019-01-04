@@ -53,6 +53,10 @@ void Mur::draw(Viewer& fenetre){
     }
 }
 
+std::string Mur::nameWithHashtag()const {
+    return "#Mur";
+}
+
 std::string Mur::typeObjet()const{
     return "Ceci est un Mur";
 }

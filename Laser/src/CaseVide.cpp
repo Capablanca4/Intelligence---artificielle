@@ -62,6 +62,10 @@ void CaseVide::transformation(Echiquier& plateau){
     plateau.setCase(mir);
 }
 
+std::string CaseVide::nameWithHashtag()const {
+    return "#CaseVide";
+}
+
 std::string CaseVide::typeObjet()const {
     return "Ceci est une CaseVide";
 }

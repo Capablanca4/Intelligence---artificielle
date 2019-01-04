@@ -23,6 +23,10 @@ class Laser:public Case
 
         /** Fonction de test*/
         virtual std::string typeObjet()const override;
+
+        virtual std::string nameWithHashtag()const override;
+        virtual std::string specificitiesCase()const override;
+
     private:
         TDirection d_direction;
 };

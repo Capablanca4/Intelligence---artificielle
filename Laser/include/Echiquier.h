@@ -57,5 +57,8 @@ class Echiquier
         int d_nbcolonne;
         std::vector<std::vector<Case*> > d_plateau;
        };
+
+std::ostream& operator<<(std::ostream& ost,Echiquier& plateau);
+
 }
 #endif // ECHIQUIER_H

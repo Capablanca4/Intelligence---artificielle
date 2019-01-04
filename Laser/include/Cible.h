@@ -14,6 +14,7 @@ class Cible : public Case
         /** Fonctions herites de Case et redefinit dans l objet*/
         virtual void draw(Viewer& fenetre) override;
         virtual bool touch(Game& Jeu,int n) override;
+        virtual std::string nameWithHashtag()const override;
 
         /**Fonction de test*/
         virtual std::string typeObjet()const override;

@@ -30,6 +30,10 @@ bool Cible::touch(Game& Jeu,int n){
     return false;
 }
 
+std::string Cible::nameWithHashtag()const {
+    return "#Cible";
+}
+
 std::string Cible::typeObjet()const{
     return "Ceci est une Cible";
 }

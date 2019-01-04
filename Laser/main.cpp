@@ -10,8 +10,10 @@ int main()
     const int cote=40;
     const int maxIter=200;
     ecran::Game jeu{nbligne,nbcolonne,cote,maxIter};
+
     jeu.openGame();
     jeu.test();
+    std::cout << jeu.plateau();
     jeu.draw();
     jeu.waitUntilMouseCkicked();
     /*ecran::Viewer fenetre{nbligne*cote,nbcolonne*cote/*+200};

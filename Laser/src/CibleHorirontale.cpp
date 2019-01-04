@@ -41,6 +41,10 @@ bool CibleHorizontale::touch(Game& Jeu,int n){
     return false;
 }
 
+std::string CibleHorizontale::nameWithHashtag()const {
+    return "#CibleHorizontale";
+}
+
 std::string CibleHorizontale::typeObjet()const {
     return "Ceci est une CibleHorizontale";
 }

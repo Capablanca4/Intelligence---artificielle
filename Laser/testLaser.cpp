@@ -76,6 +76,13 @@ TEST_CASE("Les methodes de Bloclaser sont correctes"){
         }
     }
 
+    SUBCASE("La surcharge de l'operateur << est correcte "){
+        std::ostringstream ost{};
+        ost <<bloc;
+        std::string s="#BlocLaser\n6 7\n1\n";
+        REQUIRE_EQ(ost.str() ,s);
+    }
+
     SUBCASE("La metode typeObjet() est correcte"){
         REQUIRE_EQ("Ceci est un BlocLaser",bloc.typeObjet());
     }
@@ -104,9 +111,13 @@ TEST_CASE("Les methodes de Case sont correctes"){
         REQUIRE_EQ(cas1->posNextMoveLaser(Jeu,0).y,y);
     }
 
-    /*SUBCASE("La metode typeObjet() est correcte"){
-        REQUIRE_EQ("Ceci est une Case",cas.typeObjet());
-    }*/ /** Ne marche plus ce qui est normal*/
+    SUBCASE("La surcharge de l'operateur << est correcte "){
+        std::ostringstream ost{};
+        ost <<cas;
+        std::string s="#CaseVide\n6 7\n\n";
+        REQUIRE_EQ(ost.str() ,s);
+    }
+
 }
 
 TEST_CASE("Les methodes de CaseVide sont correctes"){

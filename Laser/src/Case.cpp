@@ -49,5 +49,19 @@ std::string Case::typeObjet()const{
     return "Ceci est une Case";
 }
 
+std::string Case::nameWithHashtag()const{/// Temporaire
+    return "#Case";
+}
+
+std::string Case::specificitiesCase()const{/// Temporaire
+    return "";
+}
+
+std::ostream& operator<<(std::ostream& ost,const Case& cas){
+    ost<<cas.nameWithHashtag()<<std::endl;
+    cas.writePoint(ost);
+    ost<<std::endl;
+    ost<<cas.specificitiesCase()<<std::endl;
+}
 
 }

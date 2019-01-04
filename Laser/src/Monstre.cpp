@@ -37,6 +37,10 @@ void Monstre::changement(Echiquier& plateau){
     plateau.setCase(cas);
 }
 
+std::string Monstre::nameWithHashtag()const {
+    return "#Monstre";
+}
+
 std::string Monstre::typeObjet()const {
     return "Ceci est un Monstre";
 }

@@ -44,9 +44,15 @@ class Case: public Point
         virtual void draw(Viewer& fenetre)=0;
         void clearCase(Viewer& fenetre);
 
+        virtual std::string nameWithHashtag()const;/// !!!! Attention doit être a  = 0 !!!!
+        virtual std::string specificitiesCase()const;
+
     private:
         int d_cote; /** largeur du carre definissant la case*/
 
 };
+
+std::ostream& operator<<(std::ostream& ost,const Case& cas);
+
 }
 #endif // CASE_H

@@ -95,6 +95,10 @@ void MiroirGaucheVersHaut::transformation(Echiquier& plateau){
     plateau.setCase(cas);
 }
 
+std::string MiroirGaucheVersHaut::nameWithHashtag()const {
+    return "#MiroirGaucheVersHaut";
+}
+
 std::string MiroirGaucheVersHaut::typeObjet()const{
     return "Ceci est un MiroirGaucheVersHaut";
 }

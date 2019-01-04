@@ -600,40 +600,41 @@
 	"Case.h"
 	"Echiquier.h"
 
-1545855657 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\bloclaser.cpp
+1546620544 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\bloclaser.cpp
 	"BlocLaser.h"
 	"Echiquier.h"
 
-1545477608 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\bloclaser.h
+1546619696 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\bloclaser.h
 	"Case.h"
 	"Laser.h"
 
-1545836879 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\case.h
+1546618642 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\case.h
 	"Point.h"
 	"Viewer.h"
 	<vector>
 
-1545477608 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\point.h
+1546617729 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\point.h
+	<iostream>
 
-1545828348 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\viewer.h
+1546617039 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\viewer.h
 	"Point.h"
 	"graphics.h"
 	"viewPort.hpp"
 
-1545477609 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\graphics.h
+1546617039 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\graphics.h
 	<windows.h>
 	<limits.h>
 	<sstream>
 
-1545477609 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\viewport.hpp
+1546617039 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\viewport.hpp
 
 1545660603 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\gamestatut.h
 	<vector>
 
-1545477608 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\laser.h
+1546619901 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\laser.h
 	"Case.h"
 
-1545849660 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\echiquier.h
+1546621945 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\echiquier.h
 	<vector>
 	"BlocLaser.h"
 	"Laser.h"
@@ -646,79 +647,79 @@
 	"Cible.h"
 	"Monstre.h"
 
-1545823167 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\casevide.h
+1546620725 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\casevide.h
 	"Case.h"
 
-1545836906 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\miroirgaucheversbas.h
+1546617039 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\miroirgaucheversbas.h
 	"Laser.h"
 	"Echiquier.h"
 
-1545836906 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\miroirgauchevershaut.h
+1546621292 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\miroirgauchevershaut.h
 	"Case.h"
 	"Laser.h"
 	"Echiquier.h"
 
-1545823318 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\ciblehorirontale.h
+1546621230 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\ciblehorirontale.h
 	"Case.h"
 	"Echiquier.h"
 
-1545823388 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\cibleverticale.h
+1546617039 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\cibleverticale.h
 	"Case.h"
 	"Echiquier.h"
 
-1545589791 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\mur.h
+1546621447 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\mur.h
 	"Case.h"
 
-1545823406 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\cible.h
+1546621145 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\cible.h
 	"Case.h"
 
-1545823440 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\monstre.h
+1546621344 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\monstre.h
 	"Case.h"
 
-1545855699 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\bouton.cpp
+1546617040 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\bouton.cpp
 	"Bouton.h"
 
-1545753962 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\bouton.h
+1546617038 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\bouton.h
 	"Point.h"
 	"Viewer.h"
 
-1545855743 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\case.cpp
+1546619824 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\case.cpp
 	"Case.h"
 	"Game.h"
 
-1545855838 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\casevide.cpp
+1546620919 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\casevide.cpp
 	"CaseVide.h"
 	"Echiquier.h"
 
-1545860300 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\cible.cpp
+1546621145 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\cible.cpp
 	"Cible.h"
 	<iostream>
 	"Game.h"
 
-1545860300 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\ciblehorirontale.cpp
+1546621231 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\ciblehorirontale.cpp
 	"CibleHorirontale.h"
 	<iostream>
 	"Echiquier.h"
 	"Game.h"
 
-1545860300 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\cibleverticale.cpp
+1546617040 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\cibleverticale.cpp
 	"CibleVerticale.h"
 	<iostream>
 	"Echiquier.h"
 	"Game.h"
 
-1545477610 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\dibutil.cpp
+1546617041 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\dibutil.cpp
 	<windows.h>
 	<assert.h>
 	"dibapi.h"
 	"dibutil.h"
 	<stdio.h>
 
-1545477608 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\dibapi.h
+1546617039 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\dibapi.h
 
-1545477609 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\dibutil.h
+1546617039 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\dibutil.h
 
-1545477610 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\drawing.cpp
+1546617041 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\drawing.cpp
 	<windows.h>
 	<windowsx.h>
 	<math.h>
@@ -730,12 +731,12 @@
 	"dibapi.h"
 	<iostream>
 
-1545477609 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\winbgim.h
+1546617039 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\winbgim.h
 	<windows.h>
 	<limits.h>
 	<sstream>
 
-1545477609 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\winbgitypes.h
+1546617039 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\winbgitypes.h
 	<windows.h>
 	<tchar.h>
 	<queue>
@@ -743,13 +744,13 @@
 	"winbgim.h"
 	<vector>
 
-1545861140 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\echiquier.cpp
+1546617040 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\echiquier.cpp
 	"Echiquier.h"
 	<iostream>
 	<utility>
 	"Game.h"
 
-1545477610 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\file.cpp
+1546617041 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\file.cpp
 	<windows.h>
 	<string.h>
 	<stdio.h>
@@ -761,11 +762,11 @@
 	"dibapi.h"
 	"winbgitypes.h"
 
-1545861100 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\game.cpp
+1546617040 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\game.cpp
 	"Game.h"
 	<iostream>
 
-1545860040 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\game.h
+1546617039 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\game.h
 	"Echiquier.h"
 	"Viewer.h"
 	"Bouton.h"
@@ -774,55 +775,55 @@
 1545660603 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\gamestatut.cpp
 	"GameStatut.h"
 
-1545856130 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\laser.cpp
+1546620618 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\laser.cpp
 	"Laser.h"
 	<iostream>
 	"Echiquier.h"
 
-1545856173 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\miroirgaucheversbas.cpp
+1546617041 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\miroirgaucheversbas.cpp
 	"MiroirGaucheVersBas.h"
 	"Game.h"
 	<iostream>
 
-1545856214 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\miroirgauchevershaut.cpp
+1546621292 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\miroirgauchevershaut.cpp
 	"MiroirGaucheVersHaut.h"
 	"Game.h"
 	<iostream>
 
-1545477611 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\misc.cpp
+1546617041 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\misc.cpp
 	<windows.h>
 	<windowsx.h>
 	"winbgim.h"
 	"winbgitypes.h"
 	<iostream>
 
-1545856274 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\monstre.cpp
+1546621376 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\monstre.cpp
 	"Monstre.h"
 	"Echiquier.h"
 	"Game.h"
 	<iostream>
 
-1545477611 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\mouse.cpp
+1546617041 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\mouse.cpp
 	<windows.h>
 	<windowsx.h>
 	"winbgim.h"
 	"winbgitypes.h"
 
-1545856397 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\mur.cpp
-	"../include/Mur.h"
+1546621447 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\mur.cpp
+	"Mur.h"
 	<iostream>
 	"Echiquier.h"
 
-1545477611 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\palette.cpp
+1546617041 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\palette.cpp
 	<windows.h>
 	<windowsx.h>
 	"winbgim.h"
 	"winbgitypes.h"
 
-1545477610 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\point.cpp
+1546618642 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\point.cpp
 	"../include/Point.h"
 
-1545477611 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\text.cpp
+1546617041 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\text.cpp
 	<windows.h>
 	<windowsx.h>
 	<iostream>
@@ -831,14 +832,14 @@
 	"winbgim.h"
 	"winbgitypes.h"
 
-1545855583 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\viewer.cpp
+1546617041 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\viewer.cpp
 	"Viewer.h"
 	<iostream>
 
-1545477611 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\viewport.cpp
+1546617041 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\viewport.cpp
 	"viewPort.hpp"
 
-1545477611 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\winbgi.cpp
+1546617041 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\winbgi.cpp
 	<windows.h>
 	<windowsx.h>
 	<stdio.h>
@@ -847,7 +848,7 @@
 	"winbgim.h"
 	"winbgitypes.h"
 
-1545477611 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\winthread.cpp
+1546617041 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\winthread.cpp
 	<windows.h>
 	<windowsx.h>
 	"winbgim.h"
@@ -857,7 +858,7 @@
 	<iostream>
 	<iostream>
 
-1545859812 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\testlaser.cpp
+1546620919 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\testlaser.cpp
 	"doctest.h"
 	<sstream>
 	<iostream>
@@ -866,7 +867,7 @@
 	"Game.h"
 	"Bouton.h"
 
-1545477609 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\doctest.h
+1546617039 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\doctest.h
 	<ciso646>
 	<iosfwd>
 	<cstddef>
@@ -906,14 +907,14 @@
 	<io.h>
 	<sys/time.h>
 
-1545477603 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\testmain.cpp
+1546617025 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\testmain.cpp
 	"doctest.h"
 
-1545825189 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\tableaudescore.h
+1546617039 c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\include\tableaudescore.h
 	"Viewer.h"
 	"Point.h"
 
-1545856467 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\tableaudescore.cpp
+1546617041 source:c:\users\pierre vix\desktop\intelligence---artificielle-testunitaire\laser\src\tableaudescore.cpp
 	"TableauDeScore.h"
 	<string>
 	<iostream>
