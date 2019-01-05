@@ -26,7 +26,7 @@ class Echiquier
         Case*& emplacementCase(const int x,const int y);
         Case*& emplacementCase(const coord& coor);
         Case*& emplacementCase(const Point& emplacement);
-        Case*& emplacementCase(const Case*& cas) ;
+        Case*& emplacementCase(Case* cas) ;
         void setCase(Case* val);
 
         /** accesseur de base*/
@@ -38,18 +38,17 @@ class Echiquier
         int pointVersCoord(int x) const;
         coord pointVersCoord(int x,int y) const;
         coord pointVersCoord(Case* cas) const;
+        coord pointVersCoord(const Point& centre) const;
         int coordVersPoint(int coor) const;
+        Point coordVersPoint(coord coor)const;
 
         /** fonctions gerant les mouvements du laser sur le plateau*/
-        void playAll(Game& Jeu);
-        void play(Game& Jeu,int n);
-        void move(Game& Jeu,int n);
-        void moveLaser(Game& Jeu,const coord& nextCoord,int n);
-        void losingByBeingOffBoard(Game& Jeu,int n);
-        void gameOver(Game& Jeu,int n);
+        void play(Game& Jeu);
+        void destinationMove(Game& Jeu,int n,std::vector<Laser*>& nextLas);
+        void losingByBeingOffBoard();
+        void movable(Game& Jeu,const std::vector<Laser*>& nextLas);
 
         void draw(Viewer& fenetre) const;
-        void start(Game& Jeu,int n);
 
     private:
         int d_taille;

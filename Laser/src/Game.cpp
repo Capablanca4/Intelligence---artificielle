@@ -10,12 +10,10 @@ Game::Game(int nbLigne,int nbColonne,int cote,int maxIter):
     d_boutonDemarrer{nbLigne*cote+100,nbColonne*cote-200,70,20,"Demarrer"},
     d_score{nbLigne*cote+100,nbColonne*cote-300,70,20} ,
 
-    in_move{},
-    d_touch{},
-    d_emplacementLaser{},
-    d_nbLaser{0},
+    listLaser{},
     d_iteration{0},
-    maxIter{maxIter} {}
+    maxIter{maxIter},
+    d_moving{true} {}
 
 void Game::openGame(){
     if(!d_fenetre.open()){
@@ -63,22 +61,18 @@ void Game::waitUntilMouseCkicked(){
            y>=d_fenetre.pixelY(d_boutonDemarrer.centre().y()+d_boutonDemarrer.hauteur()/2) &&
            y<=d_fenetre.pixelY(d_boutonDemarrer.centre().y()-d_boutonDemarrer.hauteur()/2) ){
                 touchedButton=true;
-                d_echiquier.playAll(*this);
+                d_echiquier.play(*this);
            }
 
     }
 }
 
-const bool Game::inMove(int n) const{
-    return in_move[n];
+const std::vector<Laser*> Game::listLas() const{
+    return listLaser;
 }
 
-const bool Game::touch(int n)const{
-    return d_touch[n];
-}
-
-const coord Game::coordLas(int n) const{
-    return d_emplacementLaser[n];
+Laser* Game::las(int n) const{
+    return listLaser[n];
 }
 
 const int Game::iteration() const{
@@ -93,10 +87,6 @@ Viewer& Game::fenetre(){
     return d_fenetre;
 }
 
-const int Game::nbLaser() const{
-    return d_nbLaser;
-}
-
 const int Game::score() const{
     return d_score.score();
 }
@@ -105,12 +95,8 @@ const int Game::maxIteration() const{
     return maxIter;
 }
 
-void Game::setInMoveFalse(int n){
-    in_move[n]=false;
-}
-
-void Game::setTouchTrue(int n){
-    d_touch[n]=true;
+const bool Game::moving() const{
+    return d_moving;
 }
 
 void Game::addScore(int score){
@@ -124,55 +110,45 @@ void Game::increaseIter(){
     d_iteration++;
 }
 
-bool Game::winning() const{
-    bool test=true;
-    for(int i=0;i<in_move.size();i++){
-        if(!d_touch[i]) {
-            test=false;
+void Game::setMovingFalse(){
+    d_moving=false;
+}
+
+bool Game::notFinish() const{
+    bool test=false;
+    for(int i=0;i<listLaser.size();i++){
+        if (listLaser[i]->inMove()) {
+            test=true;
             break;
+            }
         }
-    }
     return test;
 }
 
-bool Game::finish() const{
-    bool test=false;
-    for(int i=0;i<in_move.size();i++){
-        if (!in_move[i]) {
-            if(!d_touch[i]){
-                test=true;
-                break;
-            }
-        }
-    }
-    bool test2=winning();
-    return test||test2;
+void Game::addLaser(Laser* las){
+    listLaser.push_back(las);
 }
 
-void Game::addLaser(coord coord){
-    in_move.push_back(true);
-    d_touch.push_back(false);
-    d_emplacementLaser.push_back(coord);
-    d_nbLaser+=1;
+void Game::clearLaser(){
+    while(!listLaser.empty()) listLaser.pop_back();
 }
 
-void Game::setCoordLaser(coord coord,int n){
-    d_emplacementLaser[n]=coord;
-}
 
 void Game::test(){
     Laser* las1 = new Laser{d_echiquier.coordVersPoint(0),d_echiquier.coordVersPoint(19),d_echiquier.taille(),ecran::Droite};
     MiroirGaucheVersHaut* mir= new MiroirGaucheVersHaut{d_echiquier.coordVersPoint(8),d_echiquier.coordVersPoint(19),d_echiquier.taille()};
-    Cible* cible= new Cible{d_echiquier.coordVersPoint(8),d_echiquier.coordVersPoint(0),d_echiquier.taille()};
+    Cible* cible1= new Cible{d_echiquier.coordVersPoint(8),d_echiquier.coordVersPoint(0),d_echiquier.taille()};
+    Cible* cible2= new Cible{d_echiquier.coordVersPoint(8),d_echiquier.coordVersPoint(1),d_echiquier.taille()};
     Monstre* monstre = new Monstre{d_echiquier.coordVersPoint(8),d_echiquier.coordVersPoint(10),d_echiquier.taille()};
     Mur* mur= new Mur{d_echiquier.coordVersPoint(1),d_echiquier.coordVersPoint(1),d_echiquier.taille()};
     Laser* las2 = new Laser{d_echiquier.coordVersPoint(19),d_echiquier.coordVersPoint(0),d_echiquier.taille(),ecran::Gauche};
-    addLaser({0,19});
-    addLaser({19,0});
+    addLaser(las1);
+    addLaser(las2);
     d_echiquier.setCase(las1);
     d_echiquier.setCase(las2);
     d_echiquier.setCase(mir);
-    d_echiquier.setCase(cible);
+    d_echiquier.setCase(cible1);
+    d_echiquier.setCase(cible2);
     d_echiquier.setCase(monstre);
     d_echiquier.setCase(mur);
 }

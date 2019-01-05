@@ -49,43 +49,50 @@ void MiroirGaucheVersHaut::draw(Viewer& fenetre){
     }
 }
 
-coord MiroirGaucheVersHaut::posNextMoveLaser(Game& Jeu,int n) const{
-Laser* las =(Laser*)Jeu.plateau().emplacementCase(Jeu.coordLas(n));
-    switch (las->direction()){
+void MiroirGaucheVersHaut::nextLaser(Game& Jeu,const TDirection& direcLas,std::vector<Laser*>& nextLas) const{
+    switch (direcLas){
         case Gauche :
             if(Jeu.plateau().pointVersCoord(y())+1>=Jeu.plateau().nbcolonne()){
-                return coord{Jeu.plateau().pointVersCoord(x()),Jeu.plateau().pointVersCoord(y())};}
+                Laser* las=new Laser{x(),y(),cote(),direcLas};
+                nextLas.push_back(las);
+            }
             else  {
                 Case* maCase = Jeu.plateau().emplacementCase(Jeu.plateau().pointVersCoord(x(),(y()+cote())));
-                las->setDirection(Haut);
-                return maCase->posNextMoveLaser(Jeu,n);}
+                maCase->nextLaser(Jeu,Haut,nextLas);
+                }
            break;
 
         case Droite :
              if(Jeu.plateau().pointVersCoord(y())-1<0){
-                return coord{Jeu.plateau().pointVersCoord(x()),Jeu.plateau().pointVersCoord(y())};}
+                Laser* las=new Laser{x(),y(),cote(),direcLas};
+                nextLas.push_back(las);
+             }
             else  {
                 Case* maCase = Jeu.plateau().emplacementCase(Jeu.plateau().pointVersCoord(x(),(y()-cote())));
-                las->setDirection(Bas);
-                return maCase->posNextMoveLaser(Jeu,n);}
+                maCase->nextLaser(Jeu,Bas,nextLas);
+                }
             break;
 
         case Haut :
             if(Jeu.plateau().pointVersCoord(x())-1<0){
-                return coord{Jeu.plateau().pointVersCoord(x()),Jeu.plateau().pointVersCoord(y())};}
+                Laser* las=new Laser{x(),y(),cote(),direcLas};
+                nextLas.push_back(las);
+            }
             else  {
                 Case* maCase = Jeu.plateau().emplacementCase(Jeu.plateau().pointVersCoord((x()-cote()),y()));
-                las->setDirection(Gauche);
-                return maCase->posNextMoveLaser(Jeu,n);}
+                maCase->nextLaser(Jeu,Gauche,nextLas);
+                }
             break;
 
         case Bas :
             if(Jeu.plateau().pointVersCoord(x())+1>=Jeu.plateau().nbligne()){
-                return coord{Jeu.plateau().pointVersCoord(x()),Jeu.plateau().pointVersCoord(y())};}
+                Laser* las=new Laser{x(),y(),cote(),direcLas};
+                nextLas.push_back(las);
+            }
             else  {
                 Case* maCase = Jeu.plateau().emplacementCase(Jeu.plateau().pointVersCoord(x()+cote(),y()));
-                las->setDirection(Droite);
-                return maCase->posNextMoveLaser(Jeu,n);}
+                maCase->nextLaser(Jeu,Droite,nextLas);
+                }
             break;
     }
 }
@@ -93,6 +100,11 @@ Laser* las =(Laser*)Jeu.plateau().emplacementCase(Jeu.coordLas(n));
 void MiroirGaucheVersHaut::transformation(Echiquier& plateau){
     CaseVide* cas = new CaseVide{x(),y(),cote()};
     plateau.setCase(cas);
+}
+
+std::ostream& MiroirGaucheVersHaut::name(std::ostream& ost)const{
+    ost<<"[MiroirGaucheVersHaut,";
+    return ost;
 }
 
 std::string MiroirGaucheVersHaut::typeObjet()const{

@@ -16,8 +16,9 @@ class MiroirGaucheVersBas :public Case
 
         /** Fonctions herites de Case et redefinit dans l objet*/
         virtual void draw(Viewer& fenetre) override;
-        virtual coord posNextMoveLaser(Game& Jeu,int n) const override;
+        virtual void nextLaser(Game& Jeu,const TDirection& direcLas,std::vector<Laser*>& nextLas) const override;
         void transformation(Echiquier& plateau) override;
+        virtual std::ostream& name(std::ostream& ost)const override;
 
         /** Fonction de test*/
         virtual std::string typeObjet()const override;

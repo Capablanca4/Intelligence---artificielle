@@ -53,6 +53,11 @@ void Mur::draw(Viewer& fenetre){
     }
 }
 
+std::ostream& Mur::name(std::ostream& ost)const{
+    ost<<"[Mur,";
+    return ost;
+}
+
 std::string Mur::typeObjet()const{
     return "Ceci est un Mur";
 }

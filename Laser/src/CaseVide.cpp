@@ -7,6 +7,8 @@ CaseVide::CaseVide(Point& centre,int cote):Case{centre,cote} {}
 
 CaseVide::CaseVide(int x,int y,int cote):Case{x,y,cote} {}
 
+CaseVide::CaseVide(Case& cas):Case{cas} {}
+
 CaseVide::~CaseVide() {}
 
 void CaseVide::draw(Viewer& fenetre){
@@ -53,13 +55,17 @@ void CaseVide::draw(Viewer& fenetre){
         }
     }
 
-bool CaseVide::touch(Game& Jeu,int n){
-    return true;
-}
+void CaseVide::touch(Game& Jeu,Laser* las){}
 
 void CaseVide::transformation(Echiquier& plateau){
     MiroirGaucheVersBas* mir = new MiroirGaucheVersBas{x(),y(),cote()};
     plateau.setCase(mir);
+    /** Miroir++*/
+}
+
+std::ostream& CaseVide::name(std::ostream& ost)const{
+    ost<<"[CaseVide,";
+    return ost;
 }
 
 std::string CaseVide::typeObjet()const {

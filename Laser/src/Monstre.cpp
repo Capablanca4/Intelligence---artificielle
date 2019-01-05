@@ -26,15 +26,19 @@ void Monstre::draw(Viewer& fenetre){
     }
 }
 
-bool Monstre::touch(Game& Jeu,int n) {
+void Monstre::touch(Game& Jeu,Laser* las) {
     changement(Jeu.plateau());
     Jeu.addScore(100); /** Ajout d'un score quand le Monstre est touché*/
-    return true;
 }
 
 void Monstre::changement(Echiquier& plateau){
     CaseVide* cas = new CaseVide{x(),y(),cote()};
     plateau.setCase(cas);
+}
+
+std::ostream& Monstre::name(std::ostream& ost)const{
+    ost<<"[Monstre,";
+    return ost;
 }
 
 std::string Monstre::typeObjet()const {

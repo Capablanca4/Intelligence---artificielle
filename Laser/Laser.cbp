@@ -49,6 +49,7 @@
 		<Unit filename="include/Laser.h" />
 		<Unit filename="include/MiroirGaucheVersBas.h" />
 		<Unit filename="include/MiroirGaucheVersHaut.h" />
+		<Unit filename="include/MiroirTransparentGaucheVersBas.h" />
 		<Unit filename="include/Monstre.h" />
 		<Unit filename="include/Mur.h" />
 		<Unit filename="include/Point.h" />
@@ -73,6 +74,7 @@
 		<Unit filename="src/Laser.cpp" />
 		<Unit filename="src/MiroirGaucheVersBas.cpp" />
 		<Unit filename="src/MiroirGaucheVersHaut.cpp" />
+		<Unit filename="src/MiroirTransparentGaucheVersBas.cpp" />
 		<Unit filename="src/Monstre.cpp" />
 		<Unit filename="src/Mur.cpp" />
 		<Unit filename="src/Point.cpp" />

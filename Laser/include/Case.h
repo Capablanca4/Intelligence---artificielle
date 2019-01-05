@@ -10,6 +10,8 @@ struct coord {int x,y; };
 
 enum TDirection{Droite,Gauche,Haut,Bas};
 
+class Laser;
+
 class Echiquier;
 
 class Game;
@@ -27,15 +29,9 @@ class Case: public Point
         const Point centre()const;
         const int cote()const;
 
-        /** Modificateur*/
-        void changerCentre(const Point& centre);
-
-        /**Fonction de test*/
-        virtual std::string typeObjet()const;
-
         /** Fonction gerant le deplacement du laser*/
-        virtual bool touch(Game& Jeu,int n);
-        virtual coord posNextMoveLaser(Game& Jeu,int n) const;
+        virtual void touch(Game& Jeu,Laser* las);
+        virtual void nextLaser(Game& Jeu,const TDirection& direcLas,std::vector<Laser*>& nextLas) const;
 
         /**Fonction gerant le changement d'objet*/
         virtual void transformation(Echiquier& plateau);
@@ -44,6 +40,12 @@ class Case: public Point
         virtual void draw(Viewer& fenetre)=0;
         void clearCase(Viewer& fenetre);
 
+        virtual std::ostream& name(std::ostream& ost)const=0;
+        std::ostream& write(std::ostream& ost)const;
+        friend std::ostream& operator<< (std::ostream& ost,const Case& cas);
+
+        /**Fonction de test*/
+        virtual std::string typeObjet()const;
     private:
         int d_cote; /** largeur du carre definissant la case*/
 

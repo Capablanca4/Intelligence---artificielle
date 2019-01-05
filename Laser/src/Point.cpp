@@ -1,4 +1,4 @@
-#include "../include/Point.h"
+#include "Point.h"
 
 namespace ecran{
 
@@ -16,6 +16,11 @@ const int Point::x() const {
 
 const int Point::y() const {
     return d_y;
+}
+
+std::ostream& Point::write(std::ostream& ost)const{
+    ost<<"["<<x()<<","<<y()<<"]";
+    return ost;
 }
 
 }

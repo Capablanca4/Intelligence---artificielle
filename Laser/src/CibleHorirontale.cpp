@@ -14,31 +14,35 @@ CibleHorizontale::~CibleHorizontale(){}
 void CibleHorizontale::draw(Viewer& fenetre){
     if(fenetre.open()){
         int rayon=cote()/2-1;
-        setcolor(RED);
+        setfillstyle(SOLID_FILL,RED);
         fillellipse(fenetre.pixelX(x()), fenetre.pixelY(y()), rayon, rayon/1.5);
-        setcolor(WHITE);
+        setfillstyle(SOLID_FILL,WHITE);
         fillellipse(fenetre.pixelX(x()), fenetre.pixelY(y()), rayon/1.5, rayon/3);
-        setcolor(RED);
+        setfillstyle(SOLID_FILL,RED);
         fillellipse(fenetre.pixelX(x()), fenetre.pixelY(y()), rayon/3, rayon/5.5);
-        setcolor(WHITE);
+        setfillstyle(SOLID_FILL,WHITE);
     }
 }
 
-bool CibleHorizontale::touch(Game& Jeu,int n){
-    Laser* las =(Laser*)Jeu.plateau().emplacementCase(Jeu.coordLas(n));
+void CibleHorizontale::touch(Game& Jeu,Laser* las){
     switch (las->direction()){
         case Gauche :
+            Jeu.setMovingFalse();
             break;
         case Droite :
+            Jeu.setMovingFalse();
             break;
         case Haut :
-            Jeu.setTouchTrue(n);
             break;
         case Bas :
-            Jeu.setTouchTrue(n);
             break;
     }
-    return false;
+    las->setMoveFalse();
+}
+
+std::ostream& CibleHorizontale::name(std::ostream& ost)const{
+    ost<<"[CibleHorizontale,";
+    return ost;
 }
 
 std::string CibleHorizontale::typeObjet()const {

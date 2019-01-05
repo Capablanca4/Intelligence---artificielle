@@ -82,6 +82,11 @@ void BlocLaser::draw(Viewer& fenetre){
     }
 }
 
+std::ostream& BlocLaser::name(std::ostream& ost)const{
+    ost<<"[BlocLaser,";
+    return ost;
+}
+
 std::string BlocLaser::typeObjet() const{
     return "Ceci est un BlocLaser";
 }

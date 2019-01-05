@@ -104,9 +104,9 @@ TEST_CASE("Les methodes de Case sont correctes"){
         REQUIRE_EQ(cas1->posNextMoveLaser(Jeu,0).y,y);
     }
 
-    /*SUBCASE("La metode typeObjet() est correcte"){
-        REQUIRE_EQ("Ceci est une Case",cas.typeObjet());
-    }*/ /** Ne marche plus ce qui est normal*/
+    SUBCASE("La methode write() est correcte"){
+        REQUIRE_EQ(cas.write(std::cout),std::cout);
+    }
 }
 
 TEST_CASE("Les methodes de CaseVide sont correctes"){
@@ -133,6 +133,10 @@ TEST_CASE("Les methodes de CaseVide sont correctes"){
         REQUIRE_EQ("Ceci est une CaseVide",cas.typeObjet());
     }
 
+    SUBCASE("La methode name() est correcte"){
+        REQUIRE_EQ(cas.name(std::cout),std::cout);
+    }
+
 }
 
 TEST_CASE("Les methodes de Cible sont correctes"){
@@ -151,6 +155,10 @@ TEST_CASE("Les methodes de Cible sont correctes"){
 
     SUBCASE("La methode typeObjet() est correcte"){
         REQUIRE_EQ("Ceci est une Cible",cible.typeObjet());
+    }
+
+    SUBCASE("La methode name() est correcte"){
+        REQUIRE_EQ(cible.name(std::cout),std::cout);
     }
 }
 
@@ -196,6 +204,11 @@ TEST_CASE("Les methodes de CibleHorizontale sont correctes"){
         REQUIRE_EQ("Ceci est une CibleHorizontale",cible.typeObjet());
    }
 
+   SUBCASE("La methode name() est correcte"){
+       ecran::CibleHorizontale cible{x,y,cote};
+        REQUIRE_EQ(cible.name(std::cout),std::cout);
+    }
+
 }
 
 TEST_CASE("Les methodes de CibleVerticale sont correctes"){
@@ -240,33 +253,38 @@ TEST_CASE("Les methodes de CibleVerticale sont correctes"){
         REQUIRE_EQ("Ceci est une CibleVerticale",cible.typeObjet());
    }
 
+   SUBCASE("La methode name() est correcte"){
+        ecran::CibleVerticale cible{x1,y1,cote};
+        REQUIRE_EQ(cible.name(std::cout),std::cout);
+    }
+
 }
 
 TEST_CASE("Les methodes de Laser sont correctes"){
 
     int x1=2,y1=2,cote=20;
+    ecran::Laser las{x1,y1,cote};
+    ecran::TDirection direc{ecran::Gauche};
 
     SUBCASE("Le constructeur par defaut est correcte"){
-        ecran::Laser las{x1,y1,cote};
         REQUIRE_EQ(las.direction(),ecran::Droite);
     }
 
     SUBCASE("La methode direction() est correcte"){
-        ecran::TDirection direc{ecran::Gauche};
-        ecran::Laser las{x1,y1,cote,direc};
         REQUIRE_EQ(las.direction(),direc);
     }
 
     SUBCASE("la methode setDirection() est correcte"){
-        ecran::TDirection direc{ecran::Droite};
-        ecran::Laser las{x1,y1,cote};
         las.setDirection(direc);
         REQUIRE_EQ(las.direction(),direc);
     }
 
     SUBCASE("La methode typeObjet() est correcte"){
-        ecran::Laser las{x1,y1,cote};
         REQUIRE_EQ(las.typeObjet(),"Ceci est un Laser");
+    }
+
+    SUBCASE("La methode name() est correcte"){
+        REQUIRE_EQ(las.name(std::cout),std::cout);
     }
 }
 
@@ -381,8 +399,13 @@ TEST_CASE("Les methodes de MiroirGaucheVersBas sont correctes"){
     }
 
     SUBCASE("la methode typeObjet() est correcte"){
-        ecran::MiroirGaucheVersBas* mir= new ecran::MiroirGaucheVersBas{Jeu.plateau().coordVersPoint(x1),Jeu.plateau().coordVersPoint(y1),cote};
-        REQUIRE_EQ(mir->typeObjet(),"Ceci est un MiroirGaucheVersBas");
+        ecran::MiroirGaucheVersBas mir{Jeu.plateau().coordVersPoint(x1),Jeu.plateau().coordVersPoint(y1),cote};
+        REQUIRE_EQ(mir.typeObjet(),"Ceci est un MiroirGaucheVersBas");
+    }
+
+    SUBCASE("La methode name() est correcte"){
+        ecran::MiroirGaucheVersBas mir{Jeu.plateau().coordVersPoint(x1),Jeu.plateau().coordVersPoint(y1),cote};
+        REQUIRE_EQ(mir.name(std::cout),std::cout);
     }
 }
 
@@ -497,9 +520,15 @@ TEST_CASE("Les methodes de MiroirGaucheVersHaut sont correctes"){
     }
 
     SUBCASE("la methode typeObjet() est correcte"){
-        ecran::MiroirGaucheVersHaut* mir= new ecran::MiroirGaucheVersHaut{Jeu.plateau().coordVersPoint(x1),Jeu.plateau().coordVersPoint(y1),cote};
-        REQUIRE_EQ(mir->typeObjet(),"Ceci est un MiroirGaucheVersHaut");
+        ecran::MiroirGaucheVersHaut mir{Jeu.plateau().coordVersPoint(x1),Jeu.plateau().coordVersPoint(y1),cote};
+        REQUIRE_EQ(mir.typeObjet(),"Ceci est un MiroirGaucheVersHaut");
     }
+
+    SUBCASE("La methode name() est correcte"){
+        ecran::MiroirGaucheVersHaut mir{Jeu.plateau().coordVersPoint(x1),Jeu.plateau().coordVersPoint(y1),cote};
+        REQUIRE_EQ(mir.name(std::cout),std::cout);
+    }
+
 }
 
 TEST_CASE("Les methodes de Monstre sont correctes"){
@@ -527,14 +556,24 @@ TEST_CASE("Les methodes de Monstre sont correctes"){
         ecran::Monstre mons {x,y,cote};
         REQUIRE_EQ(mons.typeObjet(),"Ceci est un Monstre");
     }
+
+    SUBCASE("La methode name() est correcte"){
+        ecran::Monstre mons {x,y,cote};
+        REQUIRE_EQ(mons.name(std::cout),std::cout);
+    }
 }
 
 TEST_CASE("Les methodes de Mur sont correctes"){
 
+    int x=1,y=1,cote=20;
+    ecran::Mur mur {x,y,cote};
+
     SUBCASE("La methode typeObjet() est correcte"){
-        int x=1,y=1,cote=20;
-        ecran::Mur mur {x,y,cote};
         REQUIRE_EQ(mur.typeObjet(),"Ceci est un Mur");
+    }
+
+    SUBCASE("La methode name() est correcte"){
+        REQUIRE_EQ(mur.name(std::cout),std::cout);
     }
 }
 

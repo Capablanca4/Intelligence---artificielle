@@ -14,31 +14,35 @@ CibleVerticale::~CibleVerticale(){}
 void CibleVerticale::draw(Viewer& fenetre){
     if(fenetre.open()){
         int rayon=cote()/2-1;
-        setcolor(RED);
+        setfillstyle(SOLID_FILL,RED);
         fillellipse(fenetre.pixelX(x()), fenetre.pixelY(y()), rayon/1.5, rayon);
-        setcolor(WHITE);
+        setfillstyle(SOLID_FILL,WHITE);
         fillellipse(fenetre.pixelX(x()), fenetre.pixelY(y()), rayon/3, rayon/1.5);
-        setcolor(RED);
+        setfillstyle(SOLID_FILL,RED);
         fillellipse(fenetre.pixelX(x()), fenetre.pixelY(y()), rayon/5.5, rayon/3);
-        setcolor(WHITE);
+        setfillstyle(SOLID_FILL,WHITE);
     }
 }
 
-bool CibleVerticale::touch(Game& Jeu,int n){
-    Laser* las =(Laser*)Jeu.plateau().emplacementCase(Jeu.coordLas(n));
+void CibleVerticale::touch(Game& Jeu,Laser* las){
     switch (las->direction()){
         case Gauche :
-            Jeu.setTouchTrue(n);
             break;
         case Droite :
-            Jeu.setTouchTrue(n);
             break;
         case Haut :
+            Jeu.setMovingFalse();
             break;
         case Bas :
+            Jeu.setMovingFalse();
             break;
     }
-    return false;
+    las->setMoveFalse();
+}
+
+std::ostream& CibleVerticale::name(std::ostream& ost)const{
+    ost<<"[CibleVerticale,";
+    return ost;
 }
 
 std::string CibleVerticale::typeObjet()const {

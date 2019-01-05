@@ -4,21 +4,32 @@
 
 namespace ecran{
 
-Laser::Laser(Point& centre,int cote,const TDirection& direction):
+Laser::Laser(Point& centre,int cote,TDirection direction):
         Case{centre,cote},
-        d_direction{direction} {}
+        d_direction{direction},
+        in_move{true} {}
 
-Laser::Laser(int x,int y ,int cote,const TDirection& direction):
+Laser::Laser(int x,int y ,int cote,TDirection direction):
         Case{x,y,cote},
-        d_direction{direction} {}
+        d_direction{direction},
+        in_move{true}  {}
 
 Laser::~Laser(){}
 
 const TDirection Laser::direction()const{
     return d_direction;}
 
+const bool Laser::inMove() const{
+    return in_move;
+}
+
 void Laser::setDirection(TDirection direction){
-    d_direction=direction;}
+    d_direction=direction;
+}
+
+void Laser::setMoveFalse(){
+    in_move=false;
+}
 
 void Laser::draw(Viewer& fenetre){
     if(fenetre.open()){
@@ -60,6 +71,11 @@ void Laser::draw(Viewer& fenetre){
             }
         setfillstyle(SOLID_FILL,BLACK);
     }
+}
+
+std::ostream& Laser::name(std::ostream& ost)const{
+    ost<<"[Laser,";
+    return ost;
 }
 
 std::string Laser::typeObjet()const{

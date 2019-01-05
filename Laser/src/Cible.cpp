@@ -12,22 +12,25 @@ Cible::Cible(const int x,const int y,const int cote):Case{x,y,cote} {}
 
 void Cible::draw(Viewer& fenetre){
     if(fenetre.open()){
-        line(fenetre.pixelX(x()-cote()/2),
-             fenetre.pixelY(y()),
-             fenetre.pixelX(x()+cote()/2),
-             fenetre.pixelY(y()));
-
-        line(fenetre.pixelX(x()),
-             fenetre.pixelY(y()-cote()/2),
-             fenetre.pixelX(x()),
-             fenetre.pixelY(y()+cote()/2));
+        int rayon=cote()/2-1;
+        setfillstyle(SOLID_FILL,RED);
+        fillellipse(fenetre.pixelX(x()), fenetre.pixelY(y()), rayon, rayon);
+        setfillstyle(SOLID_FILL,RED);
+        fillellipse(fenetre.pixelX(x()), fenetre.pixelY(y()), rayon/1.5, rayon/1.5);
+        setfillstyle(SOLID_FILL,RED);
+        fillellipse(fenetre.pixelX(x()), fenetre.pixelY(y()), rayon/3, rayon/3);
+        setfillstyle(SOLID_FILL,WHITE);
     }
 
 }
 
-bool Cible::touch(Game& Jeu,int n){
-    Jeu.setTouchTrue(n);
-    return false;
+void Cible::touch(Game& Jeu,Laser* las){
+    las->setMoveFalse();
+}
+
+std::ostream& Cible::name(std::ostream& ost)const{
+    ost<<"[Cible,";
+    return ost;
 }
 
 std::string Cible::typeObjet()const{

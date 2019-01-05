@@ -20,42 +20,40 @@ class Game
         void draw();
 
         /** accesseur de base */
-        const bool inMove(int n) const;
-        const bool touch(int n)const;
-        const coord coordLas(int n) const;
+        const std::vector<Laser*> listLas() const;
+        Laser* las(int n) const;
         const int iteration() const;
         const int score() const; /** Pour les tests*/
         const int nbLaser() const;
         const int maxIteration() const;
+        const bool moving() const;
         Echiquier& plateau();
         Viewer& fenetre();
 
         /**modificateur de base*/
-        void setInMoveFalse(int n);
-        void setTouchTrue(int n);
-        void addLaser(coord coord);
-        void setCoordLaser(coord coord,int n);
+        void addLaser(Laser* las);
+        void clearLaser();
         void addScore(int score);
         void increaseIter();
+        void setMovingFalse();
 
-        bool finish() const;
-        bool winning() const;
+        bool notFinish() const;
 
         /** Juste une fonction generant quelque objet sur d_echiquier pour réaliser des tests*/
         void test();
     private:
         Echiquier d_echiquier;
         Viewer d_fenetre;
-        std::vector<bool> in_move;
-        std::vector<bool> d_touch;
-        std::vector<coord> d_emplacementLaser; /** emplacement du(des) Laser(s) sur le dessin */
-        int d_nbLaser;
-        int d_iteration;
-        const int maxIter;
-
         Bouton d_boutonQuit;    /** InfoConteneur*/
         Bouton d_boutonDemarrer;/** InfoConteneur*/
         TableauDeScore d_score; /** InfoConteneur*/
+
+        std::vector<Laser*> listLaser; /** emplacement du(des) Laser(s) sur le dessin */
+        int d_iteration;
+        const int maxIter;
+        bool d_moving;
+
+
 };
 
 }
