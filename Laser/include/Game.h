@@ -24,7 +24,7 @@ class Game
         /**Gere la fenetre*/
         void openGame();
         void closeGame();
-        void waitUntilMouseCkicked();
+        void waitUntilMouseClicked();
         void draw();
 
         /** accesseur de base */

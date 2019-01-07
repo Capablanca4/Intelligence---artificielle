@@ -46,7 +46,7 @@ double Viewer::pixelY(double y){
     return CoordonneesY.destinationFromSource(y);
 }
 
-void Viewer::waitUntilMouseCkicked(int& x,int& y){
+void Viewer::waitUntilMouseClicked(int& x,int& y){
     while (!ismouseclick(WM_LBUTTONDOWN)){
         delay(200);}
     getmouseclick(WM_LBUTTONDOWN, x, y);

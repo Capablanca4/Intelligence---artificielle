@@ -47,7 +47,7 @@ DWORD WINAPI BGI__ThreadInitWindow( LPVOID pThreadData )
     HBITMAP hBitmap;                    // A compatible bitmap of the DC for the Memory DC
     HMENU hMenu;                        // Handle to the system menu
     int CaptionHeight, xBorder, yBorder;
-    
+
     WindowData *pWndData = (WindowData*)pThreadData; // Thread creation data
 
     if (pWndData->title.size( ))
@@ -60,7 +60,7 @@ DWORD WINAPI BGI__ThreadInitWindow( LPVOID pThreadData )
     }
     xBorder = GetSystemMetrics( SM_CXFIXEDFRAME );      // Width of border
     yBorder = GetSystemMetrics( SM_CYFIXEDFRAME );      // Height of border
-    
+
     int height = pWndData->height + CaptionHeight + 2*yBorder; // Calculate total height
     int width = pWndData->width + 2*xBorder;                   // Calculate total width
 
@@ -99,8 +99,8 @@ DWORD WINAPI BGI__ThreadInitWindow( LPVOID pThreadData )
 
     // Store the address of the WindowData structure in the window's user data
     // MGM TODO: Change this to SetWindowLongPtr:
-    //  SetWindowLongPtr( hWindow, GWL_USERDATA, (LONG_PTR)pWndData );
-    SetWindowLong( hWindow, GWL_USERDATA, (LONG)pWndData );
+    //  SetWindowLongPtr( hWindow, GWLP_USERDATA, (LONG_PTR)pWndData );
+    SetWindowLong( hWindow, GWLP_USERDATA, (LONG)pWndData );
 
     // Set the default active and visual page.  These must be set here in
     // addition to setting all the defaults in initwindow because the paint
@@ -125,14 +125,14 @@ DWORD WINAPI BGI__ThreadInitWindow( LPVOID pThreadData )
         hBitmap = CreateCompatibleBitmap( hDC, pWndData->width, pWndData->height );
         pWndData->hOldBitmap[i] = (HBITMAP)SelectObject( pWndData->hDC[i], hBitmap );
     }
-    ReleaseMutex(pWndData->hDCMutex);    
+    ReleaseMutex(pWndData->hDCMutex);
     // Release the original DC and set up the mutex for the hDC array
     ReleaseDC( hWindow, hDC );
-    
+
     // Make the window visible
     ShowWindow( hWindow, SW_SHOWNORMAL );           // Make the window visible
     UpdateWindow( hWindow );                        // Flush output buffer
-    
+
     // Tell the user thread that the window was created successfully
     SetEvent( pWndData->WindowCreated );
 
@@ -326,7 +326,7 @@ static void cls_OnPaint( HWND hWnd )
     // Get the dimensions of the area that needs to be redrawn.
     width = ps.rcPaint.right - ps.rcPaint.left;
     height = ps.rcPaint.bottom - ps.rcPaint.top;
-    
+
 
     // The region that needs to be updated is specified in device units (pixels) for the actual DC.
     // However, if a viewport is specified, the source image is referenced in logical
@@ -341,7 +341,7 @@ static void cls_OnPaint( HWND hWnd )
 			 hSrcDC, srcCorner.x, srcCorner.y, SRCCOPY );
     EndPaint( hWnd, &ps );  // Validates the rectangle
     ReleaseMutex(pWndData->hDCMutex);
-    
+
     if ( !success )
     {   // I would like to invalidate the rectangle again
 	// since BitBlt wasn't successful, but the recursion seems
@@ -359,12 +359,12 @@ LRESULT CALLBACK WndProc
 {
     const std::queue<POINTS> EMPTY;
     POINTS where;
-    
+
     WindowData *pWndData = BGI__GetWindowDataPtr( hWnd );
     int type;           // Type of mouse message
     Handler handler;    // Registered mouse handler
     UINT uHitTest;
-    
+
     // If this is a mouse message, set our internal state
     if ( pWndData && ( uiMessage >= WM_MOUSEFIRST ) && ( uiMessage <= WM_MOUSELAST ) )
     {

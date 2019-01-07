@@ -32,8 +32,8 @@ class Echiquier
         void setCase(Case* val);
 
         /** accesseur de base*/
-        const int nbligne() const;
-        const int nbcolonne() const;
+        const int nbLigne() const;
+        const int nbColonne() const;
         const int taille() const;
 
         /** fonctions transformant les points vers les coord de l'Echiquier*/

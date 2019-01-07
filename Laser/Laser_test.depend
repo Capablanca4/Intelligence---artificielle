@@ -935,7 +935,7 @@
 1546853107 c:\users\pierre vix\desktop\testunitaire\laser\include\point.h
 	"iostream"
 
-1546855188 c:\users\pierre vix\desktop\testunitaire\laser\include\viewer.h
+1546882594 c:\users\pierre vix\desktop\testunitaire\laser\include\viewer.h
 	"Point.h"
 	"graphics.h"
 	"viewPort.hpp"
@@ -950,7 +950,7 @@
 1546854334 c:\users\pierre vix\desktop\testunitaire\laser\include\laser.h
 	"Case.h"
 
-1546853830 c:\users\pierre vix\desktop\testunitaire\laser\include\echiquier.h
+1546879767 c:\users\pierre vix\desktop\testunitaire\laser\include\echiquier.h
 	<vector>
 	"BlocLaser.h"
 	"Laser.h"
@@ -1013,7 +1013,7 @@
 	"Case.h"
 	"Game.h"
 
-1546864218 c:\users\pierre vix\desktop\testunitaire\laser\include\game.h
+1546882594 c:\users\pierre vix\desktop\testunitaire\laser\include\game.h
 	"Echiquier.h"
 	"Viewer.h"
 	"Bouton.h"
@@ -1080,7 +1080,7 @@
 	"winbgim.h"
 	<vector>
 
-1546855497 source:c:\users\pierre vix\desktop\testunitaire\laser\src\echiquier.cpp
+1546879787 source:c:\users\pierre vix\desktop\testunitaire\laser\src\echiquier.cpp
 	"Echiquier.h"
 	<iostream>
 	<utility>
@@ -1103,12 +1103,12 @@
 	<iostream>
 	"Echiquier.h"
 
-1546854511 source:c:\users\pierre vix\desktop\testunitaire\laser\src\miroirgaucheversbas.cpp
+1546879869 source:c:\users\pierre vix\desktop\testunitaire\laser\src\miroirgaucheversbas.cpp
 	"MiroirGaucheVersBas.h"
 	"Game.h"
 	<iostream>
 
-1546854565 source:c:\users\pierre vix\desktop\testunitaire\laser\src\miroirgauchevershaut.cpp
+1546879891 source:c:\users\pierre vix\desktop\testunitaire\laser\src\miroirgauchevershaut.cpp
 	"MiroirGaucheVersHaut.h"
 	"Game.h"
 	<iostream>
@@ -1160,7 +1160,7 @@
 	"winbgim.h"
 	"winbgitypes.h"
 
-1546855188 source:c:\users\pierre vix\desktop\testunitaire\laser\src\viewer.cpp
+1546882594 source:c:\users\pierre vix\desktop\testunitaire\laser\src\viewer.cpp
 	"Viewer.h"
 	<iostream>
 
@@ -1176,7 +1176,7 @@
 	"winbgim.h"
 	"winbgitypes.h"
 
-1545477611 source:c:\users\pierre vix\desktop\testunitaire\laser\src\winthread.cpp
+1546874570 source:c:\users\pierre vix\desktop\testunitaire\laser\src\winthread.cpp
 	<windows.h>
 	<windowsx.h>
 	"winbgim.h"
@@ -1186,7 +1186,7 @@
 	<iostream>
 	<iostream>
 
-1546781970 source:c:\users\pierre vix\desktop\testunitaire\laser\testlaser.cpp
+1546879235 source:c:\users\pierre vix\desktop\testunitaire\laser\testlaser.cpp
 	"doctest.h"
 	<sstream>
 	<iostream>
@@ -1238,16 +1238,16 @@
 1545477603 source:c:\users\pierre vix\desktop\testunitaire\laser\testmain.cpp
 	"doctest.h"
 
-1546864743 source:c:\users\pierre vix\desktop\testunitaire\laser\src\game.cpp
+1546882594 source:c:\users\pierre vix\desktop\testunitaire\laser\src\game.cpp
 	"Game.h"
 	<iostream>
 	<fstream>
 
-1546854698 source:c:\users\pierre vix\desktop\testunitaire\laser\src\miroirtransparentgaucheversbas.cpp
+1546879921 source:c:\users\pierre vix\desktop\testunitaire\laser\src\miroirtransparentgaucheversbas.cpp
 	"MiroirTransparentGaucheVersBas.h"
 	"Game.h"
 
-1546854698 source:c:\users\pierre vix\desktop\testunitaire\laser\src\miroirtransparentgauchevershaut.cpp
+1546879994 source:c:\users\pierre vix\desktop\testunitaire\laser\src\miroirtransparentgauchevershaut.cpp
 	"MiroirTransparentGaucheVersHaut.h"
 	"Game.h"
 

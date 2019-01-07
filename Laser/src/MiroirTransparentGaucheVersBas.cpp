@@ -65,7 +65,7 @@ void MiroirTransparentGaucheVersBas::nextLaser(Game& Jeu,const TDirection& direc
             break;
 
         case Droite :
-            if(Jeu.plateau().pointVersCoord(y())+1>=Jeu.plateau().nbcolonne()||Jeu.plateau().pointVersCoord(x())+1>=Jeu.plateau().nbligne()){
+            if(Jeu.plateau().pointVersCoord(y())+1>=Jeu.plateau().nbColonne()||Jeu.plateau().pointVersCoord(x())+1>=Jeu.plateau().nbLigne()){
                 Laser* las=new Laser{x(),y(),cote(),direcLas};
                 nextLas.push_back(las);
             }
@@ -78,7 +78,7 @@ void MiroirTransparentGaucheVersBas::nextLaser(Game& Jeu,const TDirection& direc
            break;
 
         case Haut :
-            if(Jeu.plateau().pointVersCoord(x())+1>=Jeu.plateau().nbligne()||Jeu.plateau().pointVersCoord(y())+1>=Jeu.plateau().nbcolonne()){
+            if(Jeu.plateau().pointVersCoord(x())+1>=Jeu.plateau().nbLigne()||Jeu.plateau().pointVersCoord(y())+1>=Jeu.plateau().nbColonne()){
                 Laser* las=new Laser{x(),y(),cote(),direcLas};
                 nextLas.push_back(las);
             }

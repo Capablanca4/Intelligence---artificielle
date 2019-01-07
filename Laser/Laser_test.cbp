@@ -13,10 +13,12 @@
 				<Option compiler="gcc" />
 				<Compiler>
 					<Add option="-g" />
+					<Add option="-fpermissive" />
+					<Add option="-fexceptions" />
 					<Add directory="include" />
 				</Compiler>
 				<Linker>
-					<Add library="lib/libbgi.a" />
+					<Add option="-lgdi32 -lcomdlg32 -luuid -loleaut32 -lole32" />
 				</Linker>
 			</Target>
 			<Target title="Release">

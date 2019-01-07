@@ -52,7 +52,7 @@ void MiroirGaucheVersHaut::draw(Viewer& fenetre){
 void MiroirGaucheVersHaut::nextLaser(Game& Jeu,const TDirection& direcLas,std::vector<Laser*>& nextLas) const{
     switch (direcLas){
         case Gauche :
-            if(Jeu.plateau().pointVersCoord(y())+1>=Jeu.plateau().nbcolonne()){
+            if(Jeu.plateau().pointVersCoord(y())+1>=Jeu.plateau().nbColonne()){
                 Laser* las=new Laser{x(),y(),cote(),direcLas};
                 nextLas.push_back(las);
             }
@@ -85,7 +85,7 @@ void MiroirGaucheVersHaut::nextLaser(Game& Jeu,const TDirection& direcLas,std::v
             break;
 
         case Bas :
-            if(Jeu.plateau().pointVersCoord(x())+1>=Jeu.plateau().nbligne()){
+            if(Jeu.plateau().pointVersCoord(x())+1>=Jeu.plateau().nbLigne()){
                 Laser* las=new Laser{x(),y(),cote(),direcLas};
                 nextLas.push_back(las);
             }

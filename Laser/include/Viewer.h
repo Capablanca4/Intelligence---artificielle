@@ -21,7 +21,7 @@ class Viewer
         void closeWindow();
         void clear();
         void waitUntilButton();
-        void waitUntilMouseCkicked(int& x,int& y);
+        void waitUntilMouseClicked(int& x,int& y);
 
         /** Fonctions gerant le ViewPort*/
         double pixelX(double x);

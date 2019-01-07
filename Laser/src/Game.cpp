@@ -103,14 +103,14 @@ void Game::closeGame(){
     if(d_fenetre.open()) d_fenetre.closeWindow();
 }
 
-void Game::waitUntilMouseCkicked(){
+void Game::waitUntilMouseClicked(){
     int x,y;
     bool touchedButton=false;
     while(!touchedButton){
-        d_fenetre.waitUntilMouseCkicked(x,y);
+        d_fenetre.waitUntilMouseClicked(x,y);
         double d_x=d_fenetre.reversePixelX(x)*1.0/d_echiquier.taille();
         double d_y=d_fenetre.reversePixelY(y)*1.0/d_echiquier.taille();
-        if(d_x>=0 && d_x<d_echiquier.nbcolonne() && d_y>=0 && d_y<d_echiquier.nbligne()){ /** On touche l'échiquier*/
+        if(d_x>=0 && d_x<d_echiquier.nbColonne() && d_y>=0 && d_y<d_echiquier.nbLigne()){ /** On touche l'échiquier*/
             x=d_x; y=d_y;
             Case* cas= (Case*)d_echiquier.emplacementCase(x,y);
             cas->transformation(d_echiquier);
@@ -236,8 +236,8 @@ void Game::test(){
 void Game::sauvegardeDansFichier(std::ostream& ost) const
 {
     ost << PARAM << std::endl;
-    ost << d_echiquier.nbligne() << " ";
-    ost << d_echiquier.nbcolonne() << std::endl;
+    ost << d_echiquier.nbLigne() << " ";
+    ost << d_echiquier.nbColonne() << std::endl;
     ost << d_cote << std::endl;
     ost << maxIter << "\n" << std::endl;
     ost << PLATEAU << std::endl;

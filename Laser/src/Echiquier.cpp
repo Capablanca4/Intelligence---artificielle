@@ -48,11 +48,11 @@ Case*& Echiquier::emplacementCase(Case* cas) {
     delete tamp;
 }
 
-const int Echiquier::nbligne() const{
+const int Echiquier::nbLigne() const{
     return d_nbligne;
 }
 
-const int Echiquier::nbcolonne() const{
+const int Echiquier::nbColonne() const{
     return d_nbcolonne;
 }
 
