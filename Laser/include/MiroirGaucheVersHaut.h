@@ -19,7 +19,7 @@ class MiroirGaucheVersHaut:public Case
         virtual void draw(Viewer& fenetre) override;
         virtual void nextLaser(Game& Jeu,const TDirection& direcLas,std::vector<Laser*>& nextLas) const override;
         void transformation(Echiquier& plateau) override;
-        virtual std::ostream& name(std::ostream& ost)const override;
+        virtual std::string nameWithHashtag()const override;
 
         /** Fonction de test*/
         virtual std::string typeObjet()const override;

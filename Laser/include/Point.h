@@ -14,11 +14,12 @@ class Point
         const int x() const ;
         const int y() const;
 
-        std::ostream& write(std::ostream& ost)const;
+        void writePoint(std::ostream& ost)const;
 
     private:
         int d_x;
         int d_y;
 };
+std::ostream& operator<<(std::ostream& ost, const Point& p);
 }
 #endif // POINT_H

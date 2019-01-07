@@ -87,22 +87,15 @@ Point Echiquier::coordVersPoint(coord coor)const{
 void Echiquier::play(Game& Jeu){
     while(Jeu.moving()&&Jeu.iteration()<Jeu.maxIteration()&&Jeu.notFinish()){
         std::vector<Laser*> nextLas{};
-
         for(int i=0;i<Jeu.listLas().size();i++) {
             destinationMove(Jeu,i,nextLas);}
         movable(Jeu,nextLas);
         if(Jeu.moving()){
-            for(int i=0;i<Jeu.listLas().size();i++){
-                CaseVide* cas=new CaseVide{*Jeu.las(i)};
-                Jeu.plateau().setCase(cas);
-                cas->clearCase(Jeu.fenetre());
-                cas->draw(Jeu.fenetre());
-            }
             Jeu.clearLaser();
             for(int i=0;i<nextLas.size();i++){
                 if(nextLas[i]->inMove()){
                     Jeu.addLaser(nextLas[i]);
-                    Jeu.plateau().setCase(nextLas[i]);
+                    setCase(nextLas[i]);
                     nextLas[i]->clearCase(Jeu.fenetre());
                     nextLas[i]->draw(Jeu.fenetre());
                 }
@@ -126,25 +119,25 @@ void Echiquier::destinationMove(Game& Jeu,int n,std::vector<Laser*>& nextLas){
     if(Jeu.las(n)->inMove()){
         switch (Jeu.las(n)->direction()){
             case Droite :
-                if(Jeu.plateau().pointVersCoord(Jeu.las(n)->x())+1>=d_nbcolonne) losingByBeingOffBoard();
+                if(Jeu.plateau().pointVersCoord(Jeu.las(n)->x())+1>=d_nbcolonne) losingByBeingOffBoard(Jeu);
                 else {
                     d_plateau[Jeu.plateau().pointVersCoord(Jeu.las(n)->x())+1][Jeu.plateau().pointVersCoord(Jeu.las(n)->y())]->nextLaser(Jeu,Jeu.las(n)->direction(),nextLas);
                 }
                 break;
             case Gauche :
-                if(Jeu.plateau().pointVersCoord(Jeu.las(n)->x())-1<0) losingByBeingOffBoard();
+                if(Jeu.plateau().pointVersCoord(Jeu.las(n)->x())-1<0) losingByBeingOffBoard(Jeu);
                 else {
                     d_plateau[Jeu.plateau().pointVersCoord(Jeu.las(n)->x())-1][Jeu.plateau().pointVersCoord(Jeu.las(n)->y())]->nextLaser(Jeu,Jeu.las(n)->direction(),nextLas);
                 }
                     break;
             case Haut:
-                if(Jeu.plateau().pointVersCoord(Jeu.las(n)->y())+1>=d_nbcolonne) losingByBeingOffBoard();
+                if(Jeu.plateau().pointVersCoord(Jeu.las(n)->y())+1>=d_nbcolonne) losingByBeingOffBoard(Jeu);
                 else {
                     d_plateau[Jeu.plateau().pointVersCoord(Jeu.las(n)->x())][Jeu.plateau().pointVersCoord(Jeu.las(n)->y())+1]->nextLaser(Jeu,Jeu.las(n)->direction(),nextLas);
                 }
                 break;
             case Bas:
-                if(Jeu.plateau().pointVersCoord(Jeu.las(n)->y())-1<0) losingByBeingOffBoard();
+                if(Jeu.plateau().pointVersCoord(Jeu.las(n)->y())-1<0) losingByBeingOffBoard(Jeu);
                 else {
                     d_plateau[Jeu.plateau().pointVersCoord(Jeu.las(n)->x())][Jeu.plateau().pointVersCoord(Jeu.las(n)->y())-1]->nextLaser(Jeu,Jeu.las(n)->direction(),nextLas);
                 }
@@ -153,8 +146,9 @@ void Echiquier::destinationMove(Game& Jeu,int n,std::vector<Laser*>& nextLas){
     }
 }
 
-void Echiquier::losingByBeingOffBoard(){
+void Echiquier::losingByBeingOffBoard(Game& Jeu){
     std::cout <<"this developper suck : you lose" << std::endl;
+    Jeu.setMovingFalse();
 }
 void Echiquier::movable(Game& Jeu,const std::vector<Laser*>& nextLas){
     for(int i=0;i<nextLas.size();i++){
@@ -173,6 +167,27 @@ void Echiquier::draw(Viewer& fenetre) const{
             d_plateau[i][j]->draw(fenetre);
         }
     }
+}
+
+std::ostream& operator<<(std::ostream& ost, const std::vector<Case*>& listeCase)
+{
+    for (auto lig : listeCase)
+        if (lig->nameWithHashtag() != "#CaseVide")
+            ost << *lig;
+    return ost;
+}
+
+std::ostream& operator<<(std::ostream& ost, const std::vector<std::vector<Case*> >& plateau)
+{
+    for (auto& col : plateau)
+            ost << col;
+    return ost;
+}
+
+std::ostream& operator<<(std::ostream& ost, const Echiquier& plateau)
+{
+    ost << plateau.d_plateau;
+    return ost;
 }
 
 }

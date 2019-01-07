@@ -919,3 +919,335 @@
 	<string>
 	<iostream>
 
+1546853322 source:c:\users\pierre vix\desktop\testunitaire\laser\src\bloclaser.cpp
+	"BlocLaser.h"
+	"Echiquier.h"
+
+1546853322 c:\users\pierre vix\desktop\testunitaire\laser\include\bloclaser.h
+	"Case.h"
+	"Laser.h"
+
+1546855261 c:\users\pierre vix\desktop\testunitaire\laser\include\case.h
+	"Point.h"
+	"Viewer.h"
+	<vector>
+
+1546853107 c:\users\pierre vix\desktop\testunitaire\laser\include\point.h
+	"iostream"
+
+1546855188 c:\users\pierre vix\desktop\testunitaire\laser\include\viewer.h
+	"Point.h"
+	"graphics.h"
+	"viewPort.hpp"
+
+1545477609 c:\users\pierre vix\desktop\testunitaire\laser\include\graphics.h
+	<windows.h>
+	<limits.h>
+	<sstream>
+
+1545477609 c:\users\pierre vix\desktop\testunitaire\laser\include\viewport.hpp
+
+1546854334 c:\users\pierre vix\desktop\testunitaire\laser\include\laser.h
+	"Case.h"
+
+1546853830 c:\users\pierre vix\desktop\testunitaire\laser\include\echiquier.h
+	<vector>
+	"BlocLaser.h"
+	"Laser.h"
+	"CaseVide.h"
+	"MiroirGaucheVersBas.h"
+	"MiroirGaucheVersHaut.h"
+	"MiroirTransparentGaucheVersBas.h"
+	"MiroirTransparentGaucheVersHaut.h"
+	"CibleHorirontale.h"
+	"CibleVerticale.h"
+	"Mur.h"
+	"Cible.h"
+	"Monstre.h"
+
+1546853496 c:\users\pierre vix\desktop\testunitaire\laser\include\casevide.h
+	"Case.h"
+
+1546854511 c:\users\pierre vix\desktop\testunitaire\laser\include\miroirgaucheversbas.h
+	"Laser.h"
+	"Echiquier.h"
+
+1546854565 c:\users\pierre vix\desktop\testunitaire\laser\include\miroirgauchevershaut.h
+	"Case.h"
+	"Laser.h"
+	"Echiquier.h"
+
+1546854698 c:\users\pierre vix\desktop\testunitaire\laser\include\miroirtransparentgaucheversbas.h
+	"Laser.h"
+	"Echiquier.h"
+
+1546854698 c:\users\pierre vix\desktop\testunitaire\laser\include\miroirtransparentgauchevershaut.h
+	"Laser.h"
+	"Echiquier.h"
+
+1546853662 c:\users\pierre vix\desktop\testunitaire\laser\include\ciblehorirontale.h
+	"Case.h"
+	"Echiquier.h"
+
+1546853736 c:\users\pierre vix\desktop\testunitaire\laser\include\cibleverticale.h
+	"Case.h"
+	"Echiquier.h"
+
+1546855319 c:\users\pierre vix\desktop\testunitaire\laser\include\mur.h
+	"Case.h"
+
+1546853562 c:\users\pierre vix\desktop\testunitaire\laser\include\cible.h
+	"Case.h"
+
+1546854834 c:\users\pierre vix\desktop\testunitaire\laser\include\monstre.h
+	"Case.h"
+
+1546853420 source:c:\users\pierre vix\desktop\testunitaire\laser\src\bouton.cpp
+	"Bouton.h"
+
+1546853420 c:\users\pierre vix\desktop\testunitaire\laser\include\bouton.h
+	"Point.h"
+	"Viewer.h"
+
+1546855261 source:c:\users\pierre vix\desktop\testunitaire\laser\src\case.cpp
+	"Case.h"
+	"Game.h"
+
+1546864218 c:\users\pierre vix\desktop\testunitaire\laser\include\game.h
+	"Echiquier.h"
+	"Viewer.h"
+	"Bouton.h"
+	"TableauDeScore.h"
+
+1546855108 c:\users\pierre vix\desktop\testunitaire\laser\include\tableaudescore.h
+	"Viewer.h"
+	"Point.h"
+
+1546853496 source:c:\users\pierre vix\desktop\testunitaire\laser\src\casevide.cpp
+	"CaseVide.h"
+	"Echiquier.h"
+
+1546853562 source:c:\users\pierre vix\desktop\testunitaire\laser\src\cible.cpp
+	"Cible.h"
+	<iostream>
+	"Game.h"
+
+1546853662 source:c:\users\pierre vix\desktop\testunitaire\laser\src\ciblehorirontale.cpp
+	"CibleHorirontale.h"
+	<iostream>
+	"Echiquier.h"
+	"Game.h"
+
+1546853736 source:c:\users\pierre vix\desktop\testunitaire\laser\src\cibleverticale.cpp
+	"CibleVerticale.h"
+	<iostream>
+	"Echiquier.h"
+	"Game.h"
+
+1545477610 source:c:\users\pierre vix\desktop\testunitaire\laser\src\dibutil.cpp
+	<windows.h>
+	<assert.h>
+	"dibapi.h"
+	"dibutil.h"
+	<stdio.h>
+
+1545477608 c:\users\pierre vix\desktop\testunitaire\laser\include\dibapi.h
+
+1545477609 c:\users\pierre vix\desktop\testunitaire\laser\include\dibutil.h
+
+1545477610 source:c:\users\pierre vix\desktop\testunitaire\laser\src\drawing.cpp
+	<windows.h>
+	<windowsx.h>
+	<math.h>
+	<ocidl.h>
+	<olectl.h>
+	<string.h>
+	"winbgim.h"
+	"winbgitypes.h"
+	"dibapi.h"
+	<iostream>
+
+1545477609 c:\users\pierre vix\desktop\testunitaire\laser\include\winbgim.h
+	<windows.h>
+	<limits.h>
+	<sstream>
+
+1545477609 c:\users\pierre vix\desktop\testunitaire\laser\include\winbgitypes.h
+	<windows.h>
+	<tchar.h>
+	<queue>
+	<string>
+	"winbgim.h"
+	<vector>
+
+1546855497 source:c:\users\pierre vix\desktop\testunitaire\laser\src\echiquier.cpp
+	"Echiquier.h"
+	<iostream>
+	<utility>
+	"Game.h"
+
+1545477610 source:c:\users\pierre vix\desktop\testunitaire\laser\src\file.cpp
+	<windows.h>
+	<string.h>
+	<stdio.h>
+	<math.h>
+	<io.h>
+	<direct.h>
+	<stdlib.h>
+	"dibutil.h"
+	"dibapi.h"
+	"winbgitypes.h"
+
+1546854334 source:c:\users\pierre vix\desktop\testunitaire\laser\src\laser.cpp
+	"Laser.h"
+	<iostream>
+	"Echiquier.h"
+
+1546854511 source:c:\users\pierre vix\desktop\testunitaire\laser\src\miroirgaucheversbas.cpp
+	"MiroirGaucheVersBas.h"
+	"Game.h"
+	<iostream>
+
+1546854565 source:c:\users\pierre vix\desktop\testunitaire\laser\src\miroirgauchevershaut.cpp
+	"MiroirGaucheVersHaut.h"
+	"Game.h"
+	<iostream>
+
+1545477611 source:c:\users\pierre vix\desktop\testunitaire\laser\src\misc.cpp
+	<windows.h>
+	<windowsx.h>
+	"winbgim.h"
+	"winbgitypes.h"
+	<iostream>
+
+1546854834 source:c:\users\pierre vix\desktop\testunitaire\laser\src\monstre.cpp
+	"Monstre.h"
+	"Echiquier.h"
+	"Game.h"
+	<iostream>
+
+1545477611 source:c:\users\pierre vix\desktop\testunitaire\laser\src\mouse.cpp
+	<windows.h>
+	<windowsx.h>
+	"winbgim.h"
+	"winbgitypes.h"
+
+1546855319 source:c:\users\pierre vix\desktop\testunitaire\laser\src\mur.cpp
+	"Mur.h"
+	<iostream>
+	"Echiquier.h"
+
+1545477611 source:c:\users\pierre vix\desktop\testunitaire\laser\src\palette.cpp
+	<windows.h>
+	<windowsx.h>
+	"winbgim.h"
+	"winbgitypes.h"
+
+1546853107 source:c:\users\pierre vix\desktop\testunitaire\laser\src\point.cpp
+	"Point.h"
+
+1546855108 source:c:\users\pierre vix\desktop\testunitaire\laser\src\tableaudescore.cpp
+	"TableauDeScore.h"
+	<string>
+	<iostream>
+
+1545477611 source:c:\users\pierre vix\desktop\testunitaire\laser\src\text.cpp
+	<windows.h>
+	<windowsx.h>
+	<iostream>
+	<sstream>
+	<string>
+	"winbgim.h"
+	"winbgitypes.h"
+
+1546855188 source:c:\users\pierre vix\desktop\testunitaire\laser\src\viewer.cpp
+	"Viewer.h"
+	<iostream>
+
+1545477611 source:c:\users\pierre vix\desktop\testunitaire\laser\src\viewport.cpp
+	"viewPort.hpp"
+
+1545477611 source:c:\users\pierre vix\desktop\testunitaire\laser\src\winbgi.cpp
+	<windows.h>
+	<windowsx.h>
+	<stdio.h>
+	<iostream>
+	<vector>
+	"winbgim.h"
+	"winbgitypes.h"
+
+1545477611 source:c:\users\pierre vix\desktop\testunitaire\laser\src\winthread.cpp
+	<windows.h>
+	<windowsx.h>
+	"winbgim.h"
+	"winbgitypes.h"
+	<vector>
+	<queue>
+	<iostream>
+	<iostream>
+
+1546781970 source:c:\users\pierre vix\desktop\testunitaire\laser\testlaser.cpp
+	"doctest.h"
+	<sstream>
+	<iostream>
+	"CaseVide.h"
+	"Echiquier.h"
+	"Game.h"
+	"Bouton.h"
+
+1545477609 c:\users\pierre vix\desktop\testunitaire\laser\include\doctest.h
+	<ciso646>
+	<iosfwd>
+	<cstddef>
+	<type_traits>
+	"doctest_fwd.h"
+	<ctime>
+	<cmath>
+	<climits>
+	<math.h>
+	<new>
+	<cstdio>
+	<cstdlib>
+	<cstring>
+	<limits>
+	<utility>
+	<sstream>
+	<iostream>
+	<algorithm>
+	<iomanip>
+	<vector>
+	<atomic>
+	<mutex>
+	<set>
+	<map>
+	<exception>
+	<stdexcept>
+	<csignal>
+	<cfloat>
+	<cctype>
+	<cstdint>
+	<sys/types.h>
+	<unistd.h>
+	<sys/sysctl.h>
+	<unistd.h>
+	<AfxWin.h>
+	<Windows.h>
+	<io.h>
+	<sys/time.h>
+
+1545477603 source:c:\users\pierre vix\desktop\testunitaire\laser\testmain.cpp
+	"doctest.h"
+
+1546864743 source:c:\users\pierre vix\desktop\testunitaire\laser\src\game.cpp
+	"Game.h"
+	<iostream>
+	<fstream>
+
+1546854698 source:c:\users\pierre vix\desktop\testunitaire\laser\src\miroirtransparentgaucheversbas.cpp
+	"MiroirTransparentGaucheVersBas.h"
+	"Game.h"
+
+1546854698 source:c:\users\pierre vix\desktop\testunitaire\laser\src\miroirtransparentgauchevershaut.cpp
+	"MiroirTransparentGaucheVersHaut.h"
+	"Game.h"
+

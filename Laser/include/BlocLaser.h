@@ -18,11 +18,12 @@ class BlocLaser : public Case
 
         /** Fonctions herites de Case et redefinit*/
         virtual void draw(Viewer& fenetre) override;
-        virtual std::ostream& name(std::ostream& ost)const override;
 
         /** Fonctions propre au Laser*/
         Laser* shoot();
         void setDirection(TDirection direction);
+        virtual std::string nameWithHashtag()const override;
+        virtual std::string specificitiesCase()const override;
 
         /**Fonction de test*/
         virtual std::string typeObjet()const override;

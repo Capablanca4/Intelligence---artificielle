@@ -40,9 +40,8 @@ class Case: public Point
         virtual void draw(Viewer& fenetre)=0;
         void clearCase(Viewer& fenetre);
 
-        virtual std::ostream& name(std::ostream& ost)const=0;
-        std::ostream& write(std::ostream& ost)const;
-        friend std::ostream& operator<< (std::ostream& ost,const Case& cas);
+        virtual std::string nameWithHashtag()const=0;
+        virtual std::string specificitiesCase()const;
 
         /**Fonction de test*/
         virtual std::string typeObjet()const;
@@ -50,5 +49,8 @@ class Case: public Point
         int d_cote; /** largeur du carre definissant la case*/
 
 };
+
+std::ostream& operator<<(std::ostream& ost,const Case& cas);
+
 }
 #endif // CASE_H

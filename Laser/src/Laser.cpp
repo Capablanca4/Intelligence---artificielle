@@ -73,9 +73,14 @@ void Laser::draw(Viewer& fenetre){
     }
 }
 
-std::ostream& Laser::name(std::ostream& ost)const{
-    ost<<"[Laser,";
-    return ost;
+std::string Laser::nameWithHashtag()const {
+    return "#Laser";
+}
+
+std::string Laser::specificitiesCase()const{
+    std::ostringstream oststr{};
+    oststr << static_cast<int>(d_direction);
+    return oststr.str();
 }
 
 std::string Laser::typeObjet()const{

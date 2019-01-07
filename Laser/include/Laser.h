@@ -22,10 +22,12 @@ class Laser:public Case
 
         /** Fonction herite de Case et redefinit dans l objet*/
         virtual void draw(Viewer& fenetre) override;
-        virtual std::ostream& name(std::ostream& ost)const override;
 
         /** Fonction de test*/
         virtual std::string typeObjet()const override;
+
+        virtual std::string nameWithHashtag()const override;
+        virtual std::string specificitiesCase()const override;
     private:
         TDirection d_direction;
         bool in_move;

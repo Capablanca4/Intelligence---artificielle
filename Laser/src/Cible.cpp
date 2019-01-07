@@ -26,11 +26,11 @@ void Cible::draw(Viewer& fenetre){
 
 void Cible::touch(Game& Jeu,Laser* las){
     las->setMoveFalse();
+    Jeu.addScore(1000);
 }
 
-std::ostream& Cible::name(std::ostream& ost)const{
-    ost<<"[Cible,";
-    return ost;
+std::string Cible::nameWithHashtag()const {
+    return "#Cible";
 }
 
 std::string Cible::typeObjet()const{

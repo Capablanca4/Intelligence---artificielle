@@ -71,4 +71,13 @@ void TableauDeScore::clear(Viewer& fenetre)const{
     }
 }
 
+std::ostream& operator<<(std::ostream& ost, const TableauDeScore& t)
+{
+    ost << t.centre() << std::endl;
+    ost << t.largeur() << std::endl;
+    ost << t.hauteur() << std::endl;
+
+    return ost;
+}
+
 }

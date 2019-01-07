@@ -38,11 +38,11 @@ void CibleHorizontale::touch(Game& Jeu,Laser* las){
             break;
     }
     las->setMoveFalse();
+    Jeu.addScore(1000);
 }
 
-std::ostream& CibleHorizontale::name(std::ostream& ost)const{
-    ost<<"[CibleHorizontale,";
-    return ost;
+std::string CibleHorizontale::nameWithHashtag()const {
+    return "#CibleHorizontale";
 }
 
 std::string CibleHorizontale::typeObjet()const {

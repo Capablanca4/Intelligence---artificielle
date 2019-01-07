@@ -6,6 +6,8 @@
 #include "CaseVide.h"
 #include "MiroirGaucheVersBas.h"
 #include "MiroirGaucheVersHaut.h"
+#include "MiroirTransparentGaucheVersBas.h"
+#include "MiroirTransparentGaucheVersHaut.h"
 #include "CibleHorirontale.h"
 #include "CibleVerticale.h"
 #include "Mur.h"
@@ -45,10 +47,12 @@ class Echiquier
         /** fonctions gerant les mouvements du laser sur le plateau*/
         void play(Game& Jeu);
         void destinationMove(Game& Jeu,int n,std::vector<Laser*>& nextLas);
-        void losingByBeingOffBoard();
+        void losingByBeingOffBoard(Game& Jeu);
         void movable(Game& Jeu,const std::vector<Laser*>& nextLas);
 
         void draw(Viewer& fenetre) const;
+
+        friend std::ostream& operator<<(std::ostream& ost, const Echiquier& plateau);
 
     private:
         int d_taille;
@@ -56,5 +60,9 @@ class Echiquier
         int d_nbcolonne;
         std::vector<std::vector<Case*> > d_plateau;
        };
+
+std::ostream& operator<<(std::ostream& ost, const std::vector<Case*>& listeCase);
+std::ostream& operator<<(std::ostream& ost, const std::vector<std::vector<Case*> >& plateau);
+
 }
 #endif // ECHIQUIER_H

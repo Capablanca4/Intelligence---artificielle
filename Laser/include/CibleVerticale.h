@@ -15,9 +15,9 @@ class CibleVerticale : public Case
         /** Fonctions herites de Case et redefinit dans l objet*/
         virtual void draw(Viewer& fenetre) override;
         virtual void touch(Game& Jeu,Laser* las) override;
-        virtual std::ostream& name(std::ostream& ost)const override;
+        virtual std::string nameWithHashtag()const override;
 
-        /** Finction de test*/
+        /** Fonction de test*/
         virtual std::string typeObjet()const override;
 };
 }

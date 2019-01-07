@@ -60,4 +60,12 @@ double Viewer::reversePixelY(double y){
     return CoordonneesY.sourceFromDestination(y);
 }
 
+std::ostream& operator<<(std::ostream& ost, const Viewer& v)
+{
+    ost << v.d_hauteur << " " << v.d_largeur << std::endl;
+    ost << v.decalageX << " " << v.decalageY << std::endl;
+
+    return ost;
+}
+
 }

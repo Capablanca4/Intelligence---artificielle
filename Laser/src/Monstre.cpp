@@ -36,9 +36,8 @@ void Monstre::changement(Echiquier& plateau){
     plateau.setCase(cas);
 }
 
-std::ostream& Monstre::name(std::ostream& ost)const{
-    ost<<"[Monstre,";
-    return ost;
+std::string Monstre::nameWithHashtag()const {
+    return "#Monstre";
 }
 
 std::string Monstre::typeObjet()const {

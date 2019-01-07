@@ -41,13 +41,17 @@ void Case::clearCase(Viewer& fenetre){
 void Case::transformation(Echiquier& plateau){
 }
 
-std::ostream& Case::write(std::ostream& ost)const{
-    ost<<this->name(ost)<<centre().write(ost)<<","<<cote()<<"]";
-    return ost;
+std::string Case::specificitiesCase()const
+{
+    return "";
 }
 
-std::ostream& operator<< (std::ostream& ost,const Case& cas){
-    cas.write(ost);
+std::ostream& operator<<(std::ostream& ost,const Case& cas){
+    ost<<cas.nameWithHashtag()<<std::endl;
+    cas.writePoint(ost);
+    ost<<std::endl;
+    ost<<cas.specificitiesCase()<<std::endl;
+
     return ost;
 }
 

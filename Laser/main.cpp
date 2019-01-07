@@ -1,6 +1,4 @@
-#include <iostream>
-#include "Viewer.h"
-#include "Echiquier.h"
+#include <fstream>
 #include "Game.h"
 
 int main()
@@ -9,25 +7,16 @@ int main()
     const int nbcolonne=20;
     const int cote=40;
     const int maxIter=200;
-    ecran::Game jeu{nbligne,nbcolonne,cote,maxIter};
+    std::string nomFichier="sauvegarde.txt";
+    /*ecran::Game jeu{nbligne,nbcolonne,cote,maxIter};*/
+    std::ifstream ifs{nomFichier};
+    ecran::Game jeu{ifs};
     jeu.openGame();
-    jeu.test();
+    /*jeu.test();
+    std::ofstream of{nomFichier};
+    of << jeu;*/
     jeu.draw();
     jeu.waitUntilMouseCkicked();
-    /*ecran::Viewer fenetre{nbligne*cote,nbcolonne*cote/*+200};
-    fenetre.openWindow();
-    ecran::Echiquier plateau{nbligne,nbcolonne,cote};
-    ecran::Laser las{plateau.coordVersPoint(0),plateau.coordVersPoint(19),cote,ecran::Droite};
-    ecran::MiroirGaucheVersBas mur{plateau.coordVersPoint(8),plateau.coordVersPoint(19),cote};
-    ecran::CibleHorizontale cible{plateau.coordVersPoint(8),plateau.coordVersPoint(0),cote};
-    plateau.setCoordLaser({0,19});
-    plateau.setCase(&las);
-    plateau.setCase(&mur);
-    plateau.setCase(&cible);
-    //plateau.play(fenetre);
-    plateau.draw(fenetre);
-    fenetre.waitUntilButton();
-    fenetre.closeWindow();*/
     return 0;
 }
 

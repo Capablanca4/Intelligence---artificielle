@@ -28,5 +28,7 @@ class Bouton
         std::string d_texte;
 };
 
+std::ostream& operator<<(std::ostream& ost, const Bouton& b);
+
 }
 #endif // BOUTON_H

@@ -1,5 +1,9 @@
 #include "Game.h"
 #include <iostream>
+#include <fstream>
+
+const std::string PARAM = "Parametres";
+const std::string PLATEAU = "Echequier";
 
 namespace ecran{
 
@@ -13,7 +17,72 @@ Game::Game(int nbLigne,int nbColonne,int cote,int maxIter):
     listLaser{},
     d_iteration{0},
     maxIter{maxIter},
+    d_cote{cote},
     d_moving{true} {}
+
+Game::Game(const ParamGame& param):
+    Game{param.nbLigne, param.nbColonne, param.cote, param.maxIter} {}
+
+Game::Game(std::ifstream& ist):
+    Game{paramJeuDeFichier(ist)}
+{
+
+    int x, y, direction;
+    std::string s;
+    ist >> s;
+    if (s != PLATEAU) std::cerr << "Erreur dans Game::Game : mauvais fichier" << std::endl;
+
+    while (!ist.eof())
+    {
+        ist >> s;
+        if (s == "#Laser")
+        {
+            ist >> x >> y >> direction;
+            Laser* las = new Laser{x, y, d_echiquier.taille(), static_cast<TDirection>(direction)};
+            addLaser(las);
+            d_echiquier.setCase(las);
+        }
+        else if (s == "#Mur")
+        {
+            ist >> x >> y;
+            Mur* mur= new Mur{x, y, d_echiquier.taille()};
+            d_echiquier.setCase(mur);
+        }
+        else if (s == "#Cible")
+        {
+            ist >> x >> y;
+            Cible* cible = new Cible{x, y, d_echiquier.taille()};
+            d_echiquier.setCase(cible);
+        }
+        else if (s == "#Monstre")
+        {
+            ist >> x >> y;
+            Monstre* monstre = new Monstre{x, y, d_echiquier.taille()};
+            d_echiquier.setCase(monstre);
+        }
+        else if (s == "#MiroirGaucheVersHaut")
+        {
+            ist >> x >> y;
+            MiroirGaucheVersHaut* mir= new MiroirGaucheVersHaut{x, y, d_echiquier.taille()};
+            d_echiquier.setCase(mir);
+        }
+        ist >> std::ws;
+    }
+}
+
+
+ParamGame Game::paramJeuDeFichier(std::ifstream& ist)
+{
+    int x, y, direction;
+    std::string s;
+    ist >> s;
+    if (s != PARAM) std::cerr << "Erreur dans Game::paramJeuDeFichier : mauvais fichier" << std::endl;
+    int nbLigne, nbColonne, cote, maxIter;
+    ist >> nbLigne >> nbColonne >> cote >> maxIter;
+    ParamGame param{nbLigne, nbColonne, cote, maxIter};
+
+    return param;
+}
 
 void Game::openGame(){
     if(!d_fenetre.open()){
@@ -130,27 +199,55 @@ void Game::addLaser(Laser* las){
 }
 
 void Game::clearLaser(){
-    while(!listLaser.empty()) listLaser.pop_back();
+    while(!listLaser.empty()){
+        CaseVide* cas= new CaseVide{*listLaser.back()};
+        d_echiquier.setCase(cas);
+        cas->clearCase(d_fenetre);
+        cas->draw(d_fenetre);
+        listLaser.pop_back();
+    }
 }
 
 
 void Game::test(){
     Laser* las1 = new Laser{d_echiquier.coordVersPoint(0),d_echiquier.coordVersPoint(19),d_echiquier.taille(),ecran::Droite};
     MiroirGaucheVersHaut* mir= new MiroirGaucheVersHaut{d_echiquier.coordVersPoint(8),d_echiquier.coordVersPoint(19),d_echiquier.taille()};
-    Cible* cible1= new Cible{d_echiquier.coordVersPoint(8),d_echiquier.coordVersPoint(0),d_echiquier.taille()};
-    Cible* cible2= new Cible{d_echiquier.coordVersPoint(8),d_echiquier.coordVersPoint(1),d_echiquier.taille()};
+    Cible* cible= new Cible{d_echiquier.coordVersPoint(8),d_echiquier.coordVersPoint(0),d_echiquier.taille()};
     Monstre* monstre = new Monstre{d_echiquier.coordVersPoint(8),d_echiquier.coordVersPoint(10),d_echiquier.taille()};
     Mur* mur= new Mur{d_echiquier.coordVersPoint(1),d_echiquier.coordVersPoint(1),d_echiquier.taille()};
     Laser* las2 = new Laser{d_echiquier.coordVersPoint(19),d_echiquier.coordVersPoint(0),d_echiquier.taille(),ecran::Gauche};
+    MiroirTransparentGaucheVersHaut* mir1 = new MiroirTransparentGaucheVersHaut{d_echiquier.coordVersPoint(5),d_echiquier.coordVersPoint(5),d_echiquier.taille()};
+    MiroirTransparentGaucheVersBas* mir2 = new MiroirTransparentGaucheVersBas{d_echiquier.coordVersPoint(15),d_echiquier.coordVersPoint(15),d_echiquier.taille()};
     addLaser(las1);
     addLaser(las2);
     d_echiquier.setCase(las1);
     d_echiquier.setCase(las2);
     d_echiquier.setCase(mir);
-    d_echiquier.setCase(cible1);
-    d_echiquier.setCase(cible2);
+    d_echiquier.setCase(mir1);
+    d_echiquier.setCase(mir2);
+    d_echiquier.setCase(cible);
     d_echiquier.setCase(monstre);
     d_echiquier.setCase(mur);
+    /*Laser* las3 = new Laser{d_echiquier.coordVersPoint(0),d_echiquier.coordVersPoint(19),d_echiquier.taille(),ecran::Droite};
+    addLaser(las3);
+    d_echiquier.setCase(las3);*/
+}
+
+void Game::sauvegardeDansFichier(std::ostream& ost) const
+{
+    ost << PARAM << std::endl;
+    ost << d_echiquier.nbligne() << " ";
+    ost << d_echiquier.nbcolonne() << std::endl;
+    ost << d_cote << std::endl;
+    ost << maxIter << "\n" << std::endl;
+    ost << PLATEAU << std::endl;
+    ost << d_echiquier << std::endl;
+}
+
+std::ostream& operator<<(std::ostream& ost, const Game& g)
+{
+    g.sauvegardeDansFichier(ost);
+    return ost;
 }
 
 }

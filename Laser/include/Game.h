@@ -7,11 +7,19 @@
 
 namespace ecran{
 
+struct ParamGame
+{
+    int nbLigne, nbColonne, cote, maxIter;
+};
+
 class Game
 {
     public:
         /** Constructeur*/
         Game(int nbLigne,int nbColonne,int cote,int maxIter=200);
+        Game(const ParamGame& param);
+        Game(std::ifstream& ist);
+        ParamGame paramJeuDeFichier(std::ifstream& ist);
 
         /**Gere la fenetre*/
         void openGame();
@@ -39,6 +47,9 @@ class Game
 
         bool notFinish() const;
 
+         /** Sauvegarde*/
+        void sauvegardeDansFichier(std::ostream& ost) const ;
+
         /** Juste une fonction generant quelque objet sur d_echiquier pour réaliser des tests*/
         void test();
     private:
@@ -50,11 +61,13 @@ class Game
 
         std::vector<Laser*> listLaser; /** emplacement du(des) Laser(s) sur le dessin */
         int d_iteration;
-        const int maxIter;
+        const int maxIter, d_cote;
         bool d_moving;
 
 
 };
+
+std::ostream& operator<<(std::ostream& ost, const Game& g);
 
 }
 

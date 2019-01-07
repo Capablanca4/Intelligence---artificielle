@@ -53,9 +53,8 @@ void Mur::draw(Viewer& fenetre){
     }
 }
 
-std::ostream& Mur::name(std::ostream& ost)const{
-    ost<<"[Mur,";
-    return ost;
+std::string Mur::nameWithHashtag()const {
+    return "#Mur";
 }
 
 std::string Mur::typeObjet()const{

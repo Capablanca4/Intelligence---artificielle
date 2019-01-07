@@ -29,6 +29,9 @@ class TableauDeScore
         const int d_largeur;
         const int d_hauteur;
 };
+
+std::ostream& operator<<(std::ostream& ost, const TableauDeScore& t);
+
 }
 
 #endif // TABLEAUDESCORE_H

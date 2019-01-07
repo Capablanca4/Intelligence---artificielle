@@ -102,9 +102,9 @@ void MiroirGaucheVersHaut::transformation(Echiquier& plateau){
     plateau.setCase(cas);
 }
 
-std::ostream& MiroirGaucheVersHaut::name(std::ostream& ost)const{
-    ost<<"[MiroirGaucheVersHaut,";
-    return ost;
+std::string MiroirGaucheVersHaut::nameWithHashtag()const
+{
+    return "#MiroirGaucheVersHaut";
 }
 
 std::string MiroirGaucheVersHaut::typeObjet()const{

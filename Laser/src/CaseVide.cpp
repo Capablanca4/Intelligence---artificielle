@@ -63,9 +63,8 @@ void CaseVide::transformation(Echiquier& plateau){
     /** Miroir++*/
 }
 
-std::ostream& CaseVide::name(std::ostream& ost)const{
-    ost<<"[CaseVide,";
-    return ost;
+std::string CaseVide::nameWithHashtag()const {
+    return "#CaseVide";
 }
 
 std::string CaseVide::typeObjet()const {

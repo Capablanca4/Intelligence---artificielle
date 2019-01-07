@@ -18,8 +18,14 @@ const int Point::y() const {
     return d_y;
 }
 
-std::ostream& Point::write(std::ostream& ost)const{
-    ost<<"["<<x()<<","<<y()<<"]";
+void Point::writePoint(std::ostream& ost)const
+{
+    ost<<d_x<<" "<<d_y;
+}
+
+std::ostream& operator<<(std::ostream& ost, const Point& p)
+{
+    p.writePoint(ost);
     return ost;
 }
 

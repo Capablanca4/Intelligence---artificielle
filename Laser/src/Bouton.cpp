@@ -45,4 +45,15 @@ void Bouton::draw(Viewer& fenetre)const{
     }
 }
 
+std::ostream& operator<<(std::ostream& ost, const Bouton& b)
+{
+    ost << b.centre() << std::endl;
+    ost << b.largeur() << std::endl;
+    ost << b.hauteur() << std::endl;
+    ost << b.texte() << std::endl;
+
+    return ost;
+}
+
+
 }
