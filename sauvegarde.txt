@@ -1,0 +1,28 @@
+Parametres
+20 20
+40
+200
+
+Echequier
+#Laser
+20 780
+0
+#Mur
+60 60
+
+#Cible
+340 20
+
+#Cible
+340 60
+
+#Monstre
+340 420
+
+#MiroirGaucheVersHaut
+340 780
+
+#Laser
+780 20
+1
+
