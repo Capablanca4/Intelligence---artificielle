@@ -3,20 +3,29 @@
 
 int main()
 {
-    /*const int nbligne=20;
+    /*
+    const int nbligne=20;
     const int nbcolonne=20;
     const int cote=40;
-    const int maxIter=200;*/
+    const int maxIter=200;
+    ecran::Game jeu{nbligne,nbcolonne,cote,maxIter};
+    jeu.test();
+    */
+
     std::string nomFichier="sauvegarde.txt";
-    /*ecran::Game jeu{nbligne,nbcolonne,cote,maxIter};*/
     std::ifstream ifs{nomFichier};
     ecran::Game jeu{ifs};
-    jeu.openGame();
-    /*jeu.test();
+    ifs.close();
+
+    /*
     std::ofstream of{nomFichier};
-    of << jeu;*/
+    of << jeu;
+    */
+
+    jeu.openGame();
     jeu.draw();
-    jeu.waitUntilMouseCkicked();
+    jeu.waitUntilMouseClicked();
+
     return 0;
 }
 

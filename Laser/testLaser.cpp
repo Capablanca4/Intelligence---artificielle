@@ -1,5 +1,6 @@
 #include "doctest.h"
 #include<sstream>
+#include<fstream>
 #include<iostream>
 #include "CaseVide.h"
 #include "Echiquier.h"
@@ -8,22 +9,25 @@
 
 /** Les fonctions de dessins ne sont pas prises en compte dans ces tests */
 
-/** Les classes suivantes ont déja des tests unitaires : - Case                   l.29
-                                                         - BlocLaser              l.84
-                                                         - CaseVide               l.112
-                                                         - Cible                  l.138
-                                                         - CibleHorizontale       l.157
-                                                         - CibleVerticale         l.201
-                                                         - Laser                  l.245
-                                                         - MiroirGaucheVersBas    l.273
-                                                         - MiroirGaucheVersHaut   l.389
-                                                         - Monstre                l.505
-                                                         - Mur                    l.532
-                                                         - Echiquier              l.541
-                                                         - Viewer                 l.767
-                                                         - Bouton                 l.793
-                                                         - TableauDeScore         l.802
-                                                         - Game                   l.813
+/** Les classes suivantes ont déja des tests unitaires : - Point                           l.
+                                                         - Case                            l.29
+                                                         - BlocLaser                       l.84
+                                                         - CaseVide                        l.112
+                                                         - Cible                           l.138
+                                                         - CibleHorizontale                l.157
+                                                         - CibleVerticale                  l.201
+                                                         - Laser                           l.245
+                                                         - MiroirGaucheVersBas             l.273
+                                                         - MiroirGaucheVersHaut            l.389
+                                                         - MiroirTransparentGaucheVersHaut l.
+                                                         - MiroirTransparentGaucheVersBas  l.
+                                                         - Monstre                         l.505
+                                                         - Mur                             l.532
+                                                         - Echiquier                       l.541
+                                                         - Viewer                          l.767
+                                                         - Bouton                          l.793
+                                                         - TableauDeScore                  l.802
+                                                         - Game                            l.813
 */
 
 TEST_CASE("Les methodes de Point sont correctes"){
@@ -636,36 +640,81 @@ TEST_CASE("Les methodes de MiroirTransparentGaucheVersBas sont correctes"){
         std::vector<ecran::Laser*> nextLas{};
 
         SUBCASE("Cas ou le Laser vient de la Gauche "){
-            ecran::MiroirTransparentGaucheVersBas* mir= new ecran::MiroirTransparentGaucheVersBas{Jeu.plateau().coordVersPoint(x),Jeu.plateau().coordVersPoint(0),cote};
-            Jeu.plateau().setCase(mir);
-            mir->nextLaser(Jeu,ecran::Gauche,nextLas);
-            REQUIRE_EQ(nextLas[0]->x(),Jeu.plateau().coordVersPoint(x));
-            REQUIRE_EQ(nextLas[0]->y(),Jeu.plateau().coordVersPoint(0));
+
+            SUBCASE("Cas ou le bord du plateau est en bas"){
+                ecran::MiroirTransparentGaucheVersBas* mir= new ecran::MiroirTransparentGaucheVersBas{Jeu.plateau().coordVersPoint(x),Jeu.plateau().coordVersPoint(0),cote};
+                Jeu.plateau().setCase(mir);
+                mir->nextLaser(Jeu,ecran::Gauche,nextLas);
+                REQUIRE_EQ(nextLas[0]->x(),Jeu.plateau().coordVersPoint(x));
+                REQUIRE_EQ(nextLas[0]->y(),Jeu.plateau().coordVersPoint(0));
+            }
+
+            SUBCASE("Cas ou le bord du plateau est en gauche"){
+                ecran::MiroirTransparentGaucheVersBas* mir= new ecran::MiroirTransparentGaucheVersBas{Jeu.plateau().coordVersPoint(0),Jeu.plateau().coordVersPoint(y),cote};
+                Jeu.plateau().setCase(mir);
+                mir->nextLaser(Jeu,ecran::Gauche,nextLas);
+                REQUIRE_EQ(nextLas[0]->x(),Jeu.plateau().coordVersPoint(0));
+                REQUIRE_EQ(nextLas[0]->y(),Jeu.plateau().coordVersPoint(y));
+            }
 
         }
 
         SUBCASE("Cas ou le Laser vient de la Droite "){
-            ecran::MiroirTransparentGaucheVersBas* mir= new ecran::MiroirTransparentGaucheVersBas{Jeu.plateau().coordVersPoint(x),Jeu.plateau().coordVersPoint(nbLigne-1),cote};
-            Jeu.plateau().setCase(mir);
-            mir->nextLaser(Jeu,ecran::Droite,nextLas);
-            REQUIRE_EQ(nextLas[0]->x(),Jeu.plateau().coordVersPoint(x));
-            REQUIRE_EQ(nextLas[0]->y(),Jeu.plateau().coordVersPoint(nbLigne-1));
+
+            SUBCASE("Cas ou le bord du plateau est en Haut"){
+                ecran::MiroirTransparentGaucheVersBas* mir= new ecran::MiroirTransparentGaucheVersBas{Jeu.plateau().coordVersPoint(x),Jeu.plateau().coordVersPoint(nbLigne-1),cote};
+                Jeu.plateau().setCase(mir);
+                mir->nextLaser(Jeu,ecran::Droite,nextLas);
+                REQUIRE_EQ(nextLas[0]->x(),Jeu.plateau().coordVersPoint(x));
+                REQUIRE_EQ(nextLas[0]->y(),Jeu.plateau().coordVersPoint(nbLigne-1));
+            }
+
+            SUBCASE("Cas ou le bord du plateau est en droite"){
+                ecran::MiroirTransparentGaucheVersBas* mir= new ecran::MiroirTransparentGaucheVersBas{Jeu.plateau().coordVersPoint(nbColonne-1),Jeu.plateau().coordVersPoint(y),cote};
+                Jeu.plateau().setCase(mir);
+                mir->nextLaser(Jeu,ecran::Droite,nextLas);
+                REQUIRE_EQ(nextLas[0]->x(),Jeu.plateau().coordVersPoint(nbColonne-1));
+                REQUIRE_EQ(nextLas[0]->y(),Jeu.plateau().coordVersPoint(y));
+            }
+
         }
 
         SUBCASE("Cas ou le Laser vient d'en Bas "){
-            ecran::MiroirTransparentGaucheVersBas* mir= new ecran::MiroirTransparentGaucheVersBas{Jeu.plateau().coordVersPoint(0),Jeu.plateau().coordVersPoint(y),cote};
-            Jeu.plateau().setCase(mir);
-            mir->nextLaser(Jeu,ecran::Bas,nextLas);
-            REQUIRE_EQ(nextLas[0]->x(),Jeu.plateau().coordVersPoint(0));
-            REQUIRE_EQ(nextLas[0]->y(),Jeu.plateau().coordVersPoint(y));
+
+            SUBCASE("Cas ou le bord du plateau est en gauche"){
+                ecran::MiroirTransparentGaucheVersBas* mir= new ecran::MiroirTransparentGaucheVersBas{Jeu.plateau().coordVersPoint(0),Jeu.plateau().coordVersPoint(y),cote};
+                Jeu.plateau().setCase(mir);
+                mir->nextLaser(Jeu,ecran::Bas,nextLas);
+                REQUIRE_EQ(nextLas[0]->x(),Jeu.plateau().coordVersPoint(0));
+                REQUIRE_EQ(nextLas[0]->y(),Jeu.plateau().coordVersPoint(y));
+            }
+
+            SUBCASE("Cas ou le bord du plateau est en bas"){
+                ecran::MiroirTransparentGaucheVersBas* mir= new ecran::MiroirTransparentGaucheVersBas{Jeu.plateau().coordVersPoint(x),Jeu.plateau().coordVersPoint(0),cote};
+                Jeu.plateau().setCase(mir);
+                mir->nextLaser(Jeu,ecran::Bas,nextLas);
+                REQUIRE_EQ(nextLas[0]->x(),Jeu.plateau().coordVersPoint(x));
+                REQUIRE_EQ(nextLas[0]->y(),Jeu.plateau().coordVersPoint(0));
+            }
         }
 
     SUBCASE("Cas ou le Laser vient d'en Haut "){
+
+        SUBCASE("Cas ou le bord du plateau est en droite"){
             ecran::MiroirTransparentGaucheVersBas* mir= new ecran::MiroirTransparentGaucheVersBas{Jeu.plateau().coordVersPoint(nbColonne-1),Jeu.plateau().coordVersPoint(y),cote};
             Jeu.plateau().setCase(mir);
             mir->nextLaser(Jeu,ecran::Haut,nextLas);
             REQUIRE_EQ(nextLas[0]->x(),Jeu.plateau().coordVersPoint(nbColonne-1));
             REQUIRE_EQ(nextLas[0]->y(),Jeu.plateau().coordVersPoint(y));
+        }
+
+        SUBCASE("Cas ou le bord du plateau est en Haut"){
+                ecran::MiroirTransparentGaucheVersBas* mir= new ecran::MiroirTransparentGaucheVersBas{Jeu.plateau().coordVersPoint(x),Jeu.plateau().coordVersPoint(nbLigne-1),cote};
+                Jeu.plateau().setCase(mir);
+                mir->nextLaser(Jeu,ecran::Haut,nextLas);
+                REQUIRE_EQ(nextLas[0]->x(),Jeu.plateau().coordVersPoint(x));
+                REQUIRE_EQ(nextLas[0]->y(),Jeu.plateau().coordVersPoint(nbLigne-1));
+            }
         }
     }
 
@@ -802,6 +851,11 @@ TEST_CASE("Les methodes de Echiquier sont correctes"){
         REQUIRE_EQ(Jeu.plateau().taille(),cote);
     }
 
+    SUBCASE("La methode losingByBeingOffBoard() est correcte"){
+        Jeu.plateau().losingByBeingOffBoard(Jeu);
+        REQUIRE_FALSE(Jeu.moving());
+    }
+
     SUBCASE("La methode destinationMove() est correcte "){
         std::vector<ecran::Laser*> nextLas{};
 
@@ -827,7 +881,6 @@ TEST_CASE("Les methodes de Echiquier sont correctes"){
                 las->setDirection(ecran::Gauche);
                 Jeu.plateau().destinationMove(Jeu,0,nextLas);
                 REQUIRE_FALSE(Jeu.moving());
-
             }
         }
 
@@ -908,17 +961,42 @@ TEST_CASE("Les methodes de Echiquier sont correctes"){
     }
 
     SUBCASE("La methode movable() est correcte "){
-        SUBCASE(" Dans le cas ou les lasers n'ont touches que des Casevide"){
 
+        SUBCASE(" Dans le cas ou les lasers n'ont touches que des Casevide"){
+            ecran::Laser* las= new ecran::Laser{Jeu.plateau().coordVersPoint(x),Jeu.plateau().coordVersPoint(y),cote};
+            std::vector<ecran::Laser*> nextLas{};
+            nextLas.push_back(las);
+            Jeu.plateau().movable(Jeu,nextLas);
+            REQUIRE_FALSE(!nextLas[0]->inMove());
+            REQUIRE_FALSE(!Jeu.moving());
         }
 
         SUBCASE(" Dans le cas ou les lasers ont touches des Casevide et des cibles"){
-
+            ecran::Laser* las= new ecran::Laser{Jeu.plateau().coordVersPoint(x),Jeu.plateau().coordVersPoint(y),cote};
+            std::vector<ecran::Laser*> nextLas{};
+            nextLas.push_back(las);
+            ecran::Cible* cible= new ecran::Cible{Jeu.plateau().coordVersPoint(x),Jeu.plateau().coordVersPoint(y),cote};
+            Jeu.plateau().setCase(cible);
+            Jeu.plateau().movable(Jeu,nextLas);
+            REQUIRE_FALSE(nextLas[0]->inMove());
+            REQUIRE_FALSE(!Jeu.moving());
         }
 
         SUBCASE(" Dans le cas ou les lasers ont touches un objet intouchable"){
-
+            ecran::Laser* las= new ecran::Laser{Jeu.plateau().coordVersPoint(x),Jeu.plateau().coordVersPoint(y),cote};
+            std::vector<ecran::Laser*> nextLas{};
+            nextLas.push_back(las);
+            ecran::Mur* mur= new ecran::Mur{Jeu.plateau().coordVersPoint(x),Jeu.plateau().coordVersPoint(y),cote};
+            Jeu.plateau().setCase(mur);
+            Jeu.plateau().movable(Jeu,nextLas);
+            REQUIRE_FALSE(nextLas[0]->inMove());
+            REQUIRE_FALSE(Jeu.moving());
         }
+    }
+
+    SUBCASE("La methode typeObjet() est correcte"){
+        ecran::Echiquier plateau{nbLigne,nbColonne,cote};
+        REQUIRE_EQ(plateau.typeObjet(),"Ceci est un Echiquier");
     }
 }
 
@@ -946,6 +1024,10 @@ TEST_CASE("Les methodes de Viewer sont correctes"){
         REQUIRE_EQ(fenetre.reversePixelY(largeur-decalageY),0);
         REQUIRE_EQ(abs(fenetre.reversePixelY(decalageY)-largeur),0);
     }
+
+    SUBCASE("La methode typeObjet() est correcte"){
+        REQUIRE_EQ(fenetre.typeObjet(),"Ceci est un Viewer");
+    }
 }
 
 TEST_CASE("Les methodes de Bouton sont correctes"){
@@ -967,39 +1049,62 @@ TEST_CASE("Les methodes de TableauDeScore sont correctes"){
         REQUIRE_EQ(tabl.score(),add);
     }
 }
-/*
+
 TEST_CASE("Les methodes de Game sont correctes"){
     int nbLigne=20,nbColonne=20,cote=20;
     ecran::Game Jeu{nbLigne,nbColonne,cote};
+    int x=5,y=15;
 
-    SUBCASE("La methode setInMoveFalse() est correcte"){
-        Jeu.addLaser({0,0});
-        Jeu.setInMoveFalse(0);
-        REQUIRE_FALSE(Jeu.inMove(0));
+    SUBCASE("La methode las() est correcte"){
+        ecran::Laser* las= new ecran::Laser{x,y,cote};
+        Jeu.addLaser(las);
+        REQUIRE_EQ(Jeu.las(0),las);
     }
 
-    SUBCASE("La methode setTouchTrue() est correcte"){
-        Jeu.addLaser({0,0});
-        Jeu.setTouchTrue(0);
-        REQUIRE_FALSE(!Jeu.touch(0));
+    SUBCASE("La methode iteration() est correcte"){
+        REQUIRE_EQ(Jeu.iteration(),0);
+    }
+
+    SUBCASE("La methode nbLaser() est correcte"){
+        REQUIRE_EQ(Jeu.nbLaser(),0);
+        ecran::Laser* las= new ecran::Laser{x,y,cote};
+        Jeu.addLaser(las);
+        REQUIRE_EQ(Jeu.nbLaser(),1);
+    }
+
+    SUBCASE("La methode maxIteration() est correcte"){
+        int maxIter=559;
+        ecran::Game Jeu2{nbLigne,nbColonne,cote,maxIter};
+        REQUIRE_EQ(Jeu2.maxIteration(),maxIter);
+    }
+
+    SUBCASE("La methode moving() est correcte"){
+        REQUIRE_FALSE(!Jeu.moving());
+    }
+
+    SUBCASE("La methode plateau() est correcte"){
+        REQUIRE_EQ("Ceci est un Echiquier",Jeu.plateau().typeObjet());
+    }
+
+    SUBCASE("La methode fenetre() est correcte"){
+        REQUIRE_EQ("Ceci est un Viewer",Jeu.fenetre().typeObjet());
     }
 
     SUBCASE("La methode addLaser() est correcte"){
-        int x=5,y=14;
-        Jeu.addLaser({x,y});
-        REQUIRE_EQ(Jeu.coordLas(0).x,x);
-        REQUIRE_EQ(Jeu.coordLas(0).y,y);
+        ecran::Laser* las= new ecran::Laser{x,y,cote};
+        Jeu.addLaser(las);
+        REQUIRE_EQ(Jeu.las(0)->x(),x);
+        REQUIRE_EQ(Jeu.las(0)->y(),y);
         REQUIRE_EQ(Jeu.nbLaser(),1);
-        REQUIRE_FALSE(!Jeu.inMove(0));
-        REQUIRE_FALSE(Jeu.touch(0));
     }
 
-    SUBCASE("La methode setCoordLaser() est correcte"){
-        int x=5,y=14;
-        Jeu.addLaser({x,y});
-        Jeu.setCoordLaser({y,x},0);
-        REQUIRE_EQ(Jeu.coordLas(0).x,y);
-        REQUIRE_EQ(Jeu.coordLas(0).y,x);
+    SUBCASE("La methode clearLaser() est correcte"){
+        REQUIRE_EQ(Jeu.nbLaser(),0);
+        ecran::Laser* las= new ecran::Laser{x,y,cote};
+        Jeu.addLaser(las);
+        REQUIRE_EQ(Jeu.nbLaser(),1);
+        Jeu.clearLaser();
+        REQUIRE_EQ(Jeu.nbLaser(),0);
     }
 
     SUBCASE("La methode addScore() est correcte"){
@@ -1013,39 +1118,65 @@ TEST_CASE("Les methodes de Game sont correctes"){
         REQUIRE_EQ(Jeu.iteration(),1);
     }
 
-    SUBCASE("La methode winning() est correcte"){
-        Jeu.addLaser({0,0});
-        REQUIRE_FALSE(Jeu.winning());
-        Jeu.setTouchTrue(0);
-        REQUIRE_FALSE(!Jeu.winning());
+    SUBCASE("La methode setMovingFalse() est correcte"){
+        Jeu.setMovingFalse();
+        REQUIRE_FALSE(Jeu.moving());
     }
 
-    SUBCASE("La methode finish() est correcte"){
+    SUBCASE("La methode notFinish() est correcte"){
 
-        SUBCASE("Le jeu doit continuer"){
-            Jeu.addLaser({0,0});
-            REQUIRE_FALSE(Jeu.finish());
+        SUBCASE("Dans le cas ou au moins un Laser est en mouvement"){
+            ecran::Laser* las= new ecran::Laser{x,y,cote};
+            Jeu.addLaser(las);
+            REQUIRE_FALSE(!Jeu.notFinish());
         }
 
-        SUBCASE("Le jeu est fini"){
-            Jeu.addLaser({0,0});
-            Jeu.setInMoveFalse(0);
-            REQUIRE_FALSE(!Jeu.finish());
-        }
-
-        SUBCASE("Un Laser est arrete mais pas les autres"){
-            Jeu.addLaser({0,0});
-            Jeu.addLaser({1,1});
-            Jeu.setInMoveFalse(0);
-            REQUIRE_FALSE(!Jeu.finish());
-        }
-
-        SUBCASE("Un Laser a atteind la cible mais les autres sa deplace encore"){
-            Jeu.addLaser({0,0});
-            Jeu.addLaser({1,1});
-            Jeu.setInMoveFalse(0);
-            Jeu.setTouchTrue(0);
-            REQUIRE_FALSE(Jeu.finish());
+        SUBCASE("Dans le cas ou tout les Laser sont arretes"){
+            ecran::Laser* las= new ecran::Laser{x,y,cote};
+            las->setMoveFalse();
+            Jeu.addLaser(las);
+            REQUIRE_FALSE(Jeu.notFinish());
         }
     }
-}*/
+}
+
+TEST_CASE("La creation d'une sauvegarde et la lecture depuis le fichier fonctionnent"){
+    int x = 10, y = 20, cote = 15;
+    ecran::TDirection direc = ecran::Gauche;
+    ecran::Laser* bLaser = new ecran::Laser{x, y, cote};
+    bLaser->setDirection(direc);
+
+    SUBCASE("Les fonctions pour imprimer une case fonctionnent")
+    {
+        REQUIRE_EQ(bLaser->nameWithHashtag(), "#Laser");
+        REQUIRE_EQ(bLaser->specificitiesCase(), "1");
+    }
+
+    SUBCASE("La surcharge de l'operateur << est correcte ")
+    {
+        std::ostringstream ost1, ost2;
+        ost1 << *bLaser;
+        ost2 << bLaser->nameWithHashtag() << "\n" << x << " " <<  y << "\n"<< direc << std::endl;
+        REQUIRE_EQ(ost1.str(), ost2.str());
+    }
+
+    SUBCASE("La sauvegarde et le chargement depuis un fichier fonctionnent")
+    {
+        int nbLignes = 19, nbColonnes = 23, cote = 42, maxIter = 1000;
+        ecran::Game jeu1{nbLignes, nbColonnes, cote, maxIter};
+        jeu1.addLaser(bLaser);
+        jeu1.plateau().setCase(bLaser);
+        std::ofstream ofst{"test.txt"};
+        ofst << jeu1;
+        ofst.close();
+        std::ifstream ifst{"test.txt"};
+        ecran::Game jeu2{ifst};
+
+        std::ostringstream oss1, oss2;
+        //oss1 << "This will fail!";
+        oss1 << jeu1;
+        oss2 << jeu2;
+
+        REQUIRE_EQ(oss1.str(), oss2.str());
+    }
+}

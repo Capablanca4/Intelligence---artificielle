@@ -87,7 +87,7 @@ Point Echiquier::coordVersPoint(coord coor)const{
 void Echiquier::play(Game& Jeu){
     while(Jeu.moving()&&Jeu.iteration()<Jeu.maxIteration()&&Jeu.notFinish()){
         std::vector<Laser*> nextLas{};
-        for(int i=0;i<Jeu.listLas().size();i++) {
+        for(int i=0;i<Jeu.nbLaser();i++) {
             destinationMove(Jeu,i,nextLas);}
         movable(Jeu,nextLas);
         if(Jeu.moving()){
@@ -101,7 +101,8 @@ void Echiquier::play(Game& Jeu){
                 }
             }
         }
-        Jeu.fenetre().waitUntilButton();
+        //Jeu.fenetre().waitUntilButton();
+        delay(500);
         Jeu.increaseIter();
 
     }
@@ -150,6 +151,7 @@ void Echiquier::losingByBeingOffBoard(Game& Jeu){
     std::cout <<"this developper suck : you lose" << std::endl;
     Jeu.setMovingFalse();
 }
+
 void Echiquier::movable(Game& Jeu,const std::vector<Laser*>& nextLas){
     for(int i=0;i<nextLas.size();i++){
         emplacementCase(nextLas[i])->touch(Jeu,nextLas[i]);
@@ -167,6 +169,10 @@ void Echiquier::draw(Viewer& fenetre) const{
             d_plateau[i][j]->draw(fenetre);
         }
     }
+}
+
+std::string Echiquier::typeObjet()const{
+    return "Ceci est un Echiquier";
 }
 
 std::ostream& operator<<(std::ostream& ost, const std::vector<Case*>& listeCase)

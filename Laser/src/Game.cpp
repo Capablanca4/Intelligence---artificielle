@@ -63,9 +63,28 @@ Game::Game(std::ifstream& ist):
         else if (s == "#MiroirGaucheVersHaut")
         {
             ist >> x >> y;
-            MiroirGaucheVersHaut* mir= new MiroirGaucheVersHaut{x, y, d_echiquier.taille()};
-            d_echiquier.setCase(mir);
+            MiroirGaucheVersHaut* mir1= new MiroirGaucheVersHaut{x, y, d_echiquier.taille()};
+            d_echiquier.setCase(mir1);
         }
+        else if (s == "#MiroirGaucheVersBas")
+        {
+            ist >> x >> y;
+            MiroirGaucheVersBas* mir2= new MiroirGaucheVersBas{x, y, d_echiquier.taille()};
+            d_echiquier.setCase(mir2);
+        }
+        else if (s == "#MiroirTransparentGaucheVersHaut")
+        {
+            ist >> x >> y;
+            MiroirTransparentGaucheVersHaut *mir3 = new MiroirTransparentGaucheVersHaut{x, y, d_echiquier.taille()};
+            d_echiquier.setCase(mir3);
+        }
+        else if (s == "#MiroirTransparentGaucheVersBas")
+        {
+            ist >> x >> y;
+            MiroirTransparentGaucheVersBas *mir4 = new MiroirTransparentGaucheVersBas{x, y, d_echiquier.taille()};
+            d_echiquier.setCase(mir4);
+        }
+
         ist >> std::ws;
     }
 }
@@ -136,8 +155,8 @@ void Game::waitUntilMouseClicked(){
     }
 }
 
-const std::vector<Laser*> Game::listLas() const{
-    return listLaser;
+const int Game::nbLaser() const{
+    return listLaser.size();
 }
 
 Laser* Game::las(int n) const{
@@ -207,7 +226,6 @@ void Game::clearLaser(){
         listLaser.pop_back();
     }
 }
-
 
 void Game::test(){
     Laser* las1 = new Laser{d_echiquier.coordVersPoint(0),d_echiquier.coordVersPoint(19),d_echiquier.taille(),ecran::Droite};

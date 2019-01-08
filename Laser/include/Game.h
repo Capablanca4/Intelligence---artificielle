@@ -28,7 +28,6 @@ class Game
         void draw();
 
         /** accesseur de base */
-        const std::vector<Laser*> listLas() const;
         Laser* las(int n) const;
         const int iteration() const;
         const int score() const; /** Pour les tests*/
@@ -55,9 +54,9 @@ class Game
     private:
         Echiquier d_echiquier;
         Viewer d_fenetre;
-        Bouton d_boutonQuit;    /** InfoConteneur*/
-        Bouton d_boutonDemarrer;/** InfoConteneur*/
-        TableauDeScore d_score; /** InfoConteneur*/
+        Bouton d_boutonQuit;
+        Bouton d_boutonDemarrer;
+        TableauDeScore d_score;
 
         std::vector<Laser*> listLaser; /** emplacement du(des) Laser(s) sur le dessin */
         int d_iteration;

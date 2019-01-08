@@ -60,6 +60,10 @@ double Viewer::reversePixelY(double y){
     return CoordonneesY.sourceFromDestination(y);
 }
 
+std::string Viewer::typeObjet()const{
+    return "Ceci est un Viewer";
+}
+
 std::ostream& operator<<(std::ostream& ost, const Viewer& v)
 {
     ost << v.d_hauteur << " " << v.d_largeur << std::endl;

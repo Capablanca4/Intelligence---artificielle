@@ -54,6 +54,9 @@ class Echiquier
 
         friend std::ostream& operator<<(std::ostream& ost, const Echiquier& plateau);
 
+        /**Fonction de test*/
+        std::string typeObjet()const;
+
     private:
         int d_taille;
         int d_nbligne;

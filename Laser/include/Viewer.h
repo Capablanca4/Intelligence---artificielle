@@ -31,6 +31,9 @@ class Viewer
 
         friend std::ostream& operator<<(std::ostream& ost, const Viewer& v);
 
+        /**Fonction de test*/
+        std::string typeObjet()const;
+
     private:
         int d_hauteur;
         int d_largeur;

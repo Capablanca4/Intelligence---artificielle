@@ -1,0 +1,10 @@
+Parametres
+19 23
+42
+1000
+
+Echequier
+#Laser
+10 20
+1
+
