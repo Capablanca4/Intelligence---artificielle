@@ -163,7 +163,7 @@ void RefreshWindow( RECT* rect )
 	hDC = BGI__GetWinbgiDC( );
         LPtoDP( hDC, p, 2 );
         BGI__ReleaseWinbgiDC( );
-	
+
         // Copy back into the rectangle
         rect->left = p[0].x;
         rect->top = p[0].y;
@@ -172,7 +172,7 @@ void RefreshWindow( RECT* rect )
     }
 
     if (pWndData->refreshing || rect == NULL)
-    {    
+    {
 	// Only invalidate the window if we are viewing what we are drawing.
 	// The call to InvalidateRect can fail, but I don't know what to do if it does.
 	if ( pWndData->VisualPage == pWndData->ActivePage )
@@ -220,7 +220,7 @@ void refreshbgi(int left, int top, int right, int bottom)
     rect.top = p[0].y;
     rect.right = p[1].x;
     rect.bottom = p[1].y;
-    
+
     // Only invalidate the window if we are viewing what we are drawing.
     if ( pWndData->VisualPage == pWndData->ActivePage )
         InvalidateRect( pWndData->hWnd, &rect, FALSE );
@@ -257,7 +257,7 @@ void arc( int x, int y, int stangle, int endangle, int radius )
     hDC = BGI__GetWinbgiDC( );
     Arc( hDC, left, top, right, bottom, xstart, ystart, xend, yend );
     BGI__ReleaseWinbgiDC( );
-    
+
     // The update rectangle does not contain the right or bottom edge.  Thus
     // add 1 so the entire region is included.
     RECT rect = { left, top, right+1, bottom+1 };
@@ -294,7 +294,7 @@ void bar( int left, int top, int right, int bottom )
     color = converttorgb( pWndData->drawColor );
     SetTextColor( hDC, color );
     BGI__ReleaseWinbgiDC( );
-    
+
     // The update rectangle does not contain the right or bottom edge.  Thus
     // add 1 so the entire region is included.
     RECT rect = { left, top, right+1, bottom+1 };
@@ -326,7 +326,7 @@ void bar3d( int left, int top, int right, int bottom, int depth, int topflag )
     // The depth is specified to be the x-distance from the front line to the
     // back line, not the actual diagonal line length
     dy = (int)(depth * tan( 30.0 * M_PI / 180.0 ));
-    
+
     p[0].x = right;
     p[0].y = bottom;            // Bottom right of box
     p[1].x = right + depth;
@@ -353,7 +353,7 @@ void bar3d( int left, int top, int right, int bottom, int depth, int topflag )
         Polyline( hDC, p, 3 );
     }
     BGI__ReleaseWinbgiDC( );
-    
+
     // The update rectangle does not contain the right or bottom edge.  Thus
     // add 1 so the entire region is included.
     RECT rect = { left, top-dy, right+depth+1, bottom+1 };
@@ -376,7 +376,7 @@ void circle( int x, int y, int radius )
     hDC = BGI__GetWinbgiDC( );
     Arc( hDC, left, top, right, bottom, x+radius, y, x+radius, y );
     BGI__ReleaseWinbgiDC( );
-    
+
     // The update rectangle does not contain the right or bottom edge.  Thus
     // add 1 so the entire region is included.
     RECT rect = { left, top, right+1, bottom+1 };
@@ -423,7 +423,7 @@ void cleardevice( )
     // If there is a clipping region, select none
     if ( is_rgn != 0 )
         SelectClipRgn( hDC, NULL );
-    
+
     // Fill hDC with background color
     hBrush = CreateSolidBrush( color );
     FillRect( hDC, &rect, hBrush );
@@ -437,7 +437,7 @@ void cleardevice( )
     // Delete the region
     DeleteRgn( hRGN );
     BGI__ReleaseWinbgiDC( );
-    
+
     RefreshWindow( NULL );
 }
 
@@ -452,7 +452,7 @@ void clearviewport( )
     int color;
     RECT rect;
     HBRUSH hBrush;
-    
+
     // Convert from BGI color to RGB color
     color = converttorgb( pWndData->bgColor );
 
@@ -473,15 +473,15 @@ void clearviewport( )
 }
 
 
-void drawpoly(int n_points, int* points) 
-{ 
+void drawpoly(int n_points, int* points)
+{
     HDC hDC;
     WindowData* pWndData = BGI__GetWindowDataPtr( );
-    
+
     hDC = BGI__GetWinbgiDC();
     Polyline(hDC, (POINT*)points, n_points);
     BGI__ReleaseWinbgiDC( );
-    
+
     // One could compute the convex hull of these points and create the
     // associated region to update...
     RefreshWindow( NULL );
@@ -493,7 +493,7 @@ void drawpoly(int n_points, int* points)
 // The arc travels from angle stangle to angle endangle.  The angles are given
 // in degrees in standard mathematical notation, with 0 degrees along the
 // vector (1,0) and travelling counterclockwise.
-// 
+//
 void ellipse( int x, int y, int stangle, int endangle, int xradius, int yradius )
 {
     HDC hDC;
@@ -683,7 +683,7 @@ void lineto( int x, int y )
 // endangle.  The angles are given in degrees in standard mathematical
 // notation, with 0 degrees along the vector (1,0) and travelling
 //counterclockwise.
-// 
+//
 void pieslice( int x, int y, int stangle, int endangle, int radius )
 {
     HDC hDC;
@@ -772,7 +772,7 @@ void rectangle( int left, int top, int right, int bottom )
 // The pie slice travels from angle stangle to angle endangle.  The angles are
 // given in degrees in standard mathematical notation, with 0 degrees along
 // the vector (1,0) and travelling counterclockwise.
-// 
+//
 void sector( int x, int y, int stangle, int endangle, int xradius, int yradius )
 {
     HDC hDC;
@@ -873,7 +873,7 @@ void getimage(int left, int top, int right, int bottom, void *bitmap)
     // Grab the bitmap data from hDC and put it in hMemoryDC
     SelectObject(hMemoryDC, hBitmap);
     BitBlt(hMemoryDC, 0, 0, width, height, hDC, left, top, SRCCOPY);
-    
+
     // Copy the device-dependent bitmap into the user's allocated space
     pUser = (BITMAP*) bitmap;
     GetObject(hBitmap, sizeof(BITMAP), pUser);
@@ -903,7 +903,7 @@ void putimage( int left, int top, void *bitmap, int op )
     height = pUser->bmHeight;
     pWndData = BGI__GetWindowDataPtr( );
     hDC = BGI__GetWinbgiDC( );
-    
+
     // Create the memory DC and select a new larger bitmap for it, saving the
     // original bitmap to restore later (before deleting).
     hMemoryDC = CreateCompatibleDC(hDC);
@@ -934,7 +934,7 @@ void putimage( int left, int top, void *bitmap, int op )
     }
     RefreshWindow( NULL );
 
-    
+
     // Delete resources
     BGI__ReleaseWinbgiDC( );
     SelectObject(hMemoryDC, hOldBitmap); // Restore original bmp so it's deleted
@@ -1020,7 +1020,7 @@ static LPPICTURE readipicture(const char* filename)
         // AfxMessage("Could not create IStream."; -- needs MFC
         return NULL;
     }
-    
+
     // Finally: Load the picture
     hOK = OleLoadPicture(pStr, dwSize, FALSE, IID_IPicture, (LPVOID *)&pPicture);
     pStr->Release( );
@@ -1078,7 +1078,7 @@ void readimagefile(
         pPicture->Release( );
 	RefreshWindow( NULL );
     }
-}    
+}
 
 void writeimagefile(
     const char* filename,
@@ -1145,7 +1145,7 @@ void writeimagefile(
 	SaveDIB(hDIB, fn);
     else
 	SaveDIB(hDIB, filename);
-    
+
     // Delete resources
     ReleaseMutex(pWndData->hDCMutex);
     DestroyDIB(hDIB);
@@ -1160,7 +1160,7 @@ void printimage(
     int left, int top, int right, int bottom, bool active, HWND hwnd
     )
 {
-    static PRINTDLG pd_Printer; 
+    static PRINTDLG pd_Printer;
     WindowData* pWndData; // Our own window data struct for visual window
     long width, height;   // Width and height of the image in pixels
     HDC hMemoryDC;        // Memory device context for a copy of the image
@@ -1216,7 +1216,7 @@ void printimage(
     hMemoryDC = CreateCompatibleDC(hDC);
     hBitmap = CreateCompatibleBitmap(hDC, width, height);
     hOldBitmap = (HBITMAP) SelectObject(hMemoryDC, hBitmap);
-    
+
     // Copy the bitmap data from hDC and put it in hMemoryDC for printing
     SelectObject(hMemoryDC, hBitmap);
     BitBlt(hMemoryDC, 0, 0, width, height, hDC, left, top, SRCCOPY);
@@ -1234,7 +1234,7 @@ void printimage(
 
     // StartDoc, print stuff, EndDoc
     if (StartDoc(pd_Printer.hDC, &di) != SP_ERROR)
-    {   
+    {
         StartPage(pd_Printer.hDC);
 	if (title == NULL) title = pWndData->title.c_str( );
 	titlelen = strlen(title);
@@ -1247,8 +1247,8 @@ void printimage(
         {
             StretchBlt(
                 pd_Printer.hDC, int(pixels_per_inch_x*border_left_inches), int(pixels_per_inch_y*border_top_inches),
-                int(width*factor_x), 
-                int(height*factor_y), 
+                int(width*factor_x),
+                int(height*factor_y),
                 hMemoryDC, 0, 0, width, height,
                 SRCCOPY
                 );

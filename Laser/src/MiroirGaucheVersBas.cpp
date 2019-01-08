@@ -1,99 +1,108 @@
 #include "MiroirGaucheVersBas.h"
-#include "Echiquier.h"
+#include "Game.h"
 #include <iostream>
+
+/** attention x = mouvement selon l'axe horizontale et y = mouvement selon l'axe verticale*/
 
 namespace ecran {
 
 MiroirGaucheVersBas::MiroirGaucheVersBas(Point& centre,int cote):
-
         Case{centre,cote}{}
 
 MiroirGaucheVersBas::MiroirGaucheVersBas(int x,int y,int cote):
         Case{x,y,cote}{}
 
+MiroirGaucheVersBas::MiroirGaucheVersBas(Case& cas):
+        Case{cas}{}
+
 MiroirGaucheVersBas::~MiroirGaucheVersBas() {}
 
-void MiroirGaucheVersBas::draw(Viewer& fenetre)
-{
-    int miroirSup[8]={
-        fenetre.pixelX(x()-cote()/2),
-        fenetre.pixelY(y()+cote()/2),
+void MiroirGaucheVersBas::draw(Viewer& fenetre){
+    if(fenetre.open()){
+        backGround(fenetre);
 
-        fenetre.pixelX(x()-cote()/2)+2,
-        fenetre.pixelY(y()+cote()/2),
+        int miroirSup[8]={
+            fenetre.pixelX(x()+cote()/2),
+            fenetre.pixelY(y()+cote()/2),
 
-        fenetre.pixelX(x()+cote()/2),
-        fenetre.pixelY(y()-cote()/2)-2,
+            fenetre.pixelX(x()+cote()/2),
+            fenetre.pixelY(y()+cote()/2)+2,
 
-        fenetre.pixelX(x()+cote()/2),
-        fenetre.pixelY(y()-cote()/2)};
+            fenetre.pixelX(x()-cote()/2)+2,
+            fenetre.pixelY(y()-cote()/2),
 
-        setcolor(LIGHTBLUE);
+            fenetre.pixelX(x()-cote()/2),
+            fenetre.pixelY(y()-cote()/2)};
+
+        setfillstyle(SOLID_FILL,LIGHTBLUE);
         fillpoly(4,miroirSup);
 
         int miroirInf[8]={
-        fenetre.pixelX(x()-cote()/2),
-        fenetre.pixelY(y()+cote()/2),
+            fenetre.pixelX(x()+cote()/2),
+            fenetre.pixelY(y()+cote()/2),
 
-        fenetre.pixelX(x()-cote()/2),
-        fenetre.pixelY(y()+cote()/2)+2,
+            fenetre.pixelX(x()+cote()/2)-2,
+            fenetre.pixelY(y()+cote()/2),
 
-        fenetre.pixelX(x()+cote()/2)-2,
-        fenetre.pixelY(y()-cote()/2),
+            fenetre.pixelX(x()-cote()/2),
+            fenetre.pixelY(y()-cote()/2)-2,
 
-        fenetre.pixelX(x()+cote()/2),
-        fenetre.pixelY(y()-cote()/2)};
+            fenetre.pixelX(x()-cote()/2),
+            fenetre.pixelY(y()-cote()/2)};
 
-        setcolor(BLUE);
+        setfillstyle(SOLID_FILL,BLUE);
         fillpoly(4,miroirInf);
-
-    setcolor(WHITE);
+    }
 }
 
-coordLaser MiroirGaucheVersBas::posNextMoveLaser(Echiquier& plateau) const{
-    Laser* las =(Laser*)plateau.plateau()[plateau.coordLas().x][plateau.coordLas().y];
+coord MiroirGaucheVersBas::posNextMoveLaser(Game& Jeu,int n) const{
+    Laser* las =(Laser*)Jeu.plateau().emplacementCase(Jeu.coordLas(n));
     switch (las->direction()){
-
         case Gauche :
-            if(plateau.pointVersCoord(this->y())+1>=plateau.nbligne()){
-                coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
-                return ret;}
+            if(Jeu.plateau().pointVersCoord(y())-1<0){
+                return coord{Jeu.plateau().pointVersCoord(x()),Jeu.plateau().pointVersCoord(y())};}
             else  {
-                Case* maCase =plateau.plateau()[plateau.pointVersCoord(this->x())][plateau.pointVersCoord(this->y())+1];
-                las->setDirection(Haut);
-                return maCase->posNextMoveLaser(plateau);}
-           break;
-
-        case Droite :
-             if(plateau.pointVersCoord(this->y())-1<0){
-                coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
-                return ret;}
-            else  {
-                Case* maCase =plateau.plateau()[plateau.pointVersCoord(this->x())][plateau.pointVersCoord(this->y())-1];
+                Case* maCase = Jeu.plateau().emplacementCase(Jeu.plateau().pointVersCoord(x(),(y()-cote())));
                 las->setDirection(Bas);
-                return maCase->posNextMoveLaser(plateau);}
+                return maCase->posNextMoveLaser(Jeu,n);}
             break;
 
-        case Haut :
-            if(plateau.pointVersCoord(this->x())+1>=plateau.nbcolonne()){
-                coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
-                return ret;}
+        case Droite :
+            if(Jeu.plateau().pointVersCoord(y())+1>=Jeu.plateau().nbcolonne()){
+                return coord{Jeu.plateau().pointVersCoord(x()),Jeu.plateau().pointVersCoord(y())};}
             else  {
-                Case* maCase =plateau.plateau()[plateau.pointVersCoord(this->x())+1][plateau.pointVersCoord(this->y())];
-                las->setDirection(Gauche);
-                return maCase->posNextMoveLaser(plateau);}
+                Case* maCase = Jeu.plateau().emplacementCase(Jeu.plateau().pointVersCoord(x(),(y()+cote())));
+                las->setDirection(Haut);
+                return maCase->posNextMoveLaser(Jeu,n);}
+           break;
+
+        case Haut :
+            if(Jeu.plateau().pointVersCoord(x())+1>=Jeu.plateau().nbligne()){
+                return coord{Jeu.plateau().pointVersCoord(x()),Jeu.plateau().pointVersCoord(y())};}
+            else  {
+                Case* maCase = Jeu.plateau().emplacementCase(Jeu.plateau().pointVersCoord(x()+cote(),y()));
+                las->setDirection(Droite);
+                return maCase->posNextMoveLaser(Jeu,n);}
             break;
 
         case Bas :
-            if(plateau.pointVersCoord(this->x())-1<0){
-                coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
-                return ret;}
+            if(Jeu.plateau().pointVersCoord(x())-1<0){
+                return coord{Jeu.plateau().pointVersCoord(x()),Jeu.plateau().pointVersCoord(y())};}
             else  {
-                Case* maCase =plateau.plateau()[plateau.pointVersCoord(this->x())-1][plateau.pointVersCoord(this->y())];
-                las->setDirection(Droite);
-                return maCase->posNextMoveLaser(plateau);}
+                Case* maCase = Jeu.plateau().emplacementCase(Jeu.plateau().pointVersCoord((x()-cote()),y()));
+                las->setDirection(Gauche);
+                return maCase->posNextMoveLaser(Jeu,n);}
             break;
     }
+}
+
+void MiroirGaucheVersBas::transformation(Echiquier& plateau){
+    MiroirGaucheVersHaut* mir = new MiroirGaucheVersHaut{x(),y(),cote()};
+    plateau.setCase(mir);
+}
+
+std::string MiroirGaucheVersBas::typeObjet()const{
+    return "Ceci est un MiroirGaucheVersBas";
 }
 
 }

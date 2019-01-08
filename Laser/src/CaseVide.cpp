@@ -10,13 +10,21 @@ CaseVide::CaseVide(int x,int y,int cote):Case{x,y,cote} {}
 CaseVide::~CaseVide() {}
 
 void CaseVide::draw(Viewer& fenetre){
-    rectangle(fenetre.pixelX(this->x()-this->cote()/2),
-              fenetre.pixelY(this->y()+this->cote()/2),
-              fenetre.pixelX(this->x()+this->cote()/2),
-              fenetre.pixelY(this->y()-this->cote()/2 ));}
+    if(fenetre.open())
+        backGround(fenetre);
+}
 
-bool CaseVide::touch(Echiquier& plateau) const {
+bool CaseVide::touch(Game& Jeu,int n){
     return true;
+}
+
+void CaseVide::transformation(Echiquier& plateau){
+    MiroirGaucheVersBas* mir = new MiroirGaucheVersBas{x(),y(),cote()};
+    plateau.setCase(mir);
+}
+
+std::string CaseVide::typeObjet()const {
+    return "Ceci est une CaseVide";
 }
 
 }

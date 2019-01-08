@@ -9,37 +9,53 @@
 #include "CibleHorirontale.h"
 #include "CibleVerticale.h"
 #include "Mur.h"
+#include "Cible.h"
+#include "Monstre.h"
 
 namespace ecran{
 
 class Echiquier
 {
     public:
+        /** construction de l'echiquier*/
         Echiquier(int nbligne,int nbcolonne,int tailleCase);
-        void init(int nbligne,int nbcolonne);
         virtual ~Echiquier();
-        Case* emplacementCase(const int x,const int y);
-        Case* emplacementCase(const coordLaser& coor);
-        Case* emplacementCase(const Point& emplacement);
+        void init(int nbligne,int nbcolonne);
+
+        /** Changement d'objet de l'Echiquier*/
+        Case*& emplacementCase(const int x,const int y);
+        Case*& emplacementCase(const coord& coor);
+        Case*& emplacementCase(const Point& emplacement);
+        Case*& emplacementCase(const Case*& cas) ;
         void setCase(Case* val);
-        const coordLaser coordLas();
-        std::vector<std::vector<Case*> > plateau();
-        const int nbligne();
-        const int nbcolonne();
-        int pointVersCoord(int x);
-        int coordVersPoint(int coor);
+
+        /** accesseur de base*/
+        const int nbligne() const;
+        const int nbcolonne() const;
+        const int taille() const;
+
+        /** fonctions transformant les points vers les coord de l'Echiquier*/
+        int pointVersCoord(int x) const;
+        coord pointVersCoord(int x,int y) const;
+        coord pointVersCoord(Case* cas) const;
+        int coordVersPoint(int coor) const;
+
+        /** fonctions gerant les mouvements du laser sur le plateau*/
+        void playAll(Game& Jeu);
+        void play(Game& Jeu,int n);
+        void move(Game& Jeu,int n);
+        void moveLaser(Game& Jeu,const coord& nextCoord,int n);
+        void losingByBeingOffBoard(Game& Jeu,int n);
+        void gameOver(Game& Jeu,int n);
+
         void draw(Viewer& fenetre) const;
-        void move();
-        void play(Viewer& fenetre);
-        void start(Viewer& fenetre);
-        void setCoordLaser(coordLaser coord);
+        void start(Game& Jeu,int n);
+
     private:
-        bool in_move;
-        std::vector<std::vector<Case*> > d_plateau;
         int d_taille;
         int d_nbligne;
         int d_nbcolonne;
-        coordLaser d_emplacementLaser; /** emplacement du laser sur le dessin */
-};
+        std::vector<std::vector<Case*> > d_plateau;
+       };
 }
 #endif // ECHIQUIER_H

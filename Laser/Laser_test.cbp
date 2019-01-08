@@ -2,7 +2,7 @@
 <CodeBlocks_project_file>
 	<FileVersion major="1" minor="6" />
 	<Project>
-		<Option title="Laser" />
+		<Option title="Laser_Test" />
 		<Option pch_mode="2" />
 		<Option compiler="gcc" />
 		<Build>
@@ -56,11 +56,11 @@
 		<Unit filename="include/Viewer.h" />
 		<Unit filename="include/dibapi.h" />
 		<Unit filename="include/dibutil.h" />
+		<Unit filename="include/doctest.h" />
 		<Unit filename="include/graphics.h" />
 		<Unit filename="include/viewPort.hpp" />
 		<Unit filename="include/winbgim.h" />
 		<Unit filename="include/winbgitypes.h" />
-		<Unit filename="main.cpp" />
 		<Unit filename="src/BlocLaser.cpp" />
 		<Unit filename="src/Bouton.cpp" />
 		<Unit filename="src/Case.cpp" />
@@ -88,6 +88,8 @@
 		<Unit filename="src/viewPort.cpp" />
 		<Unit filename="src/winbgi.cpp" />
 		<Unit filename="src/winthread.cpp" />
+		<Unit filename="testLaser.cpp" />
+		<Unit filename="testmain.cpp" />
 		<Extensions>
 			<code_completion />
 			<envvars />

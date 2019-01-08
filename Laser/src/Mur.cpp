@@ -1,4 +1,4 @@
-#include "../include/Mur.h"
+#include "Mur.h"
 #include <iostream>
 #include "Echiquier.h"
 
@@ -14,52 +14,36 @@ Mur::Mur(int x,int y,int cote):
         Case{x,y,cote} {}
 
 void Mur::draw(Viewer& fenetre){
+    if(fenetre.open()){
+        backGround(fenetre);
 
-    setcolor(LIGHTGRAY);
+        const int nbPixel = 16;
+        int tab [nbPixel*nbPixel]=
+        {
+        6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 0,
+        7, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 0, 0,
+        7, 7, 6, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 0, 0, 0,
+        7, 7, 7, 6, 7, 7, 7, 7, 7, 7, 7, 7, 0, 0, 0, 0,
+        7, 7, 7, 7, 6, 6, 6, 6, 6, 6, 6, 6, 0, 0, 0, 0,
+        7, 7, 7, 7, 6, 6, 6, 6, 6, 6, 6, 6, 0, 0, 0, 0,
+        7, 7, 7, 7, 6, 6, 6, 6, 6, 6, 6, 6, 0, 0, 0, 0,
+        7, 7, 7, 7, 6, 6, 6, 6, 6, 6, 6, 6, 0, 0, 0, 0,
+        7, 7, 7, 7, 6, 6, 6, 6, 6, 6, 6, 6, 0, 0, 0, 0,
+        7, 7, 7, 7, 6, 6, 6, 6, 6, 6, 6, 6, 0, 0, 0, 0,
+        7, 7, 7, 7, 6, 6, 6, 6, 6, 6, 6, 6, 0, 0, 0, 0,
+        7, 7, 7, 7, 6, 6, 6, 6, 6, 6, 6, 6, 0, 0, 0, 0,
+        7, 7, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0, 0,
+        7, 7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0, 0,
+        7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6, 0,
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 6,
+        };
 
-    bar(
-        fenetre.pixelX(x()-cote()/2),
-        fenetre.pixelY(y()+cote()/2),
-        fenetre.pixelX(x()+cote()/2),
-        fenetre.pixelY(y()-cote()/2)
-            );
+        drawTab(fenetre, tab, nbPixel);
+    }
+}
 
-    int petitRectangle=cote()/2.1;
-
-        int triangleInf [6]=
-        {static_cast <int> (fenetre.pixelX(x()+cote()/2)),static_cast<int> (fenetre.pixelY(y()+cote()/2)),
-        static_cast <int> (fenetre.pixelX(x()+cote()/2)),static_cast <int> (fenetre.pixelY(y()-cote()/2)),
-        static_cast <int> (fenetre.pixelX(x()-cote()/2)),static_cast <int> (fenetre.pixelY(y()-cote()/2))};
-
-        setcolor(BLACK);
-
-        fillpoly(3,triangleInf);
-
-        setcolor (BROWN);
-
-        bar(
-        fenetre.pixelX(x()-(cote()-petitRectangle)/2),
-        fenetre.pixelY(y()+(cote()-petitRectangle)/2),
-        fenetre.pixelX(x()+(cote()-petitRectangle)/2),
-        fenetre.pixelY(y()-(cote()-petitRectangle)/1.9)
-            );
-
-        line(
-        fenetre.pixelX(x()-cote()/2),
-        fenetre.pixelY(y()+cote()/2),
-        fenetre.pixelX(x()+cote()/2),
-        fenetre.pixelY(y()-cote()/2)
-             );
-
-        setcolor(WHITE);
-
-            rectangle(
-        fenetre.pixelX(x()-cote()/2),
-        fenetre.pixelY(y()+cote()/2),
-        fenetre.pixelX(x()+cote()/2),
-        fenetre.pixelY(y()-cote()/2)
-            );
-
+std::string Mur::typeObjet()const{
+    return "Ceci est un Mur";
 }
 
 }

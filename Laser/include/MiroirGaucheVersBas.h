@@ -8,11 +8,19 @@ namespace ecran{
 class MiroirGaucheVersBas :public Case
 {
     public:
+        /** Constructeurs et destructeur*/
         MiroirGaucheVersBas(Point& centre,int cote);
         MiroirGaucheVersBas(int x,int y,int cote);
+        MiroirGaucheVersBas(Case& cas);
         virtual ~MiroirGaucheVersBas();
+
+        /** Fonctions herites de Case et redefinit dans l objet*/
         virtual void draw(Viewer& fenetre) override;
-        virtual coordLaser posNextMoveLaser(Echiquier& plateau) const override;
+        virtual coord posNextMoveLaser(Game& Jeu,int n) const override;
+        void transformation(Echiquier& plateau) override;
+
+        /** Fonction de test*/
+        virtual std::string typeObjet()const override;
 };
 }
 

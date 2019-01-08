@@ -6,26 +6,46 @@
 
 namespace ecran{
 
-struct coordLaser {
-    int x,y; };
+struct coord {int x,y; };
+
+enum TDirection{Droite,Gauche,Haut,Bas};
 
 class Echiquier;
 
-enum TDirection{Droite,Gauche,Haut,Bas};
+class Game;
 
 class Case: public Point
 {
     public:
-        virtual ~Case();
+        /** Constructeurs et destructeur*/
         Case(Point& centre,int cote);
         Case(int x,int y,int cote);
-        const Point centre();
+        Case(Case& cas);
+        virtual ~Case();
+
+        /** Accesseur*/
+        const Point centre()const;
+        const int cote()const;
+
+        /** Modificateur*/
         void changerCentre(const Point& centre);
-        const int cote();
-        void changerCote(const int cote);
+
+        /**Fonction de test*/
+        virtual std::string typeObjet()const;
+
+        /** Fonction gerant le deplacement du laser*/
+        virtual bool touch(Game& Jeu,int n);
+        virtual coord posNextMoveLaser(Game& Jeu,int n) const;
+
+        /**Fonction gerant le changement d'objet*/
+        virtual void transformation(Echiquier& plateau);
+
+        /** Fonctions de desssin*/
         virtual void draw(Viewer& fenetre)=0;
-        virtual bool touch(Echiquier& plateau) const ;
-        virtual coordLaser posNextMoveLaser(Echiquier& plateau) const;
+        void clearCase(Viewer& fenetre);
+        void drawTab(Viewer& fenetre, int *tab, int taille)const;
+        void backGround(Viewer& fenetre)const;
+
     private:
         int d_cote; /** largeur du carre definissant la case*/
 

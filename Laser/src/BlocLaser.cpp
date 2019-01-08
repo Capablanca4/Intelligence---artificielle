@@ -9,6 +9,9 @@ BlocLaser::BlocLaser(int x,int y,int cote):Case{x,y,cote},d_direction{Gauche}{}
 
 BlocLaser::~BlocLaser() {}
 
+const TDirection BlocLaser::direction()const{
+    return d_direction;
+}
 
 void BlocLaser::setDirection(TDirection direction){
     d_direction=direction;}
@@ -17,74 +20,121 @@ Laser* BlocLaser::shoot(){
     Laser* retLaser ;
     switch (d_direction) {
         case Gauche :
-            retLaser = new Laser{this->x()-this->cote(),this->y(),this->cote(),Gauche};
+            retLaser = new Laser{x()-cote(),y(),cote(),Gauche};
             break;
         case Droite :
-            retLaser = new Laser{this->x()+this->cote(),this->y(),this->cote(),Droite};
+            retLaser = new Laser{x()+cote(),y(),cote(),Droite};
             break;
         case Haut :
-            retLaser = new Laser{this->x(),this->y()+this->cote(),this->cote(),Haut};
+            retLaser = new Laser{x(),y()+cote(),cote(),Haut};
             break;
         case Bas :
-            retLaser = new Laser{this->x(),this->y()-this->cote(),this->cote(),Bas};
+            retLaser = new Laser{x(),y()-cote(),cote(),Bas};
             break;
     }
     return retLaser;
 }
 
-bool BlocLaser::touch(Echiquier& plateau) const {
-    return false;
-}
-
 void BlocLaser::draw(Viewer& fenetre){
+    if (fenetre.open())
+    {
+    backGround(fenetre);
+    const double coordX = fenetre.pixelX(x());
+    const double coordY = fenetre.pixelY(y());
 
     const int pixel=cote()/32;
 
-    switch (d_direction){
+    int TrapezeEnHaut[8]={
+        coordX-5*pixel, coordY-cote()/4,
+        coordX+5*pixel, coordY-cote()/4,
 
-        case Gauche :
+        coordX+3*pixel, coordY-cote()/2.3,
+        coordX-3*pixel, coordY-cote()/2.3};
+
+    int TrapezeEnBas[8]={
+
+        coordX-5*pixel, coordY+cote()/4,
+        coordX+5*pixel, coordY+cote()/4,
+
+        coordX+3*pixel, coordY+cote()/2.3,
+        coordX-3*pixel, coordY+cote()/2.3};
+
+    int TrapezeADroite[8]={
+
+        coordX+cote()/4, coordY-5*pixel,
+        coordX+cote()/4, coordY+5*pixel,
+
+        coordX+cote()/2.3, coordY+3*pixel,
+        coordX+cote()/2.3, coordY-3*pixel};
+
+    int TrapezeAGauche[8]={
+
+        coordX-cote()/4, coordY-5*pixel,
+        coordX-cote()/4, coordY+5*pixel,
+
+        coordX-cote()/2.3, coordY+3*pixel,
+        coordX-cote()/2.3, coordY-3*pixel};
+
+//~~~~~~~~~~~~~~~~ Bloc Horizontal ~~~~~~~~~~~~~~~~
+
+    if (d_direction == Gauche || d_direction == Droite)
+    {
+        setcolor (WHITE);
+        bar(
+        coordX+cote()/2.9, coordY-5*pixel,
+        coordX-cote()/3-pixel, coordY+6*pixel);
+
         setcolor (RED);
         bar(
-        fenetre.pixelX(x())+cote()/3,
-        fenetre.pixelY(y()+1)-3*pixel,
-        fenetre.pixelX(x())-cote()/3,
-        fenetre.pixelY(y()-2)+3*pixel);
+        fenetre.pixelX(x())+cote()/3, coordY-4*pixel,
+        fenetre.pixelX(x())-cote()/3, coordY+5*pixel);
 
         setcolor (LIGHTRED);
 
         bar(
-        fenetre.pixelX(x())+cote()/3,
-        fenetre.pixelY(y()+1)-1.5*pixel,
-        fenetre.pixelX(x())-cote()/3,
-        fenetre.pixelY(y()-2)+1.5*pixel);
+        coordX+cote()/3, coordY-2*pixel,
+        coordX-cote()/3, coordY+3*pixel);
 
+        setcolor(WHITE);
 
-            break;
-        case Droite :
-            line(fenetre.pixelX(this->x()+this->cote()/2),
-                 fenetre.pixelY(this->y()),
-                 fenetre.pixelX(this->x()+this->cote()*9/10),
-                 fenetre.pixelY(this->y()));
-            break;
-        case Haut :
-            line(fenetre.pixelX(this->x()),
-                 fenetre.pixelY(this->y()+this->cote()/2),
-                 fenetre.pixelX(this->x()),
-                 fenetre.pixelY(this->y()+this->cote()*9/10));
-            break;
-        case Bas :
-            line(fenetre.pixelX(this->x()),
-                 fenetre.pixelY(this->y()-this->cote()/2),
-                 fenetre.pixelX(this->x()),
-                 fenetre.pixelY(this->y()-this->cote()*9/10));
-            break;
-        }
+        if (d_direction==Droite)
+            fillpoly(4,TrapezeADroite);
+        else
+            fillpoly(4,TrapezeAGauche);
+    }
+
+//~~~~~~~~~~~~~~~~ Bloc Vertical ~~~~~~~~~~~~~~~~
+
+    else
+    {
+        setcolor (WHITE);
+        bar(
+        coordX-5*pixel, fenetre.pixelY(y())+cote()/2.9,
+        coordX+6*pixel, fenetre.pixelY(y())-cote()/3-pixel);
+
+        setcolor (RED);
+        bar(
+        coordX-4*pixel, fenetre.pixelY(y())+cote()/3,
+        coordX+5*pixel, fenetre.pixelY(y())-cote()/3);
+
+        setcolor (LIGHTRED);
+
+        bar(
+        coordX-2*pixel, fenetre.pixelY(y())+cote()/3,
+        coordX+3*pixel, fenetre.pixelY(y())-cote()/3);
+
+        setcolor(WHITE);
+        if (d_direction==Bas)
+            fillpoly(4,TrapezeEnBas);
+        else
+            fillpoly(4,TrapezeEnHaut);
+    }
+    }
 }
 
-coordLaser BlocLaser::posNextMoveLaser(Echiquier& plateau) const{
-    coordLaser ret{plateau.pointVersCoord(this->x()),plateau.pointVersCoord(this->y())};
-    return ret;
+std::string BlocLaser::typeObjet() const{
+    return "Ceci est un BlocLaser";
 }
 
-
 }
+

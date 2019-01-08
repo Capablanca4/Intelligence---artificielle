@@ -1,17 +1,24 @@
 #ifndef CIBLEHORIRONTALE_H
 #define CIBLEHORIRONTALE_H
-#include "Cible.h"
+#include "Case.h"
 #include "Echiquier.h"
 
 namespace ecran{
-class CibleHorizontale : public Cible
+class CibleHorizontale : public Case
 {
     public:
-        CibleHorizontale(const Cible& cib);
+        /**Constructeurs et destructeur*/
+        CibleHorizontale(Point& centre,int cote);
         CibleHorizontale(const int x,const int y,const int cote);
         virtual ~CibleHorizontale();
+
+        /** Fonctions herites de Case et redefinit dans l objet*/
         virtual void draw(Viewer& fenetre) override;
-        virtual bool touch(Echiquier& plateau) const override;
+        virtual bool touch(Game& Jeu,int n) override;
+
+        /** Fonction de test*/
+        virtual std::string typeObjet()const override;
+
 };
 }
 #endif // CIBLEHORIRONTALE_H
